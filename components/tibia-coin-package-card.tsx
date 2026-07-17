@@ -25,47 +25,42 @@ export function TibiaCoinPackageCard({
   };
 
   return (
-    <Card className="group relative overflow-hidden rounded-xl border border-primary/50 shadow-sm bg-background hover:border-primary transition-all duration-300 flex flex-col p-4">
-      <Link
-        href={`/product/${product?.slug}`}
-        className="flex-1 flex flex-col gap-4"
-      >
-        <div className="flex gap-4 items-center">
-          <div className="w-16 h-16 rounded-full bg-amber-500/10 flex items-center justify-center flex-shrink-0 border border-amber-500/20">
-            {variable.url ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={variable.url}
-                alt={product?.name || "Tibia Coins"}
-                className="w-10 h-10 object-contain"
-              />
-            ) : (
-              <CircleDollarSign className="w-8 h-8 text-amber-500" />
-            )}
-          </div>
-
-          <div className="flex flex-col">
-            <span className="text-sm text-primary mb-1">
-              {variable.max
-                ? `${variable.min} a ${variable.max} Tibia Coins`
-                : `A partir de ${variable.min} Tibia Coins`}
-            </span>
-            <h4 className="text-lg font-medium text-zinc-300 leading-tight">
-              {variable.description}
-            </h4>
-          </div>
+    <Card className="cursor-default group relative overflow-hidden rounded-xl border border-primary/50 shadow-sm bg-background hover:border-primary transition-all duration-300 flex flex-col p-4">
+      <div className="flex gap-4 items-center">
+        <div className="w-16 h-16 rounded-full bg-amber-500/10 flex items-center justify-center flex-shrink-0 border border-amber-500/20">
+          {variable.url ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={variable.url}
+              alt={product?.name || "Tibia Coins"}
+              className="w-10 h-10 object-contain"
+            />
+          ) : (
+            <CircleDollarSign className="w-8 h-8 text-amber-500" />
+          )}
         </div>
 
-        <div className="mt-auto border-t border-border/50 pt-4 flex justify-end items-center">
-          <span className="text-2xl font-bold text-green-500 text-right">
-            {formatCurrency(variable.price)}
-            <span className="text-xs text-muted-foreground block text-right mt-0.5">
-              {" "}
-              cada 250 TC
-            </span>
+        <div className="flex flex-col">
+          <span className="text-sm text-primary mb-1">
+            {variable.max
+              ? `${variable.min} a ${variable.max} Tibia Coins`
+              : `A partir de ${variable.min} Tibia Coins`}
           </span>
+          <h4 className="text-lg font-medium text-zinc-300 leading-tight">
+            {variable.description}
+          </h4>
         </div>
-      </Link>
+      </div>
+
+      <div className="mt-auto border-t border-border/50 pt-4 flex justify-end items-center">
+        <span className="text-2xl font-bold text-green-500 text-right">
+          {formatCurrency(variable.price)}
+          <span className="text-xs text-muted-foreground block text-right mt-0.5">
+            {" "}
+            cada 250 TC
+          </span>
+        </span>
+      </div>
 
       <div className="border-t border-border/50 pt-4">
         <Button

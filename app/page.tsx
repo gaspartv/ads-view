@@ -1,4 +1,3 @@
-import { getHomeData } from "@/app/actions/home";
 import { CategoryCarousel } from "@/components/category-carousel";
 
 export const metadata = {
@@ -6,11 +5,8 @@ export const metadata = {
 };
 
 export default async function Home() {
-  const response = await getHomeData();
-  const categories = response?.success && response.data ? response.data : [];
-
   return (
-    <div className="flex flex-col min-h-screen bg-background font-sans">
+    <div className="cursor-default flex flex-col min-h-screen bg-background font-sans">
       {/* Hero Banner Section */}
       <section className="relative w-full overflow-hidden bg-gradient-to-b from-primary/10 via-background to-background pt-24 pb-6 md:pt-32 md:pb-6">
         {/* Elementos decorativos (Glassmorphism blobs) */}
@@ -37,17 +33,9 @@ export default async function Home() {
 
       {/* Categorias */}
       <main className="flex-1 w-full pb-24 container mx-auto px-4 md:px-8 overflow-hidden">
-        {categories.length > 0 ? (
-          <div className="w-full flex justify-center">
-            <CategoryCarousel />
-          </div>
-        ) : (
-          <div className="py-24 text-center">
-            <h3 className="text-2xl font-semibold text-muted-foreground">
-              Nenhuma categoria disponível no momento.
-            </h3>
-          </div>
-        )}
+        <div className="w-full flex justify-center">
+          <CategoryCarousel />
+        </div>
       </main>
     </div>
   );

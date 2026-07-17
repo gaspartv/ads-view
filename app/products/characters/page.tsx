@@ -4,15 +4,22 @@ import { Button } from "@/components/ui/button";
 
 const API_URL = process.env.API_URL;
 
+export const metadata = {
+  title: "Lista de personagens - " + process.env.NEXT_PUBLIC_APP_NAME,
+};
+
 async function getCharacters() {
   try {
-    const res = await fetch(`${API_URL}/product-character/list/public?status=ativo`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
+    const res = await fetch(
+      `${API_URL}/product-character/list/public?status=ativo`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        next: { revalidate: 60 },
       },
-      next: { revalidate: 60 },
-    });
+    );
 
     if (!res.ok) {
       return null;
@@ -45,7 +52,7 @@ export default async function CharactersPage() {
   const characters = response.data || [];
 
   return (
-    <div className="flex flex-col min-h-screen bg-background font-sans pt-12 pb-24">
+    <div className="cursor-default flex flex-col min-h-screen bg-background font-sans pt-12 pb-24">
       <div className="container mx-auto px-4 md:px-8">
         <div className="relative flex items-center justify-center mb-8">
           <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground text-center">

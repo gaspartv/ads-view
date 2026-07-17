@@ -10,12 +10,14 @@ export function Navbar() {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  const isAdminRoute = pathname.startsWith("/admin");
+
   const navItems = [
     { name: "Início", href: "/" },
     { name: "Tibia Coins", href: "/products/tibia-coins" },
     { name: "Personagens", href: "/products/characters" },
-    { name: "Conta com Loyalty", href: "/products/acc-loyalty" },
-    { name: "Contato", href: "/contato" },
+    { name: "Conta com Loyalty", href: "/products/account-loyalty" },
+    { name: "Contato", href: "/contact" },
   ];
 
   return (
@@ -35,26 +37,28 @@ export function Navbar() {
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-6">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`text-sm font-medium transition-colors hover:text-primary ${
-                  pathname === item.href
-                    ? "text-primary font-semibold"
-                    : "text-muted-foreground"
-                }`}
-              >
-                {item.name}
-              </Link>
-            ))}
-          </nav>
+          {!isAdminRoute && (
+            <nav className="hidden md:flex items-center gap-6">
+              {navItems.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`text-sm font-medium transition-colors hover:text-primary ${
+                    pathname === item.href
+                      ? "text-primary font-semibold"
+                      : "text-muted-foreground"
+                  }`}
+                >
+                  {item.name}
+                </Link>
+              ))}
+            </nav>
+          )}
         </div>
       </div>
 
       {/* Mobile Navigation */}
-      {isMobileMenuOpen && (
+      {!isAdminRoute && isMobileMenuOpen && (
         <div className="md:hidden border-t bg-background">
           <div className="container mx-auto px-4 py-4 flex flex-col gap-4">
             <nav className="flex flex-col gap-2">

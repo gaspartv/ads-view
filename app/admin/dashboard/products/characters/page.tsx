@@ -1,6 +1,11 @@
 import { CharacterTable } from "./components/character-table";
 import { getCharacters } from "@/app/actions/product-character";
-import { getWorlds, getCharms, getOutfits, getMounts } from "@/app/actions/info";
+import {
+  getWorlds,
+  getCharms,
+  getOutfits,
+  getMounts,
+} from "@/app/actions/info";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 
@@ -17,25 +22,36 @@ export default async function CharactersDashboardPage(props: {
   const search =
     typeof searchParams?.search === "string" ? searchParams.search : "";
   const orderBy =
-    typeof searchParams?.orderBy === "string" ? searchParams.orderBy : "createdAt";
+    typeof searchParams?.orderBy === "string"
+      ? searchParams.orderBy
+      : "createdAt";
   const orderType =
-    typeof searchParams?.orderType === "string" ? searchParams.orderType : "desc";
-  const status = typeof searchParams?.status === "string" ? searchParams.status : undefined;
-  const featured = typeof searchParams?.featured === "string" ? searchParams.featured : undefined;
+    typeof searchParams?.orderType === "string"
+      ? searchParams.orderType
+      : "desc";
+  const status =
+    typeof searchParams?.status === "string" ? searchParams.status : undefined;
+  const featured =
+    typeof searchParams?.featured === "string"
+      ? searchParams.featured
+      : undefined;
 
-  const [response, worldsRes, charmsRes, outfitsRes, mountsRes] = await Promise.all([
-    getCharacters(page, limit, search, orderBy, orderType, status, featured),
-    getWorlds(),
-    getCharms(),
-    getOutfits(),
-    getMounts()
-  ]);
+  const [response, worldsRes, charmsRes, outfitsRes, mountsRes] =
+    await Promise.all([
+      getCharacters(page, limit, search, orderBy, orderType, status, featured),
+      getWorlds(),
+      getCharms(),
+      getOutfits(),
+      getMounts(),
+    ]);
 
   const characters =
     response?.success && response.data?.data ? response.data.data : [];
-  const pagination = 
-    response?.success && response.data?.pagination ? response.data.pagination : { total: 0, page: 1, limit: 10, totalPages: 1 };
-  
+  const pagination =
+    response?.success && response.data?.pagination
+      ? response.data.pagination
+      : { total: 0, page: 1, limit: 10, totalPages: 1 };
+
   const worlds = worldsRes?.success && worldsRes.data ? worldsRes.data : [];
   const charms = charmsRes?.success && charmsRes.data ? charmsRes.data : [];
   const outfits = outfitsRes?.success && outfitsRes.data ? outfitsRes.data : [];
@@ -56,7 +72,7 @@ export default async function CharactersDashboardPage(props: {
           </Link>
           <ChevronRight className="h-4 w-4" />
           <Link
-            href="/admin/dashboard/product"
+            href="/admin/dashboard/products"
             className="hover:text-foreground transition-colors"
           >
             Produtos
@@ -66,13 +82,13 @@ export default async function CharactersDashboardPage(props: {
         </nav>
       </div>
 
-      <CharacterTable 
-        characters={characters} 
-        pagination={pagination} 
-        worlds={worlds} 
-        charms={charms} 
-        outfits={outfits} 
-        mounts={mounts} 
+      <CharacterTable
+        characters={characters}
+        pagination={pagination}
+        worlds={worlds}
+        charms={charms}
+        outfits={outfits}
+        mounts={mounts}
       />
     </div>
   );

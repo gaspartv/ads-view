@@ -33,7 +33,7 @@ export async function addStockBatch(data: {
       return { success: false, message: result.message || "Erro ao repor estoque." };
     }
 
-    revalidatePath("/admin/dashboard/product");
+    revalidatePath("/admin/dashboard/products");
     return { success: true, message: "Estoque adicionado com sucesso!" };
   } catch (error) {
     return { success: false, message: "Erro de conexão com o servidor." };

@@ -26,7 +26,7 @@ export async function getCharacters(
   orderBy = "order",
   orderType = "asc",
   status?: string,
-  featured?: string
+  featured?: string,
 ) {
   try {
     const url = new URL(`${API_URL}/product-character/list`);
@@ -62,9 +62,13 @@ export async function createCharacter(formData: FormData) {
       ...payload,
       isFeatured: payload.isFeatured === "true" ? "true" : "false",
       price: Number(payload.price),
-      promotionalPrice: payload.promotionalPrice ? Number(payload.promotionalPrice) : undefined,
+      promotionalPrice: payload.promotionalPrice
+        ? Number(payload.promotionalPrice)
+        : undefined,
       priceTibiaCoins: Number(payload.priceTibiaCoins),
-      promotionalPriceTibiaCoins: payload.promotionalPriceTibiaCoins ? Number(payload.promotionalPriceTibiaCoins) : undefined,
+      promotionalPriceTibiaCoins: payload.promotionalPriceTibiaCoins
+        ? Number(payload.promotionalPriceTibiaCoins)
+        : undefined,
       level: Number(payload.level),
       loyalty: Number(payload.loyalty),
       magicLevel: Number(payload.magicLevel),
@@ -75,7 +79,9 @@ export async function createCharacter(formData: FormData) {
       distanceFighting: Number(payload.distanceFighting),
       shielding: Number(payload.shielding),
       charmPoints: Number(payload.charmPoints),
-      inventoryValue: payload.inventoryValue ? Number(payload.inventoryValue) : undefined,
+      inventoryValue: payload.inventoryValue
+        ? Number(payload.inventoryValue)
+        : undefined,
       charmExpansion: payload.charmExpansion === "true" ? "true" : "false",
       transferable: payload.transferable === "true" ? "true" : "false",
       hasRecoveryKey: payload.hasRecoveryKey === "true" ? "true" : "false",
@@ -98,7 +104,7 @@ export async function createCharacter(formData: FormData) {
         message: data.message || "Erro ao criar personagem",
       };
 
-    revalidatePath("/admin/dashboard/product/characters");
+    revalidatePath("/admin/dashboard/products/characters");
     return { success: true, message: data.message };
   } catch (error) {
     return { success: false, message: "Erro de conexão com o servidor" };
@@ -113,32 +119,61 @@ export async function editCharacter(id: string, formData: FormData) {
       ...payload,
       isFeatured: payload.isFeatured === "true" ? "true" : "false",
       price: payload.price ? Number(payload.price) : undefined,
-      promotionalPrice: payload.promotionalPrice ? Number(payload.promotionalPrice) : undefined,
-      priceTibiaCoins: payload.priceTibiaCoins ? Number(payload.priceTibiaCoins) : undefined,
-      promotionalPriceTibiaCoins: payload.promotionalPriceTibiaCoins ? Number(payload.promotionalPriceTibiaCoins) : undefined,
+      promotionalPrice: payload.promotionalPrice
+        ? Number(payload.promotionalPrice)
+        : undefined,
+      priceTibiaCoins: payload.priceTibiaCoins
+        ? Number(payload.priceTibiaCoins)
+        : undefined,
+      promotionalPriceTibiaCoins: payload.promotionalPriceTibiaCoins
+        ? Number(payload.promotionalPriceTibiaCoins)
+        : undefined,
       level: payload.level ? Number(payload.level) : undefined,
       loyalty: payload.loyalty ? Number(payload.loyalty) : undefined,
       magicLevel: payload.magicLevel ? Number(payload.magicLevel) : undefined,
-      fistFighting: payload.fistFighting ? Number(payload.fistFighting) : undefined,
-      swordFighting: payload.swordFighting ? Number(payload.swordFighting) : undefined,
-      axeFighting: payload.axeFighting ? Number(payload.axeFighting) : undefined,
-      clubFighting: payload.clubFighting ? Number(payload.clubFighting) : undefined,
-      distanceFighting: payload.distanceFighting ? Number(payload.distanceFighting) : undefined,
+      fistFighting: payload.fistFighting
+        ? Number(payload.fistFighting)
+        : undefined,
+      swordFighting: payload.swordFighting
+        ? Number(payload.swordFighting)
+        : undefined,
+      axeFighting: payload.axeFighting
+        ? Number(payload.axeFighting)
+        : undefined,
+      clubFighting: payload.clubFighting
+        ? Number(payload.clubFighting)
+        : undefined,
+      distanceFighting: payload.distanceFighting
+        ? Number(payload.distanceFighting)
+        : undefined,
       shielding: payload.shielding ? Number(payload.shielding) : undefined,
-      charmPoints: payload.charmPoints ? Number(payload.charmPoints) : undefined,
-      inventoryValue: payload.inventoryValue ? Number(payload.inventoryValue) : undefined,
+      charmPoints: payload.charmPoints
+        ? Number(payload.charmPoints)
+        : undefined,
+      inventoryValue: payload.inventoryValue
+        ? Number(payload.inventoryValue)
+        : undefined,
       charmExpansion: payload.charmExpansion === "true" ? "true" : "false",
       transferable: payload.transferable === "true" ? "true" : "false",
       hasRecoveryKey: payload.hasRecoveryKey === "true" ? "true" : "false",
       safeAddress: payload.safeAddress === "true" ? "true" : "false",
-      charmsId: payload.charmsId ? JSON.parse(payload.charmsId as string) : undefined,
-      mountsId: payload.mountsId ? JSON.parse(payload.mountsId as string) : undefined,
-      outfits: payload.outfits ? JSON.parse(payload.outfits as string) : undefined,
+      charmsId: payload.charmsId
+        ? JSON.parse(payload.charmsId as string)
+        : undefined,
+      mountsId: payload.mountsId
+        ? JSON.parse(payload.mountsId as string)
+        : undefined,
+      outfits: payload.outfits
+        ? JSON.parse(payload.outfits as string)
+        : undefined,
     };
 
     // Remove empty fields
-    Object.keys(dataToSend).forEach(key => {
-      if ((dataToSend as any)[key] === "" || (dataToSend as any)[key] === undefined) {
+    Object.keys(dataToSend).forEach((key) => {
+      if (
+        (dataToSend as any)[key] === "" ||
+        (dataToSend as any)[key] === undefined
+      ) {
         delete (dataToSend as any)[key];
       }
     });
@@ -156,7 +191,7 @@ export async function editCharacter(id: string, formData: FormData) {
         message: data.message || "Erro ao editar personagem",
       };
 
-    revalidatePath("/admin/dashboard/product/characters");
+    revalidatePath("/admin/dashboard/products/characters");
     return { success: true, message: data.message };
   } catch (error) {
     return { success: false, message: "Erro de conexão com o servidor" };
@@ -177,7 +212,7 @@ export async function deleteCharacter(id: string) {
         message: data.message || "Erro ao deletar personagem",
       };
 
-    revalidatePath("/admin/dashboard/product/characters");
+    revalidatePath("/admin/dashboard/products/characters");
     return { success: true, message: data.message };
   } catch (error) {
     return { success: false, message: "Erro de conexão com o servidor" };
@@ -202,20 +237,26 @@ export async function toggleCharacterStatus(
         message: data.message || "Erro ao alterar status",
       };
 
-    revalidatePath("/admin/dashboard/product/characters");
+    revalidatePath("/admin/dashboard/products/characters");
     return { success: true, message: data.message };
   } catch (error) {
     return { success: false, message: "Erro de conexão com o servidor" };
   }
 }
 
-export async function uploadCharacterImage(characterId: string, formData: FormData) {
+export async function uploadCharacterImage(
+  characterId: string,
+  formData: FormData,
+) {
   try {
-    const res = await fetch(`${API_URL}/product-character/upload/${characterId}/image`, {
-      method: "POST",
-      headers: await getAuthHeaders(false),
-      body: formData,
-    });
+    const res = await fetch(
+      `${API_URL}/product-character/upload/${characterId}/image`,
+      {
+        method: "POST",
+        headers: await getAuthHeaders(false),
+        body: formData,
+      },
+    );
 
     const data = await res.json();
     if (!res.ok)
@@ -224,19 +265,25 @@ export async function uploadCharacterImage(characterId: string, formData: FormDa
         message: data.message || "Erro ao fazer upload da imagem",
       };
 
-    revalidatePath("/admin/dashboard/product/characters");
+    revalidatePath("/admin/dashboard/products/characters");
     return { success: true, message: data.message };
   } catch (error) {
     return { success: false, message: "Erro de conexão com o servidor" };
   }
 }
 
-export async function deleteCharacterImage(characterId: string, imageId: string) {
+export async function deleteCharacterImage(
+  characterId: string,
+  imageId: string,
+) {
   try {
-    const res = await fetch(`${API_URL}/product-character/delete/${characterId}/image/${imageId}`, {
-      method: "DELETE",
-      headers: await getAuthHeaders(false),
-    });
+    const res = await fetch(
+      `${API_URL}/product-character/delete/${characterId}/image/${imageId}`,
+      {
+        method: "DELETE",
+        headers: await getAuthHeaders(false),
+      },
+    );
 
     const data = await res.json();
     if (!res.ok)
@@ -245,20 +292,26 @@ export async function deleteCharacterImage(characterId: string, imageId: string)
         message: data.message || "Erro ao deletar imagem",
       };
 
-    revalidatePath("/admin/dashboard/product/characters");
+    revalidatePath("/admin/dashboard/products/characters");
     return { success: true, message: data.message };
   } catch (error) {
     return { success: false, message: "Erro de conexão com o servidor" };
   }
 }
 
-export async function reorderCharacterImages(characterId: string, imageIds: string[]) {
+export async function reorderCharacterImages(
+  characterId: string,
+  imageIds: string[],
+) {
   try {
-    const res = await fetch(`${API_URL}/product-character/reorder/${characterId}/images`, {
-      method: "PATCH",
-      headers: await getAuthHeaders(true),
-      body: JSON.stringify({ imageIds }),
-    });
+    const res = await fetch(
+      `${API_URL}/product-character/reorder/${characterId}/images`,
+      {
+        method: "PATCH",
+        headers: await getAuthHeaders(true),
+        body: JSON.stringify({ imageIds }),
+      },
+    );
 
     const data = await res.json();
     if (!res.ok)
@@ -267,7 +320,7 @@ export async function reorderCharacterImages(characterId: string, imageIds: stri
         message: data.message || "Erro ao reordenar imagens",
       };
 
-    revalidatePath("/admin/dashboard/product/characters");
+    revalidatePath("/admin/dashboard/products/characters");
     return { success: true, message: data.message };
   } catch (error) {
     return { success: false, message: "Erro de conexão com o servidor" };
@@ -289,8 +342,25 @@ export async function reorderCharacters(characterIds: string[]) {
         message: data.message || "Erro ao reordenar personagens",
       };
 
-    revalidatePath("/admin/dashboard/product/characters");
+    revalidatePath("/admin/dashboard/products/characters");
     return { success: true, message: data.message };
+  } catch (error) {
+    return { success: false, message: "Erro de conexão com o servidor" };
+  }
+}
+
+export async function getCharacterPublic(slug: string) {
+  try {
+    const res = await fetch(`${API_URL}/product-character/find/${slug}/public`, {
+      next: { revalidate: 60 },
+    });
+
+    if (!res.ok) {
+      return { success: false, message: "Erro ao buscar personagem" };
+    }
+
+    const data = await res.json();
+    return { success: true, data };
   } catch (error) {
     return { success: false, message: "Erro de conexão com o servidor" };
   }

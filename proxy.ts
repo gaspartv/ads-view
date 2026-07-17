@@ -4,8 +4,10 @@ import type { NextRequest } from "next/server";
 
 const publicGlobalRoutes = [
   "/",
+  "/contact",
   "/products/tibia-coins",
   "/products/characters",
+  "/products/characters/*",
   "/products/account-loyalty",
 ];
 const publicRoutes = ["/sign-in", "/sign-up"];
@@ -20,7 +22,14 @@ export async function proxy(request: NextRequest) {
   const token = cookieStore.get("access_token")?.value;
 
   // 1. Verifica se a rota é pública
-  if (publicGlobalRoutes.includes(pathname)) {
+  const isPublicGlobal = publicGlobalRoutes.some((route) => {
+    if (route.endsWith("/*")) {
+      return pathname.startsWith(route.slice(0, -2));
+    }
+    return route === pathname;
+  });
+
+  if (isPublicGlobal) {
     return NextResponse.next();
   } else if (publicRoutes.includes(pathname)) {
     // Se for rota pública específica (ex: login) e usuário já tiver token, manda para a home

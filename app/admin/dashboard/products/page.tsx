@@ -5,13 +5,13 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components/ui/card";
-import { Layers, ArrowRight, Package, LineChart } from "lucide-react";
+import { ArrowRight, Users, Award, Coins } from "lucide-react";
 
 export const metadata = {
-  title: "Admin Dashboard",
+  title: "Dashboard - Produtos",
 };
 
-export default function AdminDashboardPage() {
+export default function ProductsDashboardPage() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* Cabeçalho do Dashboard */}
@@ -20,11 +20,10 @@ export default function AdminDashboardPage() {
         <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-background to-background pointer-events-none" />
         <div className="container mx-auto py-12 px-4 md:px-8 relative z-10">
           <h1 className="text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/60">
-            Painel de Controle
+            Produtos
           </h1>
           <p className="text-muted-foreground mt-3 max-w-2xl text-lg">
-            Bem-vindo ao dashboard administrativo. Aqui você tem controle total
-            sobre os módulos da aplicação.
+            Selecione a categoria de produto que deseja gerenciar.
           </p>
         </div>
       </div>
@@ -32,44 +31,58 @@ export default function AdminDashboardPage() {
       {/* Grid de Módulos */}
       <div className="container mx-auto py-10 px-4 md:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* Card de Produtos */}
-          <Link href="/admin/dashboard/products" className="group outline-none">
+          {/* Card Personagens */}
+          <Link href="/admin/dashboard/products/characters" className="group outline-none">
             <Card className="relative overflow-hidden h-full border border-border/50 bg-card/40 backdrop-blur-sm transition-all duration-300 hover:shadow-2xl hover:shadow-primary/5 hover:border-primary/20 hover:-translate-y-1">
-              {/* Gradiente de hover interno */}
               <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
               <CardHeader className="pb-4">
                 <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors duration-300">
-                  <Package className="w-6 h-6 text-primary" />
+                  <Users className="w-6 h-6 text-primary" />
                 </div>
                 <CardTitle className="text-xl flex items-center justify-between">
-                  <span>Produtos</span>
+                  <span>Personagens</span>
                   <ArrowRight className="w-5 h-5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-primary" />
                 </CardTitle>
                 <CardDescription className="text-sm mt-2 leading-relaxed">
-                  Gerencie todo o seu catálogo de produtos, ajuste preços,
-                  controle o estoque e associe-os a categorias.
+                  Gerencie os personagens à venda no catálogo.
                 </CardDescription>
               </CardHeader>
             </Card>
           </Link>
 
-          {/* Card de Relatórios */}
-          <Link href="/admin/dashboard/reports" className="group outline-none">
+          {/* Card Contas com loyalty */}
+          <Link href="/admin/dashboard/products/account-loyalty" className="group outline-none">
             <Card className="relative overflow-hidden h-full border border-border/50 bg-card/40 backdrop-blur-sm transition-all duration-300 hover:shadow-2xl hover:shadow-primary/5 hover:border-primary/20 hover:-translate-y-1">
-              {/* Gradiente de hover interno */}
               <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
               <CardHeader className="pb-4">
                 <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors duration-300">
-                  <LineChart className="w-6 h-6 text-primary" />
+                  <Award className="w-6 h-6 text-primary" />
                 </div>
                 <CardTitle className="text-xl flex items-center justify-between">
-                  <span>Relatórios</span>
+                  <span>Contas com loyalty</span>
                   <ArrowRight className="w-5 h-5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-primary" />
                 </CardTitle>
                 <CardDescription className="text-sm mt-2 leading-relaxed">
-                  Acompanhe métricas, faturamento e estatísticas detalhadas de vendas do sistema.
+                  Gerencie as contas com benefícios de loyalty e seus respectivos detalhes.
+                </CardDescription>
+              </CardHeader>
+            </Card>
+          </Link>
+
+          {/* Card Tibia Coins */}
+          <Link href="/admin/dashboard/products/tibia-coins" className="group outline-none">
+            <Card className="relative overflow-hidden h-full border border-border/50 bg-card/40 backdrop-blur-sm transition-all duration-300 hover:shadow-2xl hover:shadow-primary/5 hover:border-primary/20 hover:-translate-y-1">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <CardHeader className="pb-4">
+                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors duration-300">
+                  <Coins className="w-6 h-6 text-primary" />
+                </div>
+                <CardTitle className="text-xl flex items-center justify-between">
+                  <span>Tibia Coins</span>
+                  <ArrowRight className="w-5 h-5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-primary" />
+                </CardTitle>
+                <CardDescription className="text-sm mt-2 leading-relaxed">
+                  Gerencie os pacotes e preços de Tibia Coins disponíveis para os usuários.
                 </CardDescription>
               </CardHeader>
             </Card>

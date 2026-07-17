@@ -28,7 +28,7 @@ export async function getProducts(
   status?: string,
   type?: string,
   featured?: string,
-  categoryId?: string
+  categoryId?: string,
 ) {
   try {
     const url = new URL(`${API_URL}/product/list`);
@@ -68,11 +68,15 @@ export async function createProduct(formData: FormData) {
       isFixed: payload.isFixed === "true",
       featured: payload.featured === "true",
       price: Number(payload.price),
-      promotionalPrice: payload.promotionalPrice ? Number(payload.promotionalPrice) : undefined,
+      promotionalPrice: payload.promotionalPrice
+        ? Number(payload.promotionalPrice)
+        : undefined,
       amount: Number(payload.amount),
       multiples: Number(payload.multiples),
       costPrice: Number(payload.costPrice),
-      categoryIds: payload.categoryIds ? JSON.parse(payload.categoryIds as string) : [],
+      categoryIds: payload.categoryIds
+        ? JSON.parse(payload.categoryIds as string)
+        : [],
     };
 
     const res = await fetch(`${API_URL}/product/create`, {
@@ -88,7 +92,7 @@ export async function createProduct(formData: FormData) {
         message: data.message || "Erro ao criar produto",
       };
 
-    revalidatePath("/admin/dashboard/product");
+    revalidatePath("/admin/dashboard/products");
     return { success: true, message: data.message };
   } catch (error) {
     return { success: false, message: "Erro de conexão com o servidor" };
@@ -105,15 +109,22 @@ export async function editProduct(id: string, formData: FormData) {
       isFixed: payload.isFixed === "true",
       featured: payload.featured === "true",
       price: Number(payload.price),
-      promotionalPrice: payload.promotionalPrice ? Number(payload.promotionalPrice) : undefined,
+      promotionalPrice: payload.promotionalPrice
+        ? Number(payload.promotionalPrice)
+        : undefined,
       amount: Number(payload.amount),
       multiples: Number(payload.multiples),
-      categoryIds: payload.categoryIds ? JSON.parse(payload.categoryIds as string) : undefined,
+      categoryIds: payload.categoryIds
+        ? JSON.parse(payload.categoryIds as string)
+        : undefined,
     };
 
     // Remove empty fields
-    Object.keys(dataToSend).forEach(key => {
-      if ((dataToSend as any)[key] === "" || (dataToSend as any)[key] === undefined) {
+    Object.keys(dataToSend).forEach((key) => {
+      if (
+        (dataToSend as any)[key] === "" ||
+        (dataToSend as any)[key] === undefined
+      ) {
         delete (dataToSend as any)[key];
       }
     });
@@ -131,7 +142,7 @@ export async function editProduct(id: string, formData: FormData) {
         message: data.message || "Erro ao editar produto",
       };
 
-    revalidatePath("/admin/dashboard/product");
+    revalidatePath("/admin/dashboard/products");
     return { success: true, message: data.message };
   } catch (error) {
     return { success: false, message: "Erro de conexão com o servidor" };
@@ -152,7 +163,7 @@ export async function deleteProduct(id: string) {
         message: data.message || "Erro ao deletar produto",
       };
 
-    revalidatePath("/admin/dashboard/product");
+    revalidatePath("/admin/dashboard/products");
     return { success: true, message: data.message };
   } catch (error) {
     return { success: false, message: "Erro de conexão com o servidor" };
@@ -177,14 +188,17 @@ export async function toggleProductStatus(
         message: data.message || "Erro ao alterar status",
       };
 
-    revalidatePath("/admin/dashboard/product");
+    revalidatePath("/admin/dashboard/products");
     return { success: true, message: data.message };
   } catch (error) {
     return { success: false, message: "Erro de conexão com o servidor" };
   }
 }
 
-export async function uploadProductImage(productId: string, formData: FormData) {
+export async function uploadProductImage(
+  productId: string,
+  formData: FormData,
+) {
   try {
     const res = await fetch(`${API_URL}/product/upload/${productId}/image`, {
       method: "POST",
@@ -199,7 +213,7 @@ export async function uploadProductImage(productId: string, formData: FormData) 
         message: data.message || "Erro ao fazer upload da imagem",
       };
 
-    revalidatePath("/admin/dashboard/product");
+    revalidatePath("/admin/dashboard/products");
     return { success: true, message: data.message };
   } catch (error) {
     return { success: false, message: "Erro de conexão com o servidor" };
@@ -208,10 +222,13 @@ export async function uploadProductImage(productId: string, formData: FormData) 
 
 export async function deleteProductImage(productId: string, imageId: string) {
   try {
-    const res = await fetch(`${API_URL}/product/delete/${productId}/image/${imageId}`, {
-      method: "DELETE",
-      headers: await getAuthHeaders(false),
-    });
+    const res = await fetch(
+      `${API_URL}/product/delete/${productId}/image/${imageId}`,
+      {
+        method: "DELETE",
+        headers: await getAuthHeaders(false),
+      },
+    );
 
     const data = await res.json();
     if (!res.ok)
@@ -220,14 +237,17 @@ export async function deleteProductImage(productId: string, imageId: string) {
         message: data.message || "Erro ao deletar imagem",
       };
 
-    revalidatePath("/admin/dashboard/product");
+    revalidatePath("/admin/dashboard/products");
     return { success: true, message: data.message };
   } catch (error) {
     return { success: false, message: "Erro de conexão com o servidor" };
   }
 }
 
-export async function reorderProductImages(productId: string, imageIds: string[]) {
+export async function reorderProductImages(
+  productId: string,
+  imageIds: string[],
+) {
   try {
     const res = await fetch(`${API_URL}/product/reorder/${productId}/images`, {
       method: "PATCH",
@@ -242,7 +262,7 @@ export async function reorderProductImages(productId: string, imageIds: string[]
         message: data.message || "Erro ao reordenar imagens",
       };
 
-    revalidatePath("/admin/dashboard/product");
+    revalidatePath("/admin/dashboard/products");
     return { success: true, message: data.message };
   } catch (error) {
     return { success: false, message: "Erro de conexão com o servidor" };

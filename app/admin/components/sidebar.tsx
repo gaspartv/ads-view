@@ -12,12 +12,15 @@ import {
   ChevronLeft,
   ChevronRight,
   Package,
+  ChevronDown,
+  ChevronUp,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export function Sidebar() {
   const [isOpen, setIsOpen] = useState(false); // Menu mobile
   const [isCollapsed, setIsCollapsed] = useState(false); // Menu desktop recolhido
+  const [openMenus, setOpenMenus] = useState<Record<string, boolean>>({});
   const pathname = usePathname();
 
   const toggleSidebar = () => setIsOpen(!isOpen);
@@ -25,8 +28,19 @@ export function Sidebar() {
 
   const links = [
     { name: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
-    { name: "Categorias", href: "/admin/dashboard/category", icon: Layers },
-    { name: "Produtos", href: "/admin/dashboard/product", icon: Package },
+    {
+      name: "Produtos",
+      href: "/admin/dashboard/products",
+      icon: Layers,
+      subItems: [
+        { name: "Personagens", href: "/admin/dashboard/products/characters" },
+        {
+          name: "Contas com loyalty",
+          href: "/admin/dashboard/products/account-loyalty",
+        },
+        { name: "Tibia Coins", href: "/admin/dashboard/products/tibia-coins" },
+      ],
+    },
     { name: "Relatórios", href: "/admin/dashboard/reports", icon: Package },
   ];
 
@@ -96,6 +110,8 @@ export function Sidebar() {
         <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
           {links.map((link) => {
             const Icon = link.icon;
+            const hasSubItems = !!link.subItems && link.subItems.length > 0;
+            const isOpenMenu = !!openMenus[link.href];
             // Verifica se o pathname começa com o href do link (para manter ativo nas subpáginas)
             const isActive =
               pathname === link.href ||
@@ -103,29 +119,103 @@ export function Sidebar() {
                 pathname.startsWith(link.href));
 
             return (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setIsOpen(false)}
-                title={isCollapsed ? link.name : undefined}
-                className={cn(
-                  "flex items-center rounded-lg transition-all duration-200 group",
-                  isCollapsed ? "justify-center p-3" : "space-x-3 px-3 py-2.5",
-                  isActive
-                    ? "bg-primary/10 text-primary font-medium"
-                    : "text-muted-foreground hover:bg-primary/5 hover:text-foreground",
-                )}
-              >
-                <Icon
+              <div key={link.href} className="flex flex-col space-y-1">
+                <div
                   className={cn(
-                    "w-5 h-5 shrink-0 transition-colors",
+                    "flex items-center rounded-lg transition-all duration-200 group",
                     isActive
-                      ? "text-primary"
-                      : "text-muted-foreground group-hover:text-primary/70",
+                      ? "bg-primary/10 text-primary font-medium"
+                      : "text-muted-foreground hover:bg-primary/5 hover:text-foreground",
+                    isCollapsed ? "justify-center" : "",
                   )}
-                />
-                {!isCollapsed && <span className="truncate">{link.name}</span>}
-              </Link>
+                >
+                  <Link
+                    href={link.href}
+                    onClick={() => {
+                      if (!hasSubItems) {
+                        setIsOpen(false);
+                      } else if (isCollapsed) {
+                        setIsCollapsed(false);
+                        setOpenMenus((prev) => ({
+                          ...prev,
+                          [link.href]: true,
+                        }));
+                      }
+                    }}
+                    title={isCollapsed ? link.name : undefined}
+                    className={cn(
+                      "flex-1 flex items-center",
+                      isCollapsed
+                        ? "p-3 justify-center"
+                        : "space-x-3 px-3 py-2.5",
+                      hasSubItems && !isCollapsed ? "rounded-r-none" : "",
+                    )}
+                  >
+                    <Icon
+                      className={cn(
+                        "w-5 h-5 shrink-0 transition-colors",
+                        isActive
+                          ? "text-primary"
+                          : "text-muted-foreground group-hover:text-primary/70",
+                      )}
+                    />
+                    {!isCollapsed && (
+                      <span className="truncate flex-1">{link.name}</span>
+                    )}
+                  </Link>
+
+                  {hasSubItems && !isCollapsed && (
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setOpenMenus((prev) => ({
+                          ...prev,
+                          [link.href]: !prev[link.href],
+                        }));
+                      }}
+                      className={cn(
+                        "p-2.5 shrink-0 rounded-r-lg transition-colors flex items-center justify-center",
+                        isActive
+                          ? "hover:bg-primary/20"
+                          : "hover:bg-black/5 dark:hover:bg-white/5",
+                      )}
+                      aria-label={
+                        isOpenMenu ? "Recolher menu" : "Expandir menu"
+                      }
+                    >
+                      {isOpenMenu ? (
+                        <ChevronUp className="w-4 h-4" />
+                      ) : (
+                        <ChevronDown className="w-4 h-4" />
+                      )}
+                    </button>
+                  )}
+                </div>
+
+                {hasSubItems && isOpenMenu && !isCollapsed && (
+                  <div className="flex flex-col pl-9 space-y-1 mt-1">
+                    {link.subItems?.map((subItem) => {
+                      const isSubActive = pathname === subItem.href;
+                      return (
+                        <Link
+                          key={subItem.href}
+                          href={subItem.href}
+                          onClick={() => setIsOpen(false)}
+                          className={cn(
+                            "px-3 py-2 rounded-md text-sm transition-colors",
+                            isSubActive
+                              ? "bg-primary/10 text-primary font-medium"
+                              : "text-muted-foreground hover:text-foreground hover:bg-primary/5",
+                          )}
+                        >
+                          {subItem.name}
+                        </Link>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
             );
           })}
         </nav>

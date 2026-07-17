@@ -46,7 +46,7 @@ export default async function TibiaCoinsPage() {
   const variables = product?.Variables || [];
 
   return (
-    <div className="flex flex-col min-h-screen bg-background font-sans pt-12 pb-24">
+    <div className="cursor-default flex flex-col min-h-screen bg-background font-sans pt-12 pb-24">
       <div className="container mx-auto px-4 md:px-8">
         <div className="relative flex items-center justify-center mb-8">
           <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground text-center">
@@ -57,7 +57,11 @@ export default async function TibiaCoinsPage() {
         {variables.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
             {variables.map((variable: any) => (
-              <TibiaCoinPackageCard key={variable.id} variable={variable} product={product} />
+              <TibiaCoinPackageCard
+                key={variable.id}
+                variable={variable}
+                product={product}
+              />
             ))}
           </div>
         ) : (
