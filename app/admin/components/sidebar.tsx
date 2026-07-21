@@ -14,8 +14,11 @@ import {
   Package,
   ChevronDown,
   ChevronUp,
+  ShoppingCart,
+  Banknote,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useModules } from "@/contexts/modules-context";
 
 export function Sidebar() {
   const [isOpen, setIsOpen] = useState(false); // Menu mobile
@@ -26,23 +29,73 @@ export function Sidebar() {
   const toggleSidebar = () => setIsOpen(!isOpen);
   const toggleCollapse = () => setIsCollapsed(!isCollapsed);
 
-  const links = [
+  const { modules } = useModules();
+
+  const activeModules =
+    modules?.CompanyModules?.map((cm: any) => cm?.Module?.code) || [];
+
+  const rawLinks = [
     { name: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
     {
       name: "Produtos",
       href: "/admin/dashboard/products",
       icon: Layers,
       subItems: [
-        { name: "Personagens", href: "/admin/dashboard/products/characters" },
+        {
+          name: "Personagens",
+          href: "/admin/dashboard/products/characters",
+          moduleCode: "MD-003",
+        },
         {
           name: "Contas com loyalty",
           href: "/admin/dashboard/products/account-loyalty",
+          moduleCode: "MD-002",
         },
-        { name: "Tibia Coins", href: "/admin/dashboard/products/tibia-coins" },
+        {
+          name: "Tibia Coins",
+          href: "/admin/dashboard/products/tibia-coins",
+          moduleCode: "MD-001",
+        },
       ],
     },
-    { name: "Relatórios", href: "/admin/dashboard/reports", icon: Package },
+    {
+      name: "Relatórios",
+      href: "/admin/dashboard/reports",
+      icon: Package,
+      moduleCode: "MD-004",
+    },
+    {
+      name: "Vendas",
+      href: "/admin/dashboard/orders",
+      icon: Banknote,
+      moduleCode: "MD-005",
+    },
   ];
+
+  const links = rawLinks
+    .map((link) => {
+      if (link.subItems) {
+        return {
+          ...link,
+          subItems: link.subItems.filter(
+            (sub) => !sub.moduleCode || activeModules.includes(sub.moduleCode),
+          ),
+        };
+      }
+      return link;
+    })
+    .filter((link) => {
+      if (
+        (link as any).moduleCode &&
+        !activeModules.includes((link as any).moduleCode)
+      ) {
+        return false;
+      }
+      if (link.subItems && link.subItems.length === 0) {
+        return false;
+      }
+      return true;
+    });
 
   return (
     <>

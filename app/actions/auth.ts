@@ -1,6 +1,7 @@
 "use server";
 
 import { encrypt } from "../lib/crypto";
+import { getAuthHeaders } from "@/lib/auth";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -37,7 +38,7 @@ export async function signUpAction(
     const response = await fetch(`${API_URL}/user/create`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        ...(await getAuthHeaders()),
         sk: sk,
       },
       body: JSON.stringify({
@@ -85,9 +86,7 @@ export async function signInAction(
 
     const response = await fetch(`${API_URL}/user/sign-in`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: await getAuthHeaders(),
       body: JSON.stringify({
         emailHash,
         passwordHash,

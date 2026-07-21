@@ -1,6 +1,8 @@
 import Link from "next/link";
+import { ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ClientTable } from "./client-table";
+import { getAuthHeaders } from "@/lib/auth";
 
 const API_URL = process.env.API_URL;
 
@@ -14,9 +16,7 @@ async function getLoyaltyAccounts() {
       `${API_URL}/product-account-loyalty/list/public?status=ativo`,
       {
         method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: await getAuthHeaders(),
         next: { revalidate: 60 },
       },
     );
@@ -53,7 +53,14 @@ export default async function AccountLoyaltyPage() {
 
   return (
     <div className="cursor-default flex flex-col min-h-screen bg-background font-sans pt-12 pb-24">
-      <div className="container mx-auto px-4 md:px-8">
+      <div className="w-full px-4 md:px-8">
+        <nav className="flex items-center space-x-1.5 text-xs text-muted-foreground mb-6">
+          <Link href="/" className="hover:text-foreground transition-colors">Início</Link>
+          <ChevronRight className="h-4 w-4" />
+          <Link href="/products" className="hover:text-foreground transition-colors">Produtos</Link>
+          <ChevronRight className="h-4 w-4" />
+          <span className="text-foreground font-medium">Contas Loyalty</span>
+        </nav>
         <div className="relative flex items-center justify-center mb-8">
           <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground text-center">
             Contas Loyalty

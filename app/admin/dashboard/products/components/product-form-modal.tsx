@@ -15,16 +15,7 @@ import { createProduct, editProduct } from "@/app/actions/product";
 import { toast } from "sonner";
 import { ChevronDown, ChevronUp } from "lucide-react";
 
-const formatCurrency = (value: string | number) => {
-  if (value === undefined || value === null) return "";
-  const numericValue = value.toString().replace(/\D/g, "");
-  if (!numericValue) return "";
-  const amount = new Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-  }).format(Number(numericValue) / 100);
-  return amount;
-};
+import { formatCurrency } from "@/lib/formatters";
 
 interface ProductFormModalProps {
   isOpen: boolean;

@@ -1,23 +1,11 @@
 "use server";
 
+import { getAuthHeaders } from "@/lib/auth";
+
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
 
 const API_URL = process.env.API_URL!;
-
-async function getAuthHeaders(includeContentType = true) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token")?.value;
-  const headers: Record<string, string> = {
-    ...(token ? { Cookie: `access_token=${token}` } : {}),
-  };
-
-  if (includeContentType) {
-    headers["Content-Type"] = "application/json";
-  }
-
-  return headers;
-}
 
 export async function getCharacters(
   page = 1,
@@ -352,6 +340,7 @@ export async function reorderCharacters(characterIds: string[]) {
 export async function getCharacterPublic(slug: string) {
   try {
     const res = await fetch(`${API_URL}/product-character/find/${slug}/public`, {
+      headers: await getAuthHeaders(),
       next: { revalidate: 60 },
     });
 

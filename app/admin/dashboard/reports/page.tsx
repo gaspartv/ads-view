@@ -47,7 +47,6 @@ export default function ReportsPage() {
 
     try {
       const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-      console.log({ apiUrl });
       const res = await fetch(apiUrl + "/api/reports/parse-pdf", {
         method: "POST",
         body: formData,

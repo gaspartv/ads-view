@@ -1,17 +1,10 @@
 "use server";
 
-import { cookies } from "next/headers";
+import { getAuthHeaders } from "@/lib/auth";
+
+import { headers, cookies } from "next/headers";
 
 const API_URL = process.env.API_URL!;
-
-async function getAuthHeaders() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token")?.value;
-  return {
-    ...(token ? { Cookie: `access_token=${token}` } : {}),
-    "Content-Type": "application/json",
-  };
-}
 
 export async function getWorlds() {
   try {
@@ -67,6 +60,23 @@ export async function getMounts() {
 
     if (!res.ok) return { success: false, data: [] };
     const data = await res.json();
+    return { success: true, data };
+  } catch (error) {
+    return { success: false, data: [] };
+  }
+}
+
+export async function getModules() {
+  try {
+    
+    const res = await fetch(`${API_URL}/info/list/modules`, {
+      headers: await getAuthHeaders(),
+      cache: "no-store",
+    });
+
+    if (!res.ok) return { success: false, data: [] };
+    const data = await res.json();
+
     return { success: true, data };
   } catch (error) {
     return { success: false, data: [] };

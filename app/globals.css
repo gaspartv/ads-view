@@ -140,3 +140,26 @@
     display: none;
   }
 }
+
+/* Mobile scroll momentum (iOS) */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* Guarantee minimum touch target size for interactive elements */
+  button,
+  [role="button"],
+  a {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  /* Smooth momentum scrolling on iOS */
+  .overflow-x-auto,
+  .overflow-y-auto,
+  .overflow-auto,
+  .overflow-scroll {
+    -webkit-overflow-scrolling: touch;
+  }
+}

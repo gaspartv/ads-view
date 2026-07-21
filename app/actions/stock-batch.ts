@@ -1,18 +1,11 @@
 "use server";
 
+import { getAuthHeaders } from "@/lib/auth";
+
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
 
 const API_URL = process.env.API_URL!;
-
-async function getAuthHeaders() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token")?.value;
-  return {
-    "Content-Type": "application/json",
-    ...(token ? { Cookie: `access_token=${token}` } : {}),
-  };
-}
 
 export async function addStockBatch(data: {
   amount: number;

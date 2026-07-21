@@ -1,23 +1,11 @@
 "use server";
 
+import { getAuthHeaders } from "@/lib/auth";
+
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
 
 const API_URL = process.env.API_URL!;
-
-async function getAuthHeaders(includeContentType = true) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token")?.value;
-  const headers: Record<string, string> = {
-    ...(token ? { Cookie: `access_token=${token}` } : {}),
-  };
-
-  if (includeContentType) {
-    headers["Content-Type"] = "application/json";
-  }
-
-  return headers;
-}
 
 export async function getCategoriesForSelect() {
   try {
@@ -166,14 +154,9 @@ export async function toggleCategoryStatus(
 
 export async function uploadCategoryImage(id: string, formData: FormData) {
   try {
-    const cookieStore = await cookies();
-    const token = cookieStore.get("access_token")?.value;
-
     const res = await fetch(`${API_URL}/category/upload/${id}/image`, {
       method: "POST",
-      headers: {
-        ...(token ? { Cookie: `access_token=${token}` } : {}),
-      },
+      headers: await getAuthHeaders(false),
       body: formData, // fetch will automatically set the correct Content-Type with boundary for FormData
     });
 

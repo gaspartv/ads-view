@@ -1,5 +1,7 @@
 import { getCharacterPublic } from "@/app/actions/product-character";
 import { notFound } from "next/navigation";
+import Link from "next/link";
+import { ChevronRight } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CharacterImageGallery } from "@/components/character-image-gallery";
@@ -15,31 +17,7 @@ import {
   Database,
 } from "lucide-react";
 import { WhatsAppNegotiateButton } from "@/components/whatsapp-negotiate-button";
-
-const formatCurrency = (value: number) => {
-  return new Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-  }).format(value / 100);
-};
-
-const formatGameValue = (value: number) => {
-  if (!value) return "0";
-  if (value >= 1000000) {
-    return (
-      (value / 1000000)
-        .toFixed(value % 1000000 === 0 ? 0 : 1)
-        .replace(/\.0$/, "") + "kk"
-    );
-  }
-  if (value >= 1000) {
-    return (
-      (value / 1000).toFixed(value % 1000 === 0 ? 0 : 1).replace(/\.0$/, "") +
-      "k"
-    );
-  }
-  return value.toString();
-};
+import { formatCurrency, formatGameValue } from "@/lib/formatters";
 
 export async function generateMetadata({
   params,
@@ -76,7 +54,28 @@ export default async function CharacterPage(props: {
     : "Normal";
 
   return (
-    <div className="cursor-default container mx-auto py-10 px-4 md:px-8 space-y-8">
+    <div className="cursor-default w-full py-10 px-4 md:px-8 space-y-8">
+      <nav className="flex items-center space-x-1.5 text-xs text-muted-foreground mb-4">
+        <Link href="/" className="hover:text-foreground transition-colors">
+          Início
+        </Link>
+        <ChevronRight className="h-4 w-4" />
+        <Link
+          href="/products"
+          className="hover:text-foreground transition-colors"
+        >
+          Produtos
+        </Link>
+        <ChevronRight className="h-4 w-4" />
+        <Link
+          href="/products/characters"
+          className="hover:text-foreground transition-colors"
+        >
+          Personagens
+        </Link>
+        <ChevronRight className="h-4 w-4" />
+        <span className="text-foreground font-medium">{character.title}</span>
+      </nav>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Coluna Esquerda: Imagens e Info Geral */}
         <div className="lg:col-span-2 space-y-8">
@@ -403,50 +402,65 @@ export default async function CharacterPage(props: {
                     {character.magicLevel || 0}
                   </span>
                 </div>
-                <div className="flex items-center justify-between text-sm p-3 border border-border/50 rounded-lg bg-black/5 hover:bg-black/10 transition-colors">
-                  <span className="text-muted-foreground">Axe Fighting</span>
-                  <span className="font-medium text-primary">
-                    {character.axeFighting || 0}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between text-sm p-3 border border-border/50 rounded-lg bg-black/5 hover:bg-black/10 transition-colors">
-                  <span className="text-muted-foreground">Sword Fighting</span>
-                  <span className="font-medium text-primary">
-                    {character.swordFighting || 0}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between text-sm p-3 border border-border/50 rounded-lg bg-black/5 hover:bg-black/10 transition-colors">
-                  <span className="text-muted-foreground">Club Fighting</span>
-                  <span className="font-medium text-primary">
-                    {character.clubFighting || 0}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between text-sm p-3 border border-border/50 rounded-lg bg-black/5 hover:bg-black/10 transition-colors">
-                  <span className="text-muted-foreground">
-                    Distance Fighting
-                  </span>
-                  <span className="font-medium text-primary">
-                    {character.distanceFighting || 0}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between text-sm p-3 border border-border/50 rounded-lg bg-black/5 hover:bg-black/10 transition-colors">
-                  <span className="text-muted-foreground">Fist Fighting</span>
-                  <span className="font-medium text-primary">
-                    {character.fistFighting || 0}
-                  </span>
-                </div>
+                {character.axeFighting && character.axeFighting > 10 && (
+                  <div className="flex items-center justify-between text-sm p-3 border border-border/50 rounded-lg bg-black/5 hover:bg-black/10 transition-colors">
+                    <span className="text-muted-foreground">Axe Fighting</span>
+                    <span className="font-medium text-primary">
+                      {character.axeFighting || 0}
+                    </span>
+                  </div>
+                )}
+                {character.swordFighting && character.swordFighting > 10 && (
+                  <div className="flex items-center justify-between text-sm p-3 border border-border/50 rounded-lg bg-black/5 hover:bg-black/10 transition-colors">
+                    <span className="text-muted-foreground">
+                      Sword Fighting
+                    </span>
+                    <span className="font-medium text-primary">
+                      {character.swordFighting || 0}
+                    </span>
+                  </div>
+                )}
+                {character.clubFighting && character.clubFighting > 10 && (
+                  <div className="flex items-center justify-between text-sm p-3 border border-border/50 rounded-lg bg-black/5 hover:bg-black/10 transition-colors">
+                    <span className="text-muted-foreground">Club Fighting</span>
+                    <span className="font-medium text-primary">
+                      {character.clubFighting || 0}
+                    </span>
+                  </div>
+                )}
+                {character.distanceFighting &&
+                  character.distanceFighting > 10 && (
+                    <div className="flex items-center justify-between text-sm p-3 border border-border/50 rounded-lg bg-black/5 hover:bg-black/10 transition-colors">
+                      <span className="text-muted-foreground">
+                        Distance Fighting
+                      </span>
+                      <span className="font-medium text-primary">
+                        {character.distanceFighting || 0}
+                      </span>
+                    </div>
+                  )}
+                {character.fistFighting && character.fistFighting > 10 && (
+                  <div className="flex items-center justify-between text-sm p-3 border border-border/50 rounded-lg bg-black/5 hover:bg-black/10 transition-colors">
+                    <span className="text-muted-foreground">Fist Fighting</span>
+                    <span className="font-medium text-primary">
+                      {character.fistFighting || 0}
+                    </span>
+                  </div>
+                )}
                 <div className="flex items-center justify-between text-sm p-3 border border-border/50 rounded-lg bg-black/5 hover:bg-black/10 transition-colors">
                   <span className="text-muted-foreground">Shielding</span>
                   <span className="font-medium text-primary">
                     {character.shielding || 0}
                   </span>
                 </div>
-                <div className="flex items-center justify-between text-sm p-3 border border-border/50 rounded-lg bg-black/5 hover:bg-black/10 transition-colors">
-                  <span className="text-muted-foreground">Fishing</span>
-                  <span className="font-medium text-primary">
-                    {character.fishing || 0}
-                  </span>
-                </div>
+                {character.fishing && character.fishing > 10 && (
+                  <div className="flex items-center justify-between text-sm p-3 border border-border/50 rounded-lg bg-black/5 hover:bg-black/10 transition-colors">
+                    <span className="text-muted-foreground">Fishing</span>
+                    <span className="font-medium text-primary">
+                      {character.fishing || 0}
+                    </span>
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>

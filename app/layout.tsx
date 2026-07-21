@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Navbar } from "@/components/navbar";
+import { Footer } from "@/components/footer";
 import { Toaster } from "@/components/ui/sonner";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { getCompanyInfo } from "./actions/company";
+import { getModules } from "./actions/info";
 import { CompanyProvider } from "@/contexts/company-context";
+import { ModulesProvider } from "@/contexts/modules-context";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,8 +32,13 @@ export default async function RootLayout({
 }>) {
   const code = process.env.NEXT_PUBLIC_API_SLUG || "";
 
-  const response = await getCompanyInfo(code);
-  const companyData = response?.success ? response.data : null;
+  const [companyRes, modulesRes] = await Promise.all([
+    getCompanyInfo(code),
+    getModules(),
+  ]);
+
+  const companyData = companyRes?.success ? companyRes.data : null;
+  const modulesData = modulesRes?.success ? modulesRes.data : null;
 
   return (
     <html
@@ -46,9 +54,12 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <CompanyProvider initialData={companyData}>
-            <Navbar />
-            {children}
-            <Toaster richColors />
+            <ModulesProvider initialData={modulesData}>
+              <Navbar />
+              <main className="flex-1 flex flex-col">{children}</main>
+              <Footer />
+              <Toaster richColors />
+            </ModulesProvider>
           </CompanyProvider>
         </ThemeProvider>
       </body>

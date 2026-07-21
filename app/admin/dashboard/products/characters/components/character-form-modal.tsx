@@ -11,20 +11,14 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { createCharacter, editCharacter } from "@/app/actions/product-character";
+import {
+  createCharacter,
+  editCharacter,
+} from "@/app/actions/product-character";
 import { toast } from "sonner";
 import { ChevronDown, ChevronUp, X, Plus } from "lucide-react";
 
-const formatCurrency = (value: string | number) => {
-  if (value === undefined || value === null) return "";
-  const numericValue = value.toString().replace(/\D/g, "");
-  if (!numericValue) return "";
-  const amount = new Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-  }).format(Number(numericValue) / 100);
-  return amount;
-};
+import { formatCurrency } from "@/lib/formatters";
 
 interface CharacterFormModalProps {
   isOpen: boolean;
@@ -50,16 +44,22 @@ export function CharacterFormModal({
   // Dropdown states
   const [isCharmsOpen, setIsCharmsOpen] = useState(false);
   const [isMountsOpen, setIsMountsOpen] = useState(false);
-  
+
   const charmsRef = useRef<HTMLDivElement>(null);
   const mountsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (charmsRef.current && !charmsRef.current.contains(event.target as Node)) {
+      if (
+        charmsRef.current &&
+        !charmsRef.current.contains(event.target as Node)
+      ) {
         setIsCharmsOpen(false);
       }
-      if (mountsRef.current && !mountsRef.current.contains(event.target as Node)) {
+      if (
+        mountsRef.current &&
+        !mountsRef.current.contains(event.target as Node)
+      ) {
         setIsMountsOpen(false);
       }
     }
@@ -83,11 +83,11 @@ export function CharacterFormModal({
     level: "",
     loyalty: "",
     magicLevel: "",
-    fistFighting: "",
-    swordFighting: "",
-    axeFighting: "",
-    clubFighting: "",
-    distanceFighting: "",
+    fistFighting: null,
+    swordFighting: null,
+    axeFighting: null,
+    clubFighting: null,
+    distanceFighting: null,
     shielding: "",
     charmPoints: "",
     inventoryValue: "",
@@ -111,20 +111,23 @@ export function CharacterFormModal({
           seoDescription: character.seoDescription || "",
           isFeatured: character.isFeatured || false,
           price: character.price ? formatCurrency(character.price) : "",
-          promotionalPrice: character.promotionalPrice ? formatCurrency(character.promotionalPrice) : "",
+          promotionalPrice: character.promotionalPrice
+            ? formatCurrency(character.promotionalPrice)
+            : "",
           priceTibiaCoins: character.priceTibiaCoins?.toString() || "",
-          promotionalPriceTibiaCoins: character.promotionalPriceTibiaCoins?.toString() || "",
+          promotionalPriceTibiaCoins:
+            character.promotionalPriceTibiaCoins?.toString() || "",
           worldId: character.worldId || "",
           gender: character.gender || "MALE",
           vocation: character.vocation || "KNIGHT",
           level: character.level?.toString() || "",
           loyalty: character.loyalty?.toString() || "",
           magicLevel: character.magicLevel?.toString() || "",
-          fistFighting: character.fistFighting?.toString() || "",
-          swordFighting: character.swordFighting?.toString() || "",
-          axeFighting: character.axeFighting?.toString() || "",
-          clubFighting: character.clubFighting?.toString() || "",
-          distanceFighting: character.distanceFighting?.toString() || "",
+          fistFighting: character.fistFighting?.toString() || null,
+          swordFighting: character.swordFighting?.toString() || null,
+          axeFighting: character.axeFighting?.toString() || null,
+          clubFighting: character.clubFighting?.toString() || null,
+          distanceFighting: character.distanceFighting?.toString() || null,
           shielding: character.shielding?.toString() || "",
           charmPoints: character.charmPoints?.toString() || "",
           inventoryValue: character.inventoryValue?.toString() || "",
@@ -139,7 +142,7 @@ export function CharacterFormModal({
           character.Outfits?.map((o: any) => ({
             id: o.outfitId,
             level: o.nivel,
-          })) || []
+          })) || [],
         );
       } else {
         setFormData({
@@ -158,11 +161,11 @@ export function CharacterFormModal({
           level: "",
           loyalty: "",
           magicLevel: "",
-          fistFighting: "",
-          swordFighting: "",
-          axeFighting: "",
-          clubFighting: "",
-          distanceFighting: "",
+          fistFighting: null,
+          swordFighting: null,
+          axeFighting: null,
+          clubFighting: null,
+          distanceFighting: null,
           shielding: "",
           charmPoints: "",
           inventoryValue: "",
@@ -179,11 +182,16 @@ export function CharacterFormModal({
   }, [isOpen, character]);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >,
   ) => {
     const { name, value, type } = e.target;
     if (type === "checkbox") {
-      setFormData((prev: any) => ({ ...prev, [name]: (e.target as HTMLInputElement).checked }));
+      setFormData((prev: any) => ({
+        ...prev,
+        [name]: (e.target as HTMLInputElement).checked,
+      }));
     } else if (name === "price" || name === "promotionalPrice") {
       setFormData((prev: any) => ({ ...prev, [name]: formatCurrency(value) }));
     } else {
@@ -210,7 +218,7 @@ export function CharacterFormModal({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const data = new FormData();
-    
+
     Object.entries(formData).forEach(([key, value]) => {
       if (key === "price" || key === "promotionalPrice") {
         if (value) {
@@ -224,7 +232,7 @@ export function CharacterFormModal({
 
     data.append("charmsId", JSON.stringify(charmsId));
     data.append("mountsId", JSON.stringify(mountsId));
-    data.append("outfits", JSON.stringify(outfits.filter(o => o.id))); // apenas válidos
+    data.append("outfits", JSON.stringify(outfits.filter((o) => o.id))); // apenas válidos
 
     startTransition(async () => {
       let result;
@@ -235,7 +243,10 @@ export function CharacterFormModal({
       }
 
       if (result.success) {
-        toast.success(result.message || (character ? "Personagem editado." : "Personagem criado."));
+        toast.success(
+          result.message ||
+            (character ? "Personagem editado." : "Personagem criado."),
+        );
         onClose();
       } else {
         toast.error(result.message || "Ocorreu um erro.");
@@ -252,13 +263,20 @@ export function CharacterFormModal({
           </DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-6 py-4">
-          
           <div className="space-y-4">
-            <h3 className="text-lg font-medium border-b pb-2">Informações Básicas</h3>
+            <h3 className="text-lg font-medium border-b pb-2">
+              Informações Básicas
+            </h3>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2 col-span-2">
                 <Label htmlFor="title">Título</Label>
-                <Input id="title" name="title" value={formData.title} onChange={handleChange} required />
+                <Input
+                  id="title"
+                  name="title"
+                  value={formData.title}
+                  onChange={handleChange}
+                  required
+                />
               </div>
               <div className="space-y-2 col-span-2">
                 <Label htmlFor="description">Descrição</Label>
@@ -271,20 +289,32 @@ export function CharacterFormModal({
                   onChange={handleChange}
                 />
               </div>
-              
+
               <div className="space-y-2 col-span-2 sm:col-span-1">
                 <Label htmlFor="seoTitle">SEO Title</Label>
-                <Input id="seoTitle" name="seoTitle" value={formData.seoTitle} onChange={handleChange} />
+                <Input
+                  id="seoTitle"
+                  name="seoTitle"
+                  value={formData.seoTitle}
+                  onChange={handleChange}
+                />
               </div>
               <div className="space-y-2 col-span-2 sm:col-span-1">
                 <Label htmlFor="seoDescription">SEO Description</Label>
-                <Input id="seoDescription" name="seoDescription" value={formData.seoDescription} onChange={handleChange} />
+                <Input
+                  id="seoDescription"
+                  name="seoDescription"
+                  value={formData.seoDescription}
+                  onChange={handleChange}
+                />
               </div>
             </div>
           </div>
 
           <div className="space-y-4">
-            <h3 className="text-lg font-medium border-b pb-2">Atributos do Personagem</h3>
+            <h3 className="text-lg font-medium border-b pb-2">
+              Atributos do Personagem
+            </h3>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               <div className="space-y-2 col-span-2">
                 <Label htmlFor="worldId">Mundo</Label>
@@ -297,8 +327,10 @@ export function CharacterFormModal({
                   required
                 >
                   <option value="">Selecione...</option>
-                  {worlds.map(w => (
-                    <option key={w.id} value={w.id}>{w.name}</option>
+                  {worlds.map((w) => (
+                    <option key={w.id} value={w.id}>
+                      {w.name}
+                    </option>
                   ))}
                 </select>
               </div>
@@ -335,47 +367,117 @@ export function CharacterFormModal({
               </div>
               <div className="space-y-2">
                 <Label htmlFor="level">Level</Label>
-                <Input id="level" name="level" type="number" value={formData.level} onChange={handleChange} required />
+                <Input
+                  id="level"
+                  name="level"
+                  type="number"
+                  value={formData.level}
+                  onChange={handleChange}
+                  required
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="loyalty">Loyalty</Label>
-                <Input id="loyalty" name="loyalty" type="number" value={formData.loyalty} onChange={handleChange} />
+                <Input
+                  id="loyalty"
+                  name="loyalty"
+                  type="number"
+                  value={formData.loyalty}
+                  onChange={handleChange}
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="magicLevel">Magic Level</Label>
-                <Input id="magicLevel" name="magicLevel" type="number" value={formData.magicLevel} onChange={handleChange} />
+                <Input
+                  id="magicLevel"
+                  name="magicLevel"
+                  type="number"
+                  value={formData.magicLevel}
+                  onChange={handleChange}
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="fistFighting">Fist Fighting</Label>
-                <Input id="fistFighting" name="fistFighting" type="number" value={formData.fistFighting} onChange={handleChange} />
+                <Input
+                  id="fistFighting"
+                  name="fistFighting"
+                  type="number"
+                  value={formData.fistFighting}
+                  onChange={handleChange}
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="swordFighting">Sword Fighting</Label>
-                <Input id="swordFighting" name="swordFighting" type="number" value={formData.swordFighting} onChange={handleChange} />
+                <Input
+                  id="swordFighting"
+                  name="swordFighting"
+                  type="number"
+                  value={formData.swordFighting}
+                  onChange={handleChange}
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="axeFighting">Axe Fighting</Label>
-                <Input id="axeFighting" name="axeFighting" type="number" value={formData.axeFighting} onChange={handleChange} />
+                <Input
+                  id="axeFighting"
+                  name="axeFighting"
+                  type="number"
+                  value={formData.axeFighting}
+                  onChange={handleChange}
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="clubFighting">Club Fighting</Label>
-                <Input id="clubFighting" name="clubFighting" type="number" value={formData.clubFighting} onChange={handleChange} />
+                <Input
+                  id="clubFighting"
+                  name="clubFighting"
+                  type="number"
+                  value={formData.clubFighting}
+                  onChange={handleChange}
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="distanceFighting">Distance Fighting</Label>
-                <Input id="distanceFighting" name="distanceFighting" type="number" value={formData.distanceFighting} onChange={handleChange} />
+                <Input
+                  id="distanceFighting"
+                  name="distanceFighting"
+                  type="number"
+                  value={formData.distanceFighting}
+                  onChange={handleChange}
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="shielding">Shielding</Label>
-                <Input id="shielding" name="shielding" type="number" value={formData.shielding} onChange={handleChange} />
+                <Input
+                  id="shielding"
+                  name="shielding"
+                  type="number"
+                  value={formData.shielding}
+                  onChange={handleChange}
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="charmPoints">Pontos de Charm</Label>
-                <Input id="charmPoints" name="charmPoints" type="number" value={formData.charmPoints} onChange={handleChange} />
+                <Input
+                  id="charmPoints"
+                  name="charmPoints"
+                  type="number"
+                  value={formData.charmPoints}
+                  onChange={handleChange}
+                />
               </div>
               <div className="space-y-2 col-span-2">
-                <Label htmlFor="inventoryValue">Valor do Inventário (In-game)</Label>
-                <Input id="inventoryValue" name="inventoryValue" type="number" placeholder="Ex: 1000000" value={formData.inventoryValue} onChange={handleChange} />
+                <Label htmlFor="inventoryValue">
+                  Valor do Inventário (In-game)
+                </Label>
+                <Input
+                  id="inventoryValue"
+                  name="inventoryValue"
+                  type="number"
+                  placeholder="Ex: 1000000"
+                  value={formData.inventoryValue}
+                  onChange={handleChange}
+                />
               </div>
             </div>
           </div>
@@ -385,53 +487,145 @@ export function CharacterFormModal({
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="price">Preço BRL</Label>
-                <Input id="price" name="price" type="text" placeholder="R$ 0,00" value={formData.price} onChange={handleChange} required />
+                <Input
+                  id="price"
+                  name="price"
+                  type="text"
+                  placeholder="R$ 0,00"
+                  value={formData.price}
+                  onChange={handleChange}
+                  required
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="promotionalPrice">Preço Promocional BRL</Label>
-                <Input id="promotionalPrice" name="promotionalPrice" type="text" placeholder="R$ 0,00" value={formData.promotionalPrice} onChange={handleChange} />
+                <Input
+                  id="promotionalPrice"
+                  name="promotionalPrice"
+                  type="text"
+                  placeholder="R$ 0,00"
+                  value={formData.promotionalPrice}
+                  onChange={handleChange}
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="priceTibiaCoins">Preço Tibia Coins</Label>
-                <Input id="priceTibiaCoins" name="priceTibiaCoins" type="number" value={formData.priceTibiaCoins} onChange={handleChange} />
+                <Input
+                  id="priceTibiaCoins"
+                  name="priceTibiaCoins"
+                  type="number"
+                  value={formData.priceTibiaCoins}
+                  onChange={handleChange}
+                />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="promotionalPriceTibiaCoins">Preço Promocional TC</Label>
-                <Input id="promotionalPriceTibiaCoins" name="promotionalPriceTibiaCoins" type="number" value={formData.promotionalPriceTibiaCoins} onChange={handleChange} />
+                <Label htmlFor="promotionalPriceTibiaCoins">
+                  Preço Promocional TC
+                </Label>
+                <Input
+                  id="promotionalPriceTibiaCoins"
+                  name="promotionalPriceTibiaCoins"
+                  type="number"
+                  value={formData.promotionalPriceTibiaCoins}
+                  onChange={handleChange}
+                />
               </div>
             </div>
           </div>
 
           <div className="space-y-4">
-            <h3 className="text-lg font-medium border-b pb-2">Configurações & Flags</h3>
+            <h3 className="text-lg font-medium border-b pb-2">
+              Configurações & Flags
+            </h3>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
               <div className="flex items-center space-x-2">
-                <input type="checkbox" id="isFeatured" name="isFeatured" checked={formData.isFeatured} onChange={handleChange} className="w-4 h-4 cursor-pointer" />
-                <Label htmlFor="isFeatured" className="font-normal cursor-pointer">Destaque</Label>
+                <input
+                  type="checkbox"
+                  id="isFeatured"
+                  name="isFeatured"
+                  checked={formData.isFeatured}
+                  onChange={handleChange}
+                  className="w-4 h-4 cursor-pointer"
+                />
+                <Label
+                  htmlFor="isFeatured"
+                  className="font-normal cursor-pointer"
+                >
+                  Destaque
+                </Label>
               </div>
               <div className="flex items-center space-x-2">
-                <input type="checkbox" id="charmExpansion" name="charmExpansion" checked={formData.charmExpansion} onChange={handleChange} className="w-4 h-4 cursor-pointer" />
-                <Label htmlFor="charmExpansion" className="font-normal cursor-pointer">Expansão de Charm</Label>
+                <input
+                  type="checkbox"
+                  id="charmExpansion"
+                  name="charmExpansion"
+                  checked={formData.charmExpansion}
+                  onChange={handleChange}
+                  className="w-4 h-4 cursor-pointer"
+                />
+                <Label
+                  htmlFor="charmExpansion"
+                  className="font-normal cursor-pointer"
+                >
+                  Expansão de Charm
+                </Label>
               </div>
               <div className="flex items-center space-x-2">
-                <input type="checkbox" id="transferable" name="transferable" checked={formData.transferable} onChange={handleChange} className="w-4 h-4 cursor-pointer" />
-                <Label htmlFor="transferable" className="font-normal cursor-pointer">Transferível</Label>
+                <input
+                  type="checkbox"
+                  id="transferable"
+                  name="transferable"
+                  checked={formData.transferable}
+                  onChange={handleChange}
+                  className="w-4 h-4 cursor-pointer"
+                />
+                <Label
+                  htmlFor="transferable"
+                  className="font-normal cursor-pointer"
+                >
+                  Transferível
+                </Label>
               </div>
               <div className="flex items-center space-x-2">
-                <input type="checkbox" id="hasRecoveryKey" name="hasRecoveryKey" checked={formData.hasRecoveryKey} onChange={handleChange} className="w-4 h-4 cursor-pointer" />
-                <Label htmlFor="hasRecoveryKey" className="font-normal cursor-pointer">Possui Recovery Key</Label>
+                <input
+                  type="checkbox"
+                  id="hasRecoveryKey"
+                  name="hasRecoveryKey"
+                  checked={formData.hasRecoveryKey}
+                  onChange={handleChange}
+                  className="w-4 h-4 cursor-pointer"
+                />
+                <Label
+                  htmlFor="hasRecoveryKey"
+                  className="font-normal cursor-pointer"
+                >
+                  Possui Recovery Key
+                </Label>
               </div>
               <div className="flex items-center space-x-2">
-                <input type="checkbox" id="safeAddress" name="safeAddress" checked={formData.safeAddress} onChange={handleChange} className="w-4 h-4 cursor-pointer" />
-                <Label htmlFor="safeAddress" className="font-normal cursor-pointer">Safe Address</Label>
+                <input
+                  type="checkbox"
+                  id="safeAddress"
+                  name="safeAddress"
+                  checked={formData.safeAddress}
+                  onChange={handleChange}
+                  className="w-4 h-4 cursor-pointer"
+                />
+                <Label
+                  htmlFor="safeAddress"
+                  className="font-normal cursor-pointer"
+                >
+                  Safe Address
+                </Label>
               </div>
             </div>
           </div>
 
           <div className="space-y-4">
-            <h3 className="text-lg font-medium border-b pb-2">Cosméticos & Extras</h3>
+            <h3 className="text-lg font-medium border-b pb-2">
+              Cosméticos & Extras
+            </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              
               <div className="space-y-2">
                 <Label>Charms</Label>
                 <div className="relative" ref={charmsRef}>
@@ -442,10 +636,17 @@ export function CharacterFormModal({
                   >
                     <span className="truncate block flex-1 text-left mr-2">
                       {charmsId.length > 0
-                        ? charms.filter(c => charmsId.includes(c.id)).map(c => c.name).join(", ")
+                        ? charms
+                            .filter((c) => charmsId.includes(c.id))
+                            .map((c) => c.name)
+                            .join(", ")
                         : "Selecione..."}
                     </span>
-                    {isCharmsOpen ? <ChevronUp className="h-4 w-4 opacity-50" /> : <ChevronDown className="h-4 w-4 opacity-50" />}
+                    {isCharmsOpen ? (
+                      <ChevronUp className="h-4 w-4 opacity-50" />
+                    ) : (
+                      <ChevronDown className="h-4 w-4 opacity-50" />
+                    )}
                   </button>
                   {isCharmsOpen && (
                     <div className="absolute z-10 mt-1 max-h-[150px] w-full overflow-y-auto rounded-md border bg-popover shadow-md p-2 space-y-2">
@@ -458,10 +659,19 @@ export function CharacterFormModal({
                             checked={charmsId.includes(c.id)}
                             onChange={(e) => {
                               const checked = e.target.checked;
-                              setCharmsId(prev => checked ? [...prev, c.id] : prev.filter(id => id !== c.id));
+                              setCharmsId((prev) =>
+                                checked
+                                  ? [...prev, c.id]
+                                  : prev.filter((id) => id !== c.id),
+                              );
                             }}
                           />
-                          <Label htmlFor={`charm-${c.id}`} className="font-normal cursor-pointer text-sm w-full">{c.name}</Label>
+                          <Label
+                            htmlFor={`charm-${c.id}`}
+                            className="font-normal cursor-pointer text-sm w-full"
+                          >
+                            {c.name}
+                          </Label>
                         </div>
                       ))}
                     </div>
@@ -479,10 +689,17 @@ export function CharacterFormModal({
                   >
                     <span className="truncate block flex-1 text-left mr-2">
                       {mountsId.length > 0
-                        ? mounts.filter(m => mountsId.includes(m.id)).map(m => m.name).join(", ")
+                        ? mounts
+                            .filter((m) => mountsId.includes(m.id))
+                            .map((m) => m.name)
+                            .join(", ")
                         : "Selecione..."}
                     </span>
-                    {isMountsOpen ? <ChevronUp className="h-4 w-4 opacity-50" /> : <ChevronDown className="h-4 w-4 opacity-50" />}
+                    {isMountsOpen ? (
+                      <ChevronUp className="h-4 w-4 opacity-50" />
+                    ) : (
+                      <ChevronDown className="h-4 w-4 opacity-50" />
+                    )}
                   </button>
                   {isMountsOpen && (
                     <div className="absolute z-10 mt-1 max-h-[150px] w-full overflow-y-auto rounded-md border bg-popover shadow-md p-2 space-y-2">
@@ -495,44 +712,67 @@ export function CharacterFormModal({
                             checked={mountsId.includes(m.id)}
                             onChange={(e) => {
                               const checked = e.target.checked;
-                              setMountsId(prev => checked ? [...prev, m.id] : prev.filter(id => id !== m.id));
+                              setMountsId((prev) =>
+                                checked
+                                  ? [...prev, m.id]
+                                  : prev.filter((id) => id !== m.id),
+                              );
                             }}
                           />
-                          <Label htmlFor={`mount-${m.id}`} className="font-normal cursor-pointer text-sm w-full">{m.name}</Label>
+                          <Label
+                            htmlFor={`mount-${m.id}`}
+                            className="font-normal cursor-pointer text-sm w-full"
+                          >
+                            {m.name}
+                          </Label>
                         </div>
                       ))}
                     </div>
                   )}
                 </div>
               </div>
-              
+
               <div className="space-y-2 col-span-1 md:col-span-2">
                 <div className="flex justify-between items-center">
                   <Label>Outfits</Label>
-                  <Button type="button" variant="outline" size="sm" onClick={addOutfit}>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={addOutfit}
+                  >
                     <Plus className="w-3 h-3 mr-1" /> Adicionar
                   </Button>
                 </div>
                 <div className="space-y-3">
                   {outfits.map((outfit, index) => (
-                    <div key={index} className="flex gap-2 items-center p-2 border rounded-md">
+                    <div
+                      key={index}
+                      className="flex gap-2 items-center p-2 border rounded-md"
+                    >
                       <div className="flex-1">
                         <select
                           value={outfit.id}
-                          onChange={(e) => updateOutfit(index, "id", e.target.value)}
+                          onChange={(e) =>
+                            updateOutfit(index, "id", e.target.value)
+                          }
                           className="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm ring-offset-background cursor-pointer"
                           required
                         >
                           <option value="">Selecione o outfit...</option>
-                          {availableOutfits.map(o => (
-                            <option key={o.id} value={o.id}>{o.name}</option>
+                          {availableOutfits.map((o) => (
+                            <option key={o.id} value={o.id}>
+                              {o.name}
+                            </option>
                           ))}
                         </select>
                       </div>
                       <div className="w-[120px]">
                         <select
                           value={outfit.level}
-                          onChange={(e) => updateOutfit(index, "level", e.target.value)}
+                          onChange={(e) =>
+                            updateOutfit(index, "level", e.target.value)
+                          }
                           className="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm ring-offset-background cursor-pointer"
                         >
                           <option value="OUTFIT">Outfit (Base)</option>
@@ -541,20 +781,34 @@ export function CharacterFormModal({
                           <option value="FULL">Full</option>
                         </select>
                       </div>
-                      <Button type="button" variant="ghost" size="sm" className="text-destructive h-9 px-2" onClick={() => removeOutfit(index)}>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        className="text-destructive h-9 px-2"
+                        onClick={() => removeOutfit(index)}
+                      >
                         <X className="w-4 h-4" />
                       </Button>
                     </div>
                   ))}
-                  {outfits.length === 0 && <p className="text-xs text-muted-foreground">Nenhum outfit adicionado.</p>}
+                  {outfits.length === 0 && (
+                    <p className="text-xs text-muted-foreground">
+                      Nenhum outfit adicionado.
+                    </p>
+                  )}
                 </div>
               </div>
-
             </div>
           </div>
 
           <DialogFooter className="pt-4">
-            <Button type="button" variant="outline" onClick={onClose} disabled={isPending}>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={onClose}
+              disabled={isPending}
+            >
               Cancelar
             </Button>
             <Button type="submit" disabled={isPending}>

@@ -1,14 +1,14 @@
 "use server";
 
+import { getAuthHeaders } from "@/lib/auth";
+
 const API_URL = process.env.API_URL!;
 
 export async function getCompanyInfo(code: string) {
   try {
     const res = await fetch(`${API_URL}/company/info/${code}`, {
       method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: await getAuthHeaders(),
       next: { revalidate: 3600 }, // Cache por 1 hora (ajuste conforme necessário)
     });
 

@@ -2,6 +2,7 @@
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
+import { formatCurrency, formatDate } from "@/lib/formatters";
 
 interface ProductViewModalProps {
   isOpen: boolean;
@@ -25,23 +26,7 @@ export function ProductViewModal({ isOpen, onClose, product }: ProductViewModalP
     }
   }
 
-  const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    }).format(value / 100);
-  };
 
-  const formatDate = (dateStr: string) => {
-    if (!dateStr) return "";
-    return new Intl.DateTimeFormat("pt-BR", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    }).format(new Date(dateStr));
-  };
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>

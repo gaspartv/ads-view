@@ -2,6 +2,7 @@
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
+import { formatCurrency, formatGameValue, formatDate } from "@/lib/formatters";
 
 interface CharacterViewModalProps {
   isOpen: boolean;
@@ -12,34 +13,7 @@ interface CharacterViewModalProps {
 export function CharacterViewModal({ isOpen, onClose, character }: CharacterViewModalProps) {
   if (!character) return null;
 
-  const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    }).format(value / 100);
-  };
 
-  const formatGameValue = (value: number) => {
-    if (!value) return "0";
-    if (value >= 1000000) {
-      return (value / 1000000).toFixed(value % 1000000 === 0 ? 0 : 1).replace(/\.0$/, '') + "kk";
-    }
-    if (value >= 1000) {
-      return (value / 1000).toFixed(value % 1000 === 0 ? 0 : 1).replace(/\.0$/, '') + "k";
-    }
-    return value.toString();
-  };
-
-  const formatDate = (dateStr: string) => {
-    if (!dateStr) return "";
-    return new Intl.DateTimeFormat("pt-BR", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    }).format(new Date(dateStr));
-  };
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>

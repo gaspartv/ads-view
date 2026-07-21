@@ -18,31 +18,9 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
+import { formatCurrency, formatGameValue } from "@/lib/formatters";
 
-const formatCurrency = (value: number) => {
-  return new Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-  }).format(value / 100);
-};
 
-const formatGameValue = (value: number) => {
-  if (!value) return "0";
-  if (value >= 1000000) {
-    return (
-      (value / 1000000)
-        .toFixed(value % 1000000 === 0 ? 0 : 1)
-        .replace(/\.0$/, "") + "kk"
-    );
-  }
-  if (value >= 1000) {
-    return (
-      (value / 1000).toFixed(value % 1000 === 0 ? 0 : 1).replace(/\.0$/, "") +
-      "k"
-    );
-  }
-  return value.toString();
-};
 
 export function ClientTable({ accounts }: { accounts: any[] }) {
   const [selectedAccount, setSelectedAccount] = useState<any>(null);

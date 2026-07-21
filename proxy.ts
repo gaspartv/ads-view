@@ -5,7 +5,10 @@ import type { NextRequest } from "next/server";
 const publicGlobalRoutes = [
   "/",
   "/contact",
+  "/products",
   "/products/tibia-coins",
+  "/products/tibia-coins/sell",
+  "/products/tibia-coins/buy",
   "/products/characters",
   "/products/characters/*",
   "/products/account-loyalty",
@@ -14,8 +17,60 @@ const publicRoutes = ["/sign-in", "/sign-up"];
 const authenticatedRoutes = [];
 const adminRoutePrefix = "/admin";
 
+const moduleRoutePrefixes = [
+  { prefix: "/admin/dashboard/products/tibia-coins", code: "MD-001" },
+  { prefix: "/products/tibia-coins", code: "MD-001" },
+  { prefix: "/admin/dashboard/products/account-loyalty", code: "MD-002" },
+  { prefix: "/products/account-loyalty", code: "MD-002" },
+  { prefix: "/admin/dashboard/products/characters", code: "MD-003" },
+  { prefix: "/products/characters", code: "MD-003" },
+  { prefix: "/products/characters/*", code: "MD-003" },
+  { prefix: "/admin/dashboard/reports", code: "MD-004" },
+  { prefix: "/admin/dashboard/orders", code: "MD-005" },
+];
+
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  const host =
+    request.headers.get("x-forwarded-host") ||
+    request.headers.get("host") ||
+    "";
+  const protocol = request.headers.get("x-forwarded-proto") || "http";
+  const origin = host ? `${protocol}://${host}` : "";
+
+  // 1. Verificação de Módulos (Aplicado tanto em rotas públicas quanto no admin)
+  const requiredModule = moduleRoutePrefixes.find((m) =>
+    pathname.startsWith(m.prefix),
+  );
+
+  if (requiredModule) {
+    try {
+      const apiUrl = process.env.API_URL!;
+
+      const res = await fetch(`${apiUrl}/info/list/modules`, {
+        headers: { ...(origin ? { origin } : {}) },
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        const activeModules =
+          data?.CompanyModules?.map((cm: any) => cm?.Module?.code) || [];
+
+        if (!activeModules.includes(requiredModule.code)) {
+          // Módulo não está ativo para esta empresa
+          const redirectUrl = request.nextUrl.clone();
+          // Redireciona de volta ao dashboard se for admin, senão para a home
+          redirectUrl.pathname = pathname.startsWith("/admin")
+            ? "/admin/dashboard"
+            : "/";
+          return NextResponse.redirect(redirectUrl);
+        }
+      }
+    } catch (e) {
+      console.error("Erro ao validar módulos no proxy:", e);
+    }
+  }
 
   // Recupera o token JWT dos cookies primeiro
   const cookieStore = await cookies();
@@ -58,6 +113,7 @@ export async function proxy(request: NextRequest) {
     const response = await fetch(`${apiUrl}/user/is-valid-auth`, {
       headers: {
         ...(token ? { Cookie: `access_token=${token}` } : {}),
+        ...(origin ? { origin } : {}),
       },
     });
 
@@ -107,6 +163,7 @@ export async function proxy(request: NextRequest) {
       const response = await fetch(`${apiUrl}/user/is-admin`, {
         headers: {
           ...(token ? { Cookie: `access_token=${token}` } : {}),
+          ...(origin ? { origin } : {}),
         },
       });
 

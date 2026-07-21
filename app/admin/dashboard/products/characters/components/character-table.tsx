@@ -42,7 +42,10 @@ import {
 import { CharacterFormModal } from "./character-form-modal";
 import { CharacterImageModal } from "./character-image-modal";
 import { CharacterViewModal } from "./character-view-modal";
-import { deleteCharacter, toggleCharacterStatus } from "@/app/actions/product-character";
+import {
+  deleteCharacter,
+  toggleCharacterStatus,
+} from "@/app/actions/product-character";
 import { toast } from "sonner";
 
 interface CharacterTableProps {
@@ -59,7 +62,14 @@ interface CharacterTableProps {
   };
 }
 
-export function CharacterTable({ characters, worlds, charms, outfits, mounts, pagination }: CharacterTableProps) {
+export function CharacterTable({
+  characters,
+  worlds,
+  charms,
+  outfits,
+  mounts,
+  pagination,
+}: CharacterTableProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -78,7 +88,9 @@ export function CharacterTable({ characters, worlds, charms, outfits, mounts, pa
 
   useEffect(() => {
     if (selectedCharacter) {
-      const updatedCharacter = characters.find((p) => p.id === selectedCharacter.id);
+      const updatedCharacter = characters.find(
+        (p) => p.id === selectedCharacter.id,
+      );
       if (updatedCharacter) {
         setSelectedCharacter(updatedCharacter);
       }
@@ -260,9 +272,9 @@ export function CharacterTable({ characters, worlds, charms, outfits, mounts, pa
         </select>
 
         {(currentStatus || currentFeatured || currentSearch) && (
-          <Button 
-            variant="ghost" 
-            size="sm" 
+          <Button
+            variant="ghost"
+            size="sm"
             className="h-9 px-2 text-muted-foreground"
             onClick={clearFilters}
           >
@@ -292,7 +304,9 @@ export function CharacterTable({ characters, worlds, charms, outfits, mounts, pa
                   Título {renderSortIcon("title")}
                 </div>
               </TableHead>
-              <TableHead className="w-auto text-center">Vocaçao/Level</TableHead>
+              <TableHead className="w-auto text-center">
+                Vocaçao/Level
+              </TableHead>
               <TableHead className="w-auto text-center">Mundo</TableHead>
               <TableHead className="w-auto">Preço</TableHead>
               <TableHead className="w-[80px] text-right">Ações</TableHead>
@@ -311,157 +325,168 @@ export function CharacterTable({ characters, worlds, charms, outfits, mounts, pa
             ) : (
               characters.map((character) => {
                 let tooltipText = character.description || "";
-                
+
                 return (
-                  <TableRow 
+                  <TableRow
                     key={character.id}
                     className={`cursor-pointer transition-colors ${character.isFeatured ? "bg-amber-500/5 dark:bg-amber-500/10 shadow-[inset_4px_0_0_0_rgba(251,191,36,0.5)]" : ""}`}
                     onClick={() => handleView(character)}
                   >
-                  <TableCell onClick={(e) => e.stopPropagation()}>
-                    <div 
-                      className="cursor-pointer flex flex-col items-center justify-center gap-1 group/img"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleImage(character);
-                      }}
-                    >
-                      {character.Images && character.Images.length > 0 ? (
-                        /* eslint-disable-next-line @next/next/no-img-element */
-                        <img
-                          src={character.Images[0].url}
-                          alt={character.title}
-                          className="w-10 h-10 rounded-md object-cover border bg-muted group-hover/img:opacity-80 transition-opacity"
-                        />
-                      ) : (
-                        <div className="w-10 h-10 rounded-md border bg-muted flex items-center justify-center group-hover/img:opacity-80 transition-opacity">
-                          <ImageIcon className="w-4 h-4 text-muted-foreground" />
-                        </div>
-                      )}
-                      <span className="text-[10px] font-mono text-muted-foreground">{character.code}</span>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    {character.disabledAt ? (
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400">
-                        Desabilitado
-                      </span>
-                    ) : (
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">
-                        Ativo
-                      </span>
-                    )}
-                  </TableCell>
-                  <TableCell className="font-medium max-w-[200px] truncate">
-                    <div className="flex flex-col gap-1">
-                      <div className="flex items-center gap-1.5">
-                        <span className="truncate">{character.title}</span>
-                        {tooltipText && (
-                          <span title={tooltipText.trim()}>
-                            <Info className="w-3.5 h-3.5 text-muted-foreground cursor-help shrink-0" />
-                          </span>
+                    <TableCell onClick={(e) => e.stopPropagation()}>
+                      <div
+                        className="cursor-pointer flex flex-col items-center justify-center gap-1 group/img"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleImage(character);
+                        }}
+                      >
+                        {character.Images && character.Images.length > 0 ? (
+                          /* eslint-disable-next-line @next/next/no-img-element */
+                          <img
+                            src={character.Images[0].url}
+                            alt={character.title}
+                            className="w-10 h-10 rounded-md object-cover border bg-muted group-hover/img:opacity-80 transition-opacity"
+                          />
+                        ) : (
+                          <div className="w-10 h-10 rounded-md border bg-muted flex items-center justify-center group-hover/img:opacity-80 transition-opacity">
+                            <ImageIcon className="w-4 h-4 text-muted-foreground" />
+                          </div>
                         )}
+                        <span className="text-[10px] font-mono text-muted-foreground">
+                          {character.code}
+                        </span>
                       </div>
-                      <span className="text-[10px] text-muted-foreground">({character.slug})</span>
-                    </div>
-                  </TableCell>
-                  <TableCell className="text-center">
-                    <div className="flex flex-col">
-                      <span className="text-sm font-medium">{character.vocation}</span>
-                      <span className="text-xs text-muted-foreground">Lvl {character.level}</span>
-                    </div>
-                  </TableCell>
-                  <TableCell className="text-center">
-                    {character.World?.name || "Desconhecido"}
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex flex-col">
-                      <span>
-                        {new Intl.NumberFormat("pt-BR", {
-                          style: "currency",
-                          currency: "BRL",
-                        }).format((character.price || 0) / 100)}
-                      </span>
-                      {character.promotionalPrice ? (
-                        <span className="text-xs text-green-600">
+                    </TableCell>
+                    <TableCell>
+                      {character.disabledAt ? (
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400">
+                          Desabilitado
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">
+                          Ativo
+                        </span>
+                      )}
+                    </TableCell>
+                    <TableCell className="font-medium max-w-[200px] truncate">
+                      <div className="flex flex-col gap-1">
+                        <div className="flex items-center gap-1.5">
+                          <span className="truncate">{character.title}</span>
+                          {tooltipText && (
+                            <span title={tooltipText.trim()}>
+                              <Info className="w-3.5 h-3.5 text-muted-foreground cursor-help shrink-0" />
+                            </span>
+                          )}
+                        </div>
+                        <span className="text-[10px] text-muted-foreground">
+                          ({character.slug})
+                        </span>
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-center">
+                      <div className="flex flex-col">
+                        <span className="text-sm font-medium">
+                          {character.vocation}
+                        </span>
+                        <span className="text-xs text-muted-foreground">
+                          Lvl {character.level}
+                        </span>
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-center">
+                      {character.World?.name || "Desconhecido"}
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex flex-col">
+                        <span>
                           {new Intl.NumberFormat("pt-BR", {
                             style: "currency",
                             currency: "BRL",
-                          }).format(character.promotionalPrice / 100)}
+                          }).format((character.price || 0) / 100)}
                         </span>
-                      ) : null}
-                    </div>
-                  </TableCell>
-                  <TableCell className="text-right" onClick={(e) => e.stopPropagation()}>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger
-                        render={
-                          <Button variant="ghost" className="h-8 w-8 p-0" />
-                        }
-                      >
-                        <span className="sr-only">Abrir menu</span>
-                        <MoreHorizontal className="h-4 w-4" />
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuGroup>
-                          <DropdownMenuLabel>Ações</DropdownMenuLabel>
-                          <DropdownMenuItem
-                            className="cursor-pointer"
-                            onClick={() => handleView(character)}
-                          >
-                            <Eye className="mr-2 h-4 w-4" />
-                            Visualizar
-                          </DropdownMenuItem>
-                          <DropdownMenuItem
-                            className="cursor-pointer"
-                            onClick={() => handleEdit(character)}
-                          >
-                            <Pencil className="mr-2 h-4 w-4" />
-                            Editar
-                          </DropdownMenuItem>
-                          <DropdownMenuItem
-                            className="cursor-pointer"
-                            onClick={() => handleImage(character)}
-                          >
-                            <ImageIcon className="mr-2 h-4 w-4" />
-                            Gerenciar Imagens
-                          </DropdownMenuItem>
-                          <DropdownMenuSeparator />
-                          <DropdownMenuItem
-                            className="cursor-pointer"
-                            onClick={() =>
-                              handleToggleStatus(
-                                character.id,
-                                character.disabledAt,
-                              )
-                            }
-                          >
-                            {character.disabledAt ? (
-                              <>
-                                <Power className="mr-2 h-4 w-4 text-green-500" />{" "}
-                                Habilitar
-                              </>
-                            ) : (
-                              <>
-                                <PowerOff className="mr-2 h-4 w-4 text-orange-500" />{" "}
-                                Desabilitar
-                              </>
-                            )}
-                          </DropdownMenuItem>
-                          <DropdownMenuItem
-                            onClick={() => handleDelete(character.id)}
-                            className="text-destructive focus:text-destructive cursor-pointer"
-                          >
-                            <Trash className="mr-2 h-4 w-4" />
-                            Excluir
-                          </DropdownMenuItem>
-                        </DropdownMenuGroup>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </TableCell>
-                </TableRow>
-              );
-            })
+                        {character.promotionalPrice ? (
+                          <span className="text-xs text-green-600">
+                            {new Intl.NumberFormat("pt-BR", {
+                              style: "currency",
+                              currency: "BRL",
+                            }).format(character.promotionalPrice / 100)}
+                          </span>
+                        ) : null}
+                      </div>
+                    </TableCell>
+                    <TableCell
+                      className="text-right"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <DropdownMenu>
+                        <DropdownMenuTrigger
+                          render={
+                            <Button variant="ghost" className="h-8 w-8 p-0" />
+                          }
+                        >
+                          <span className="sr-only">Abrir menu</span>
+                          <MoreHorizontal className="h-4 w-4" />
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuGroup>
+                            <DropdownMenuLabel>Ações</DropdownMenuLabel>
+                            <DropdownMenuItem
+                              className="cursor-pointer"
+                              onClick={() => handleView(character)}
+                            >
+                              <Eye className="mr-2 h-4 w-4" />
+                              Visualizar
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                              className="cursor-pointer"
+                              onClick={() => handleEdit(character)}
+                            >
+                              <Pencil className="mr-2 h-4 w-4" />
+                              Editar
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                              className="cursor-pointer"
+                              onClick={() => handleImage(character)}
+                            >
+                              <ImageIcon className="mr-2 h-4 w-4" />
+                              Imagens
+                            </DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem
+                              className="cursor-pointer"
+                              onClick={() =>
+                                handleToggleStatus(
+                                  character.id,
+                                  character.disabledAt,
+                                )
+                              }
+                            >
+                              {character.disabledAt ? (
+                                <>
+                                  <Power className="mr-2 h-4 w-4 text-green-500" />{" "}
+                                  Habilitar
+                                </>
+                              ) : (
+                                <>
+                                  <PowerOff className="mr-2 h-4 w-4 text-orange-500" />{" "}
+                                  Desabilitar
+                                </>
+                              )}
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                              onClick={() => handleDelete(character.id)}
+                              className="text-destructive focus:text-destructive cursor-pointer"
+                            >
+                              <Trash className="mr-2 h-4 w-4" />
+                              Excluir
+                            </DropdownMenuItem>
+                          </DropdownMenuGroup>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
+                  </TableRow>
+                );
+              })
             )}
           </TableBody>
         </Table>
@@ -489,7 +514,7 @@ export function CharacterTable({ characters, worlds, charms, outfits, mounts, pa
               Página {pagination.page} de {pagination.totalPages}
             </p>
             <div className="flex items-center space-x-2">
-               <Button
+              <Button
                 variant="outline"
                 size="sm"
                 onClick={() => handlePageChange(pagination.page - 1)}

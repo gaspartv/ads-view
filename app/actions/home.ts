@@ -1,14 +1,14 @@
 "use server";
 
+import { getAuthHeaders } from "@/lib/auth";
+
 const API_URL = process.env.API_URL!;
 
 export async function getHomeData() {
   try {
     const res = await fetch(`${API_URL}/category/list-for-home`, {
       method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: await getAuthHeaders(),
       next: { revalidate: 60 }, // Cache por 60 segundos
     });
 

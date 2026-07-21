@@ -18,11 +18,11 @@ export default function AdminDashboardPage() {
       <div className="relative overflow-hidden border-b border-border/50 bg-background/50 backdrop-blur-xl">
         {/* Efeito sutil de gradiente ao fundo */}
         <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-background to-background pointer-events-none" />
-        <div className="container mx-auto py-12 px-4 md:px-8 relative z-10">
+        <div className="container mx-auto py-6 px-4 md:px-8 relative z-10">
           <h1 className="text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/60">
             Painel de Controle
           </h1>
-          <p className="text-muted-foreground mt-3 max-w-2xl text-lg">
+          <p className="text-muted-foreground mt-3 max-w-2xl text-md">
             Bem-vindo ao dashboard administrativo. Aqui você tem controle total
             sobre os módulos da aplicação.
           </p>
@@ -69,7 +69,8 @@ export default function AdminDashboardPage() {
                   <ArrowRight className="w-5 h-5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-primary" />
                 </CardTitle>
                 <CardDescription className="text-sm mt-2 leading-relaxed">
-                  Acompanhe métricas, faturamento e estatísticas detalhadas de vendas do sistema.
+                  Acompanhe métricas, faturamento e estatísticas detalhadas de
+                  vendas do sistema.
                 </CardDescription>
               </CardHeader>
             </Card>
