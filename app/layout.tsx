@@ -9,6 +9,7 @@ import { getCompanyInfo } from "./actions/company";
 import { getModules } from "./actions/info";
 import { CompanyProvider } from "@/contexts/company-context";
 import { ModulesProvider } from "@/contexts/modules-context";
+import { CompanyUnavailable } from "@/components/company-unavailable";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,19 +31,36 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const code = process.env.NEXT_PUBLIC_API_SLUG || "";
-
-  const [companyRes, modulesRes] = await Promise.all([
-    getCompanyInfo(code),
-    getModules(),
-  ]);
-
+  const companyRes = await getCompanyInfo();
   const companyData = companyRes?.success ? companyRes.data : null;
+
+  if (!companyData) {
+    return (
+      <html
+        lang="pt-BR"
+        suppressHydrationWarning
+        className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      >
+        <body className="min-h-full flex flex-col">
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <CompanyUnavailable />
+          </ThemeProvider>
+        </body>
+      </html>
+    );
+  }
+
+  const modulesRes = await getModules();
   const modulesData = modulesRes?.success ? modulesRes.data : null;
 
   return (
     <html
-      lang="en"
+      lang="pt-BR"
       suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
@@ -66,3 +84,4 @@ export default async function RootLayout({
     </html>
   );
 }
+

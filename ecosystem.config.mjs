@@ -1,7 +1,7 @@
 export const apps = [
   {
-    name: 'thygas[view]',
-    script: 'npm run start',
+    name: "tibia[view]",
+    script: "npm run dev",
     watch: false,
     autorestart: true,
     env: {

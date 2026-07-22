@@ -3,12 +3,18 @@ import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { getAuthHeaders } from "@/lib/auth";
+import { getCompanyInfo } from "@/app/actions/company";
 
 const API_URL = process.env.API_URL;
 
-export const metadata = {
-  title: "Lista de personagens - " + process.env.NEXT_PUBLIC_APP_NAME,
-};
+export async function generateMetadata() {
+  const response = await getCompanyInfo();
+  const company = response?.success ? response.data : null;
+
+  return {
+    title: "Lista de personagens - " + company?.name,
+  };
+}
 
 async function getCharacters() {
   try {
@@ -55,9 +61,16 @@ export default async function CharactersPage() {
     <div className="cursor-default flex flex-col min-h-screen bg-background font-sans pt-12 pb-24">
       <div className="w-full px-4 md:px-8">
         <nav className="flex items-center space-x-1.5 text-xs text-muted-foreground mb-6">
-          <Link href="/" className="hover:text-foreground transition-colors">Início</Link>
+          <Link href="/" className="hover:text-foreground transition-colors">
+            Início
+          </Link>
           <ChevronRight className="h-4 w-4" />
-          <Link href="/products" className="hover:text-foreground transition-colors">Produtos</Link>
+          <Link
+            href="/products"
+            className="hover:text-foreground transition-colors"
+          >
+            Produtos
+          </Link>
           <ChevronRight className="h-4 w-4" />
           <span className="text-foreground font-medium">Personagens</span>
         </nav>

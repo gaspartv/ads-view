@@ -1,15 +1,18 @@
 import { CategoryCarousel } from "@/components/category-carousel";
 import { WhatsappCtaButton } from "@/components/whatsapp-cta-button";
-import Link from "next/link";
-import { ArrowRight, ShieldCheck, Zap, Trophy } from "lucide-react";
+import { ShieldCheck, Zap, Trophy } from "lucide-react";
+import { getCompanyInfo } from "./actions/company";
 
-export const metadata = {
-  title:
-    process.env.NEXT_PUBLIC_APP_NAME +
-    " – Tibia Coins, Personagens e Contas com Loyalty",
-  description:
-    "Compre Tibia Coins, personagens e contas com Loyalty com a melhor cotação do mercado. Entrega imediata e transações seguras.",
-};
+export async function generateMetadata() {
+  const response = await getCompanyInfo();
+  const company = response?.success ? response.data : null;
+
+  return {
+    title: company?.name + " – Tibia Coins, Personagens e Contas com Loyalty",
+    description:
+      "Compre Tibia Coins, personagens e contas com Loyalty com a melhor cotação do mercado. Entrega imediata e transações seguras.",
+  };
+}
 
 const trustItems = [
   {

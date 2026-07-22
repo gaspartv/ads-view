@@ -1,8 +1,14 @@
+import { getCompanyInfo } from "@/app/actions/company";
 import { CreateOrderForm } from "./components/create-order-form";
 
-export const metadata = {
-  title: "Nova Venda - " + process.env.NEXT_PUBLIC_APP_NAME,
-};
+export async function generateMetadata() {
+  const response = await getCompanyInfo();
+  const company = response?.success ? response.data : null;
+
+  return {
+    title: "Nova Venda - " + company?.name,
+  };
+}
 
 export default function CreateOrderPage() {
   return (

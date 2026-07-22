@@ -30,7 +30,11 @@ const navItems: NavItem[] = [
     ],
   },
   { name: "Personagens", href: "/products/characters", moduleCode: "MD-003" },
-  { name: "Conta com Loyalty", href: "/products/account-loyalty", moduleCode: "MD-002" },
+  {
+    name: "Conta com Loyalty",
+    href: "/products/account-loyalty",
+    moduleCode: "MD-002",
+  },
   { name: "Contato", href: "/contact" },
 ];
 
@@ -158,7 +162,8 @@ export function Navbar() {
   const isAdminRoute = pathname.startsWith("/admin");
 
   // Determine active modules from API response
-  const activeModules = modules?.CompanyModules?.map((cm: any) => cm?.Module?.code) || [];
+  const activeModules =
+    modules?.CompanyModules?.map((cm: any) => cm?.Module?.code) || [];
 
   const filteredNavItems = navItems.filter((item) => {
     if (!item.moduleCode) return true;

@@ -3,12 +3,18 @@ import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { getAuthHeaders } from "@/lib/auth";
+import { getCompanyInfo } from "@/app/actions/company";
 
 const API_URL = process.env.API_URL;
 
-export const metadata = {
-  title: "Tibia Coins - " + process.env.NEXT_PUBLIC_APP_NAME,
-};
+export async function generateMetadata() {
+  const response = await getCompanyInfo();
+  const company = response?.success ? response.data : null;
+
+  return {
+    title: "Tibia Coins - " + company?.name,
+  };
+}
 
 async function getTibiaCoinsProducts(type: string) {
   try {

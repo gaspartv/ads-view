@@ -399,65 +399,64 @@ export default async function CharacterPage(props: {
                 <div className="flex items-center justify-between text-sm p-3 border border-border/50 rounded-lg bg-black/5 hover:bg-black/10 transition-colors">
                   <span className="text-muted-foreground">Magic Level</span>
                   <span className="font-medium text-primary">
-                    {character.magicLevel || 0}
+                    {character.magicLevel}
                   </span>
                 </div>
-                {character.axeFighting && character.axeFighting > 10 && (
+                {character.axeFighting != null && character.axeFighting > 10 && (
                   <div className="flex items-center justify-between text-sm p-3 border border-border/50 rounded-lg bg-black/5 hover:bg-black/10 transition-colors">
                     <span className="text-muted-foreground">Axe Fighting</span>
                     <span className="font-medium text-primary">
-                      {character.axeFighting || 0}
+                      {character.axeFighting}
                     </span>
                   </div>
                 )}
-                {character.swordFighting && character.swordFighting > 10 && (
+                {character.swordFighting != null && character.swordFighting > 10 && (
                   <div className="flex items-center justify-between text-sm p-3 border border-border/50 rounded-lg bg-black/5 hover:bg-black/10 transition-colors">
                     <span className="text-muted-foreground">
                       Sword Fighting
                     </span>
                     <span className="font-medium text-primary">
-                      {character.swordFighting || 0}
+                      {character.swordFighting}
                     </span>
                   </div>
                 )}
-                {character.clubFighting && character.clubFighting > 10 && (
+                {character.clubFighting != null && character.clubFighting > 10 && (
                   <div className="flex items-center justify-between text-sm p-3 border border-border/50 rounded-lg bg-black/5 hover:bg-black/10 transition-colors">
                     <span className="text-muted-foreground">Club Fighting</span>
                     <span className="font-medium text-primary">
-                      {character.clubFighting || 0}
+                      {character.clubFighting}
                     </span>
                   </div>
                 )}
-                {character.distanceFighting &&
-                  character.distanceFighting > 10 && (
-                    <div className="flex items-center justify-between text-sm p-3 border border-border/50 rounded-lg bg-black/5 hover:bg-black/10 transition-colors">
-                      <span className="text-muted-foreground">
-                        Distance Fighting
-                      </span>
-                      <span className="font-medium text-primary">
-                        {character.distanceFighting || 0}
-                      </span>
-                    </div>
-                  )}
-                {character.fistFighting && character.fistFighting > 10 && (
+                {character.distanceFighting != null && character.distanceFighting > 10 && (
+                  <div className="flex items-center justify-between text-sm p-3 border border-border/50 rounded-lg bg-black/5 hover:bg-black/10 transition-colors">
+                    <span className="text-muted-foreground">
+                      Distance Fighting
+                    </span>
+                    <span className="font-medium text-primary">
+                      {character.distanceFighting}
+                    </span>
+                  </div>
+                )}
+                {character.fistFighting != null && character.fistFighting > 10 && (
                   <div className="flex items-center justify-between text-sm p-3 border border-border/50 rounded-lg bg-black/5 hover:bg-black/10 transition-colors">
                     <span className="text-muted-foreground">Fist Fighting</span>
                     <span className="font-medium text-primary">
-                      {character.fistFighting || 0}
+                      {character.fistFighting}
                     </span>
                   </div>
                 )}
                 <div className="flex items-center justify-between text-sm p-3 border border-border/50 rounded-lg bg-black/5 hover:bg-black/10 transition-colors">
                   <span className="text-muted-foreground">Shielding</span>
                   <span className="font-medium text-primary">
-                    {character.shielding || 0}
+                    {character.shielding}
                   </span>
                 </div>
-                {character.fishing && character.fishing > 10 && (
+                {character.fishing != null && character.fishing > 10 && (
                   <div className="flex items-center justify-between text-sm p-3 border border-border/50 rounded-lg bg-black/5 hover:bg-black/10 transition-colors">
                     <span className="text-muted-foreground">Fishing</span>
                     <span className="font-medium text-primary">
-                      {character.fishing || 0}
+                      {character.fishing}
                     </span>
                   </div>
                 )}

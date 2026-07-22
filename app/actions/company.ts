@@ -1,15 +1,22 @@
 "use server";
 
+import { headers } from "next/headers";
 import { getAuthHeaders } from "@/lib/auth";
 
 const API_URL = process.env.API_URL!;
 
-export async function getCompanyInfo(code: string) {
+export async function getCompanyInfo() {
   try {
-    const res = await fetch(`${API_URL}/company/info/${code}`, {
+    const headersList = await headers();
+    const host =
+      headersList.get("x-forwarded-host") || headersList.get("host") || "";
+    // Remove porta se existir (ex: "localhost:3000" -> "localhost")
+    const hostname = host.split(":")[0];
+
+    const res = await fetch(`${API_URL}/company/info/${hostname}`, {
       method: "GET",
       headers: await getAuthHeaders(),
-      next: { revalidate: 3600 }, // Cache por 1 hora (ajuste conforme necessário)
+      next: { revalidate: 3600 },
     });
 
     if (!res.ok) {
