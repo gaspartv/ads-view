@@ -24,8 +24,10 @@ export async function getCompanyInfo() {
     }
 
     const data = await res.json();
+    console.log({ data });
     return { success: true, data };
   } catch (error) {
+    console.log({ error });
     return { success: false, message: "Erro de conexão com o servidor" };
   }
 }
