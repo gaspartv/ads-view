@@ -5,11 +5,17 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components/ui/card";
-import { Layers, ArrowRight, Package, LineChart } from "lucide-react";
+import { ArrowRight, Package, LineChart } from "lucide-react";
+import { getCompanyInfo } from "@/app/actions/company";
 
-export const metadata = {
-  title: "Admin Dashboard",
-};
+export async function generateMetadata() {
+  const response = await getCompanyInfo();
+  const company = response?.success ? response.data : null;
+
+  return {
+    title: company?.name + " – Painel de administração",
+  };
+}
 
 export default function AdminDashboardPage() {
   return (

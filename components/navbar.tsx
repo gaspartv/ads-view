@@ -6,6 +6,7 @@ import { Menu, X, ShoppingBag, ChevronDown } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { Button } from "./ui/button";
 import { useModules } from "@/contexts/modules-context";
+import { useCompany } from "@/contexts/company-context";
 
 interface SubItem {
   name: string;
@@ -155,11 +156,16 @@ function MobileSubMenu({
 }
 
 export function Navbar() {
+  const { company } = useCompany();
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { modules } = useModules();
 
   const isAdminRoute = pathname.startsWith("/admin");
+
+  const companyNameParts = company?.name ? company.name.trim().split(" ") : [];
+  const firstNamePart = companyNameParts[0] || "";
+  const restNameParts = companyNameParts.slice(1).join(" ");
 
   // Determine active modules from API response
   const activeModules =
@@ -180,7 +186,14 @@ export function Navbar() {
               <ShoppingBag className="h-5 w-5" />
             </div>
             <span className="font-bold text-lg">
-              Thygas<span className="text-primary">Coins</span>
+              {companyNameParts.length > 1 ? (
+                <>
+                  {firstNamePart}{" "}
+                  <span className="text-primary">{restNameParts}</span>
+                </>
+              ) : (
+                company?.name || ""
+              )}
             </span>
           </Link>
 

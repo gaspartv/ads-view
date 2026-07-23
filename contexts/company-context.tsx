@@ -1,14 +1,18 @@
 "use client";
 
 import React, { createContext, useContext, ReactNode } from "react";
+import { CompanyTheme } from "@/lib/theme";
 
 // Adapte a interface de acordo com o retorno da sua API
 export interface CompanyInfo {
   id?: string;
   name?: string;
   code?: string;
-  logoUrl?: string;
-  // adicione outros campos que vêm de /company/info/:code
+  logo?: string;
+  favicon?: string;
+  banner?: string;
+  slogan?: string;
+  theme?: CompanyTheme | null;
   [key: string]: any;
 }
 

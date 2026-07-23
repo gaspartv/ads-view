@@ -10,6 +10,9 @@ import { getModules } from "./actions/info";
 import { CompanyProvider } from "@/contexts/company-context";
 import { ModulesProvider } from "@/contexts/modules-context";
 import { CompanyUnavailable } from "@/components/company-unavailable";
+import { generateThemeCss } from "@/lib/theme";
+
+import { ThemeInjector } from "@/components/theme-injector";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -57,6 +60,7 @@ export default async function RootLayout({
 
   const modulesRes = await getModules();
   const modulesData = modulesRes?.success ? modulesRes.data : null;
+  const themeCss = generateThemeCss(companyData.theme);
 
   return (
     <html
@@ -65,6 +69,7 @@ export default async function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <ThemeInjector themeCss={themeCss} />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -84,4 +89,3 @@ export default async function RootLayout({
     </html>
   );
 }
-

@@ -16,6 +16,7 @@ import {
   ChevronUp,
   ShoppingCart,
   Banknote,
+  Palette,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useModules } from "@/contexts/modules-context";
@@ -70,6 +71,11 @@ export function Sidebar() {
       icon: Banknote,
       moduleCode: "MD-005",
     },
+    {
+      name: "Aparência",
+      href: "/admin/dashboard/theme",
+      icon: Palette,
+    },
   ];
 
   const links = rawLinks
@@ -123,10 +129,10 @@ export function Sidebar() {
       {/* Sidebar Container */}
       <aside
         className={cn(
-          "fixed inset-y-0 left-0 z-40 bg-card/95 backdrop-blur-md border-r flex flex-col transition-all duration-300 ease-in-out lg:static lg:h-screen lg:shrink-0",
+          "fixed inset-y-0 left-0 z-40 lg:z-auto bg-card/95 backdrop-blur-md border-r flex flex-col transition-[transform,width,box-shadow] duration-300 ease-in-out lg:static lg:h-screen lg:shrink-0",
           isOpen
-            ? "translate-x-0 shadow-2xl"
-            : "-translate-x-full lg:translate-x-0",
+            ? "translate-x-0 shadow-2xl pointer-events-auto"
+            : "-translate-x-full lg:translate-x-0 pointer-events-none lg:pointer-events-auto",
           isCollapsed ? "w-20" : "w-64",
         )}
       >

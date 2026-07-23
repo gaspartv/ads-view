@@ -1,7 +1,9 @@
 "use server";
 
 import { headers } from "next/headers";
+import { revalidatePath } from "next/cache";
 import { getAuthHeaders } from "@/lib/auth";
+import { CompanyTheme } from "@/lib/theme";
 
 const API_URL = process.env.API_URL!;
 
@@ -41,6 +43,35 @@ export async function getCompanyInfo() {
     return { success: true, data };
   } catch (error) {
     console.log({ error });
+    return { success: false, message: "Erro de conexão com o servidor" };
+  }
+}
+
+export async function updateCompanyTheme(themeData: CompanyTheme) {
+  try {
+    const authHeaders = await getAuthHeaders();
+    const res = await fetch(`${API_URL}/company/theme`, {
+      method: "PATCH",
+      headers: {
+        ...authHeaders,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(themeData),
+    });
+
+    if (!res.ok) {
+      const errorData = await res.json().catch(() => ({}));
+      return {
+        success: false,
+        message: errorData?.message || "Erro ao atualizar o tema da empresa",
+      };
+    }
+
+    const data = await res.json();
+    revalidatePath("/", "layout");
+    return { success: true, data };
+  } catch (error) {
+    console.error("Erro em updateCompanyTheme:", error);
     return { success: false, message: "Erro de conexão com o servidor" };
   }
 }
