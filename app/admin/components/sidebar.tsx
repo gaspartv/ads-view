@@ -14,7 +14,6 @@ import {
   Package,
   ChevronDown,
   ChevronUp,
-  ShoppingCart,
   Banknote,
   Palette,
 } from "lucide-react";
@@ -72,9 +71,16 @@ export function Sidebar() {
       moduleCode: "MD-005",
     },
     {
-      name: "Aparência",
-      href: "/admin/dashboard/theme",
+      name: "Empresa",
+      href: "/admin/dashboard/company",
       icon: Palette,
+      subItems: [
+        {
+          name: "Aparência",
+          href: "/admin/dashboard/theme",
+          moduleCode: null,
+        },
+      ],
     },
   ];
 

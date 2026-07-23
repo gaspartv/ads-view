@@ -75,3 +75,52 @@ export async function updateCompanyTheme(themeData: CompanyTheme) {
     return { success: false, message: "Erro de conexão com o servidor" };
   }
 }
+
+export async function getMyCompanyInfo() {
+  try {
+    const authHeaders = await getAuthHeaders();
+    const res = await fetch(`${API_URL}/company/my`, {
+      method: "GET",
+      headers: authHeaders,
+    });
+
+    if (!res.ok) {
+      return { success: false, message: "Erro ao buscar dados da sua empresa" };
+    }
+
+    const data = await res.json();
+    return { success: true, data };
+  } catch (error) {
+    console.error("Erro em getMyCompanyInfo:", error);
+    return { success: false, message: "Erro de conexão com o servidor" };
+  }
+}
+
+export async function updateCompanyInfo(data: any) {
+  try {
+    const authHeaders = await getAuthHeaders();
+    const res = await fetch(`${API_URL}/company/edit`, {
+      method: "PATCH",
+      headers: {
+        ...authHeaders,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!res.ok) {
+      const errorData = await res.json().catch(() => ({}));
+      return {
+        success: false,
+        message: errorData?.message || "Erro ao atualizar dados da empresa",
+      };
+    }
+
+    const responseData = await res.json();
+    revalidatePath("/admin/dashboard/company");
+    return { success: true, data: responseData };
+  } catch (error) {
+    console.error("Erro em updateCompanyInfo:", error);
+    return { success: false, message: "Erro de conexão com o servidor" };
+  }
+}
