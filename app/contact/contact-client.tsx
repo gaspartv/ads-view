@@ -94,8 +94,6 @@ export function ContactClient({ contactData }: { contactData?: any }) {
                 </div>
               ) : null}
 
-
-
               <div className="flex items-start gap-4">
                 <div className="p-2.5 bg-primary/10 rounded-xl shrink-0">
                   <Clock className="w-5 h-5 text-primary" />
@@ -105,52 +103,80 @@ export function ContactClient({ contactData }: { contactData?: any }) {
                     Horário de Atendimento
                   </h4>
                   {[
-                    { label: "Domingo", key: "Domingo" },
-                    { label: "Segunda", key: "Segunda" },
-                    { label: "Terça", key: "Terca" },
-                    { label: "Quarta", key: "Quarta" },
-                    { label: "Quinta", key: "Quinta" },
-                    { label: "Sexta", key: "Sexta" },
-                    { label: "Sábado", key: "Sabado" },
-                  ].map(({ label, key }) => (
-                    <p key={key} className="text-sm text-muted-foreground mt-1">
-                      {label}, {contactData?.businessHours?.[key] || "Fechado"}
-                    </p>
-                  ))}
+                    { label: "Domingo", key: "sunday" },
+                    { label: "Segunda", key: "monday" },
+                    { label: "Terça", key: "tuesday" },
+                    { label: "Quarta", key: "wednesday" },
+                    { label: "Quinta", key: "thursday" },
+                    { label: "Sexta", key: "friday" },
+                    { label: "Sábado", key: "saturday" },
+                  ].map(({ label, key }) => {
+                    const dayData = contactData?.businessHours?.[key];
+                    const isOpen = dayData?.isOpen;
+                    const hoursString =
+                      isOpen && dayData.open && dayData.close
+                        ? `${dayData.open} às ${dayData.close}`
+                        : "Fechado";
+
+                    console.log(contactData);
+
+                    return (
+                      <p
+                        key={key}
+                        className="text-sm text-muted-foreground mt-1"
+                      >
+                        {label}: {hoursString}
+                      </p>
+                    );
+                  })}
                 </div>
               </div>
 
-              {contactData?.socialNetworks?.data && contactData.socialNetworks.data.length > 0 && (
-                <div className="flex items-start gap-4">
-                  <div className="p-2.5 bg-primary/10 rounded-xl shrink-0">
-                    <MessageCircle className="w-5 h-5 text-primary" />
-                  </div>
-                  <div>
-                    <h4 className="font-medium text-foreground">Redes Sociais</h4>
-                    <div className="mt-3 flex flex-col gap-3">
-                      {contactData.socialNetworks.data.map((social: any, idx: number) => {
-                        const href = social.url || social.link || "#";
-                        const finalHref = href !== "#" && !href.startsWith("http") ? `https://${href}` : href;
+              {contactData?.socialNetworks?.data &&
+                contactData.socialNetworks.data.length > 0 && (
+                  <div className="flex items-start gap-4">
+                    <div className="p-2.5 bg-primary/10 rounded-xl shrink-0">
+                      <MessageCircle className="w-5 h-5 text-primary" />
+                    </div>
+                    <div>
+                      <h4 className="font-medium text-foreground">
+                        Redes Sociais
+                      </h4>
+                      <div className="mt-3 flex flex-col gap-3">
+                        {contactData.socialNetworks.data.map(
+                          (social: any, idx: number) => {
+                            const href = social.url || social.link || "#";
+                            const finalHref =
+                              href !== "#" && !href.startsWith("http")
+                                ? `https://${href}`
+                                : href;
 
-                        return (
-                          <a
-                            key={idx}
-                            href={finalHref}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center gap-3 text-sm text-foreground/90 hover:text-primary transition-colors"
-                          >
-                            {social.image ? (
-                              <img src={social.image} alt={social.name} className="w-6 h-6 object-contain rounded-sm" />
-                            ) : null}
-                            <span className="capitalize font-medium">{social.name}</span>
-                          </a>
-                        );
-                      })}
+                            return (
+                              <a
+                                key={idx}
+                                href={finalHref}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center gap-3 text-sm text-foreground/90 hover:text-primary transition-colors"
+                              >
+                                {social.image ? (
+                                  <img
+                                    src={social.image}
+                                    alt={social.name}
+                                    className="w-6 h-6 object-contain rounded-sm"
+                                  />
+                                ) : null}
+                                <span className="capitalize font-medium">
+                                  {social.name}
+                                </span>
+                              </a>
+                            );
+                          },
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
-              )}
+                )}
             </div>
 
             <div className="flex flex-col space-y-6 self-end h-fit w-full">
@@ -162,7 +188,11 @@ export function ContactClient({ contactData }: { contactData?: any }) {
                   <div>
                     <h4 className="font-medium text-foreground">WhatsApp</h4>
                     <p className="text-sm text-muted-foreground mt-1">
-                      {formatPhoneNumber(contactData?.whatsappNumber || company?.whatsappNumber || "")}
+                      {formatPhoneNumber(
+                        contactData?.whatsappNumber ||
+                          company?.whatsappNumber ||
+                          "",
+                      )}
                     </p>
                   </div>
                 </div>
@@ -174,7 +204,8 @@ export function ContactClient({ contactData }: { contactData?: any }) {
                     Contato Rápido
                   </h3>
                   <p className="text-sm text-muted-foreground">
-                    A maneira mais rápida de falar com nossa equipe é através do WhatsApp.
+                    A maneira mais rápida de falar com nossa equipe é através do
+                    WhatsApp.
                   </p>
                 </div>
                 <WhatsAppNegotiateButton

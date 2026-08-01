@@ -14,7 +14,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getMyCompanyInfo } from "@/app/actions/company";
 import { CompanyBasicInfoForm } from "./components/company-basic-info-form";
 import { CompanyImagesSection } from "./components/company-images-section";
+import { CompanyBusinessHoursForm } from "./components/company-business-hours-form";
 import { ScrollableTabsWrapper } from "./components/scrollable-tabs-wrapper";
+import { ThemeEditor } from "./theme/components/theme-editor";
 
 export async function generateMetadata() {
   const response = await getMyCompanyInfo();
@@ -134,14 +136,7 @@ export default async function CompanyDashboardPage() {
             </TabsContent>
 
             <TabsContent value="hours" className="mt-4">
-              <div className="py-12 text-center border border-dashed border-border rounded-xl bg-card/50">
-                <h3 className="text-lg font-medium text-foreground">
-                  Horários de Funcionamento
-                </h3>
-                <p className="text-sm text-muted-foreground mt-1">
-                  Configuração de horários será implementada em breve.
-                </p>
-              </div>
+              <CompanyBusinessHoursForm businessHours={company?.businessHours} />
             </TabsContent>
 
             <TabsContent value="address" className="mt-4">
@@ -167,14 +162,7 @@ export default async function CompanyDashboardPage() {
             </TabsContent>
 
             <TabsContent value="theme" className="mt-4">
-              <div className="py-12 text-center border border-dashed border-border rounded-xl bg-card/50">
-                <h3 className="text-lg font-medium text-foreground">
-                  Tema e Aparência
-                </h3>
-                <p className="text-sm text-muted-foreground mt-1">
-                  Personalização do portal será implementada em breve.
-                </p>
-              </div>
+              <ThemeEditor initialTheme={company?.theme} />
             </TabsContent>
 
             <TabsContent value="integrations" className="mt-4">
