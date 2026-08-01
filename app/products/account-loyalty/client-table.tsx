@@ -9,7 +9,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { CircleDollarSign, Info, Check, X, Coins, MessageCircle } from "lucide-react";
+import {
+  CircleDollarSign,
+  Info,
+  Check,
+  X,
+  Coins,
+  MessageCircle,
+} from "lucide-react";
 import { WhatsAppNegotiateButton } from "@/components/whatsapp-negotiate-button";
 import {
   Dialog,
@@ -19,8 +26,6 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { formatCurrency, formatGameValue } from "@/lib/formatters";
-
-
 
 export function ClientTable({ accounts }: { accounts: any[] }) {
   const [selectedAccount, setSelectedAccount] = useState<any>(null);
@@ -34,7 +39,7 @@ export function ClientTable({ accounts }: { accounts: any[] }) {
               <TableHead className="w-[200px]">Título</TableHead>
               <TableHead>Pontos</TableHead>
               <TableHead>Loyalty</TableHead>
-              <TableHead className="text-center">Endereço Seguro</TableHead>
+              {/* <TableHead className="text-center">Endereço Seguro</TableHead> */}
               <TableHead className="text-center">Carta de RK</TableHead>
               <TableHead>Valor R$</TableHead>
               <TableHead>Valor TC</TableHead>
@@ -68,7 +73,7 @@ export function ClientTable({ accounts }: { accounts: any[] }) {
                     {account.percentage}%
                   </span>
                 </TableCell>
-                <TableCell>
+                {/* <TableCell>
                   <div className="flex justify-center">
                     {account.safeAddress ? (
                       <Check className="w-5 h-5 text-primary" />
@@ -76,7 +81,7 @@ export function ClientTable({ accounts }: { accounts: any[] }) {
                       <X className="w-5 h-5 text-red-500" />
                     )}
                   </div>
-                </TableCell>
+                </TableCell> */}
                 <TableCell>
                   <div className="flex justify-center">
                     {account.hasRecoveryKey ? (
@@ -232,9 +237,7 @@ export function ClientTable({ accounts }: { accounts: any[] }) {
                     {selectedAccount.safeAddress ? (
                       <>
                         <Check className="w-5 h-5 text-primary" />
-                        <span className="font-medium text-primary">
-                          Sim
-                        </span>
+                        <span className="font-medium text-primary">Sim</span>
                       </>
                     ) : (
                       <>
@@ -254,9 +257,7 @@ export function ClientTable({ accounts }: { accounts: any[] }) {
                     {selectedAccount.hasRecoveryKey ? (
                       <>
                         <Check className="w-5 h-5 text-primary" />
-                        <span className="font-medium text-primary">
-                          Sim
-                        </span>
+                        <span className="font-medium text-primary">Sim</span>
                       </>
                     ) : (
                       <>
