@@ -282,7 +282,7 @@ export default function ReportsPage() {
               <button
                 onClick={handleGenerateExcel}
                 disabled={isGenerating}
-                className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 disabled:bg-green-300"
+                className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-primary-foreground bg-primary hover:bg-primary/90 disabled:opacity-50"
               >
                 {isGenerating ? "Gerando..." : "Confirmar e Gerar Excel"}
               </button>
@@ -429,7 +429,7 @@ export default function ReportsPage() {
                         </td>
 
                         <td
-                          className={`px-3 py-4 whitespace-nowrap text-sm font-medium ${row.isDeleted ? "text-gray-500 line-through" : "text-blue-600"}`}
+                          className={`px-3 py-4 whitespace-nowrap text-sm font-medium ${row.isDeleted ? "text-gray-500 line-through" : "text-primary"}`}
                         >
                           {row.precoLote !== null
                             ? `R$ ${row.precoLote.toFixed(2)}`
@@ -438,12 +438,12 @@ export default function ReportsPage() {
 
                         <td className="px-3 py-4 whitespace-nowrap text-sm">
                           {isManual && !row.isDeleted ? (
-                            <span className="text-red-600 font-semibold text-xs">
+                            <span className="text-destructive font-semibold text-xs">
                               Verificação Manual
                             </span>
                           ) : (
                             <span
-                              className={`font-semibold text-xs ${row.isDeleted ? "text-gray-500" : "text-green-600"}`}
+                              className={`font-semibold text-xs ${row.isDeleted ? "text-gray-500" : "text-primary"}`}
                             >
                               {row.isDeleted ? "Excluído" : "OK"}
                             </span>
@@ -454,7 +454,7 @@ export default function ReportsPage() {
                           {isManual && !row.isDeleted ? (
                             <button
                               onClick={() => markAsResolved(index)}
-                              className="text-xs bg-green-100 text-green-700 p-1.5 rounded hover:bg-green-200 transition-colors"
+                              className="text-xs bg-primary/10 text-primary p-1.5 rounded hover:bg-primary/20 transition-colors"
                               title="Marcar Resolvido"
                             >
                               <Check size={16} />
@@ -472,7 +472,7 @@ export default function ReportsPage() {
                           )}
                           <button
                             onClick={() => toggleDeleteRow(index)}
-                            className={`text-xs p-1.5 rounded transition-colors ${row.isDeleted ? "bg-blue-100 text-blue-700 hover:bg-blue-200" : "bg-red-100 text-red-700 hover:bg-red-200"}`}
+                            className={`text-xs p-1.5 rounded transition-colors ${row.isDeleted ? "bg-primary/10 text-primary hover:bg-primary/20" : "bg-destructive/10 text-destructive hover:bg-destructive/20"}`}
                             title={row.isDeleted ? "Restaurar" : "Excluir"}
                           >
                             {row.isDeleted ? (

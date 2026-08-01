@@ -23,7 +23,6 @@ import {
   FileText,
   AlignLeft,
   Search,
-  Image as ImageIcon,
   Info,
   Edit2,
   Save,
@@ -57,7 +56,7 @@ export function CompanyBasicInfoForm({ company }: { company: any }) {
   const [isEditing, setIsEditing] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const [formData, setFormData] = useState({
     code: company.code || "",
     name: company.name || "",
@@ -105,7 +104,7 @@ export function CompanyBasicInfoForm({ company }: { company: any }) {
 
     const res = await updateCompanyInfo(payload);
     setIsLoading(false);
-    
+
     if (res.success) {
       toast.success("Dados da empresa atualizados com sucesso!");
       setIsEditing(false);
@@ -150,7 +149,6 @@ export function CompanyBasicInfoForm({ company }: { company: any }) {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold">Informações Básicas</h2>
         <div className="flex items-center gap-2">
           {isEditing && (
             <Button
@@ -188,17 +186,28 @@ export function CompanyBasicInfoForm({ company }: { company: any }) {
           <DialogHeader>
             <DialogTitle>Atenção: Alteração de Subdomínio</DialogTitle>
             <DialogDescription>
-              Você está prestes a alterar o código (subdomínio) da empresa. 
-              Isso fará com que o endereço atual do site mude imediatamente. Seus usuários e clientes que acessarem pelo link antigo perderão o acesso.
-              Tem certeza que deseja continuar com a alteração?
+              Você está prestes a alterar o código (subdomínio) da empresa. Isso
+              fará com que o endereço atual do site mude imediatamente. Seus
+              usuários e clientes que acessarem pelo link antigo perderão o
+              acesso. Tem certeza que deseja continuar com a alteração?
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsAlertOpen(false)} disabled={isLoading}>
+            <Button
+              variant="outline"
+              onClick={() => setIsAlertOpen(false)}
+              disabled={isLoading}
+            >
               Cancelar
             </Button>
-            <Button variant="destructive" onClick={performSave} disabled={isLoading}>
-              {isLoading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
+            <Button
+              variant="destructive"
+              onClick={performSave}
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+              ) : null}
               Confirmar Alteração
             </Button>
           </DialogFooter>
@@ -395,45 +404,6 @@ export function CompanyBasicInfoForm({ company }: { company: any }) {
             onChange={handleChange}
             className="bg-muted/50 font-medium resize-none disabled:opacity-75"
             rows={2}
-          />
-        </div>
-        <div className="space-y-1 md:col-span-2">
-          <span className="text-xs text-muted-foreground font-medium uppercase flex items-center gap-2 mb-2">
-            <ImageIcon className="w-4 h-4 text-primary" /> Logo
-            <span title="URL da logo da empresa.">
-              <Info className="w-3.5 h-3.5 ml-1 text-muted-foreground/60 cursor-help" />
-            </span>
-          </span>
-          <Input
-            disabled
-            value={company.logo || "Não informado"}
-            className="bg-muted/50 font-medium disabled:opacity-75"
-          />
-        </div>
-        <div className="space-y-1 md:col-span-2">
-          <span className="text-xs text-muted-foreground font-medium uppercase flex items-center gap-2 mb-2">
-            <ImageIcon className="w-4 h-4 text-primary" /> Favicon
-            <span title="URL do ícone da aba do navegador.">
-              <Info className="w-3.5 h-3.5 ml-1 text-muted-foreground/60 cursor-help" />
-            </span>
-          </span>
-          <Input
-            disabled
-            value={company.favicon || "Não informado"}
-            className="bg-muted/50 font-medium disabled:opacity-75"
-          />
-        </div>
-        <div className="space-y-1 md:col-span-4 lg:col-span-4">
-          <span className="text-xs text-muted-foreground font-medium uppercase flex items-center gap-2 mb-2">
-            <ImageIcon className="w-4 h-4 text-primary" /> Banner
-            <span title="URL do banner principal.">
-              <Info className="w-3.5 h-3.5 ml-1 text-muted-foreground/60 cursor-help" />
-            </span>
-          </span>
-          <Input
-            disabled
-            value={company.banner || "Não informado"}
-            className="bg-muted/50 font-medium disabled:opacity-75"
           />
         </div>
       </div>

@@ -7,6 +7,7 @@ export interface ThemeColorPalette {
   popoverForeground?: string;
   primary?: string;
   primaryForeground?: string;
+  primaryOutline?: string;
   secondary?: string;
   secondaryForeground?: string;
   muted?: string;
@@ -60,8 +61,31 @@ export function generateThemeCss(theme?: CompanyTheme | null): string {
     rootVars.push(`  --radius: ${theme.radius};`);
   }
 
+  function fillMissingColors(palette: ThemeColorPalette): ThemeColorPalette {
+    const p = { ...palette };
+    if (!p.muted && p.secondary) p.muted = p.secondary;
+    if (!p.mutedForeground && p.secondaryForeground) p.mutedForeground = p.secondaryForeground;
+    if (!p.border && p.secondary) p.border = p.secondary;
+    if (!p.input && p.border) p.input = p.border;
+    if (!p.ring && p.primary) p.ring = p.primary;
+    if (!p.popover && p.card) p.popover = p.card;
+    if (!p.popoverForeground && p.cardForeground) p.popoverForeground = p.cardForeground;
+    
+    if (!p.sidebar && p.background) p.sidebar = p.background;
+    if (!p.sidebarForeground && p.foreground) p.sidebarForeground = p.foreground;
+    if (!p.sidebarBorder && p.border) p.sidebarBorder = p.border;
+    if (!p.sidebarRing && p.ring) p.sidebarRing = p.ring;
+    if (!p.sidebarPrimary && p.primary) p.sidebarPrimary = p.primary;
+    if (!p.sidebarPrimaryForeground && p.primaryForeground) p.sidebarPrimaryForeground = p.primaryForeground;
+    if (!p.sidebarAccent && p.secondary) p.sidebarAccent = p.secondary;
+    if (!p.sidebarAccentForeground && p.secondaryForeground) p.sidebarAccentForeground = p.secondaryForeground;
+    
+    return p;
+  }
+
   if (theme.light && typeof theme.light === "object") {
-    for (const [key, value] of Object.entries(theme.light)) {
+    const lightPalette = fillMissingColors(theme.light);
+    for (const [key, value] of Object.entries(lightPalette)) {
       if (value && typeof value === "string") {
         const varName = formatCssVarName(key);
         rootVars.push(`  ${varName}: ${value};`);
@@ -75,7 +99,8 @@ export function generateThemeCss(theme?: CompanyTheme | null): string {
 
   if (theme.dark && typeof theme.dark === "object") {
     const darkVars: string[] = [];
-    for (const [key, value] of Object.entries(theme.dark)) {
+    const darkPalette = fillMissingColors(theme.dark);
+    for (const [key, value] of Object.entries(darkPalette)) {
       if (value && typeof value === "string") {
         const varName = formatCssVarName(key);
         darkVars.push(`  ${varName}: ${value};`);

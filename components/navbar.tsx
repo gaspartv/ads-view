@@ -7,6 +7,7 @@ import { useState, useRef, useEffect } from "react";
 import { Button } from "./ui/button";
 import { useModules } from "@/contexts/modules-context";
 import { useCompany } from "@/contexts/company-context";
+import { ThemeToggle } from "./theme-toggle";
 
 interface SubItem {
   name: string;
@@ -68,7 +69,7 @@ function DesktopDropdown({
         onClick={() => setOpen((v) => !v)}
         aria-haspopup="true"
         aria-expanded={open}
-        className={`flex items-center gap-1 text-sm font-medium transition-colors hover:text-primary ${
+        className={`cursor-pointer flex items-center gap-1 text-sm font-medium transition-colors hover:text-primary ${
           isActive ? "text-primary font-semibold" : "text-muted-foreground"
         }`}
       >
@@ -182,9 +183,20 @@ export function Navbar() {
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 group">
-            <div className="bg-primary p-2 rounded-xl text-primary-foreground group-hover:bg-primary/90 transition-colors">
-              <ShoppingBag className="h-5 w-5" />
-            </div>
+            {company?.logo ? (
+              <div className="h-9 w-9 relative flex items-center justify-center overflow-hidden rounded-xl">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img 
+                  src={company.logo} 
+                  alt={`Logo ${company?.name || 'da Empresa'}`} 
+                  className="max-h-full max-w-full object-contain" 
+                />
+              </div>
+            ) : (
+              <div className="bg-primary p-2 rounded-xl text-primary-foreground group-hover:bg-primary/90 transition-colors">
+                <ShoppingBag className="h-5 w-5" />
+              </div>
+            )}
             <span className="font-bold text-lg">
               {companyNameParts.length > 1 ? (
                 <>
@@ -197,50 +209,54 @@ export function Navbar() {
             </span>
           </Link>
 
-          {/* Desktop Navigation */}
-          {!isAdminRoute && (
-            <nav className="hidden md:flex items-center gap-6">
-              {filteredNavItems.map((item) =>
-                item.children ? (
-                  <DesktopDropdown
-                    key={item.name}
-                    item={item}
-                    pathname={pathname}
-                  />
-                ) : (
-                  <Link
-                    key={item.href}
-                    href={item.href!}
-                    className={`text-sm font-medium transition-colors hover:text-primary ${
-                      pathname === item.href
-                        ? "text-primary font-semibold"
-                        : "text-muted-foreground"
-                    }`}
-                  >
-                    {item.name}
-                  </Link>
-                ),
-              )}
-            </nav>
-          )}
+          <div className="flex items-center gap-2 md:gap-6">
+            {/* Desktop Navigation */}
+            {!isAdminRoute && (
+              <nav className="hidden md:flex items-center gap-6">
+                {filteredNavItems.map((item) =>
+                  item.children ? (
+                    <DesktopDropdown
+                      key={item.name}
+                      item={item}
+                      pathname={pathname}
+                    />
+                  ) : (
+                    <Link
+                      key={item.href}
+                      href={item.href!}
+                      className={`text-sm font-medium transition-colors hover:text-primary ${
+                        pathname === item.href
+                          ? "text-primary font-semibold"
+                          : "text-muted-foreground"
+                      }`}
+                    >
+                      {item.name}
+                    </Link>
+                  ),
+                )}
+              </nav>
+            )}
 
-          {/* Mobile Hamburger Button */}
-          {!isAdminRoute && (
-            <Button
-              variant="ghost"
-              size="icon"
-              className="md:hidden h-10 w-10"
-              onClick={() => setIsMobileMenuOpen((prev) => !prev)}
-              aria-label={isMobileMenuOpen ? "Fechar menu" : "Abrir menu"}
-              aria-expanded={isMobileMenuOpen}
-            >
-              {isMobileMenuOpen ? (
-                <X className="h-5 w-5" />
-              ) : (
-                <Menu className="h-5 w-5" />
-              )}
-            </Button>
-          )}
+            <ThemeToggle />
+
+            {/* Mobile Hamburger Button */}
+            {!isAdminRoute && (
+              <Button
+                variant="ghost"
+                size="icon"
+                className="md:hidden h-10 w-10"
+                onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+                aria-label={isMobileMenuOpen ? "Fechar menu" : "Abrir menu"}
+                aria-expanded={isMobileMenuOpen}
+              >
+                {isMobileMenuOpen ? (
+                  <X className="h-5 w-5" />
+                ) : (
+                  <Menu className="h-5 w-5" />
+                )}
+              </Button>
+            )}
+          </div>
         </div>
       </div>
 

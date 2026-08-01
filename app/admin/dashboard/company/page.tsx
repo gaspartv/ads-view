@@ -1,22 +1,20 @@
 import Link from "next/link";
 import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-} from "@/components/ui/card";
-import {
-  Clock,
-  Settings,
-  Palette,
-  Share2,
-  Blocks,
-  MapPin,
-  Globe,
   ChevronRight,
+  Building2,
+  Palette,
+  Clock,
+  MapPin,
+  Share2,
+  Monitor,
+  Blocks,
+  Settings,
 } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getMyCompanyInfo } from "@/app/actions/company";
 import { CompanyBasicInfoForm } from "./components/company-basic-info-form";
+import { CompanyImagesSection } from "./components/company-images-section";
+import { ScrollableTabsWrapper } from "./components/scrollable-tabs-wrapper";
 
 export async function generateMetadata() {
   const response = await getMyCompanyInfo();
@@ -49,199 +47,161 @@ export default async function CompanyDashboardPage() {
   }
 
   return (
-    <div className="container mx-auto py-10 px-4 md:px-8 space-y-8">
-      <div className="space-y-4">
-        {/* Navegação - Breadcrumbs */}
-        <nav className="flex items-center space-x-1.5 text-sm text-muted-foreground">
-          <span>Admin</span>
-          <ChevronRight className="h-4 w-4" />
-          <Link
-            href="/admin/dashboard"
-            className="hover:text-foreground transition-colors"
-          >
-            Dashboard
-          </Link>
-          <ChevronRight className="h-4 w-4" />
-          <span className="text-foreground font-medium">Empresa</span>
-        </nav>
-      </div>
-
-      <div className="space-y-12">
-        {/* Topo: Logo e Nome */}
-        <div className="flex flex-col md:flex-row items-center gap-6">
-          {company.logo && (
-            <div className="w-24 h-24 relative rounded-2xl overflow-hidden shadow-sm border border-border/50 bg-white flex-shrink-0 flex items-center justify-center">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={company.logo}
-                alt="Logo"
-                className="max-w-full max-h-full object-contain p-2"
-              />
-            </div>
-          )}
-          <div className="flex-1 text-center md:text-left">
-            <h1 className="text-3xl font-bold tracking-tight">
-              {company.name}
-            </h1>
-            <p className="text-muted-foreground mt-1 flex items-center justify-center md:justify-start gap-2">
-              <Globe className="w-4 h-4" />
-              {company.site}
-            </p>
-          </div>
-          {company.favicon && (
-            <div className="hidden md:flex w-12 h-12 relative rounded-xl overflow-hidden border border-border/50 bg-white shadow-sm flex-shrink-0 items-center justify-center">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={company.favicon}
-                alt="Favicon"
-                className="max-w-full max-h-full object-contain p-1"
-              />
-            </div>
-          )}
-        </div>
-        {/* Banner Section */}
-        {company.banner && (
-          <div className="w-full h-48 md:h-64 relative rounded-3xl overflow-hidden shadow-2xl border border-border/50">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={company.banner}
-              alt="Banner"
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-black/20" />
-          </div>
-        )}
-
-        <CompanyBasicInfoForm company={company} />
-
-        {/* Grid de Ações / Módulos */}
-        <div>
-          <h2 className="text-2xl font-extrabold mb-8 flex items-center gap-3">
-            <Settings className="w-7 h-7 text-primary" />
-            Gerenciar Módulos
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* Horários */}
-            <Link
-              href="/admin/dashboard/company/business-hours"
-              className="group outline-none"
-            >
-              <Card className="relative overflow-hidden h-full border border-border/50 bg-card/40 backdrop-blur-sm transition-all duration-300 hover:shadow-2xl hover:shadow-primary/5 hover:border-primary/20 hover:-translate-y-1">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <CardHeader>
-                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors duration-300">
-                    <Clock className="w-6 h-6 text-primary" />
-                  </div>
-                  <CardTitle className="text-xl">Horários</CardTitle>
-                  <CardDescription className="text-sm mt-2 leading-relaxed">
-                    Configure o horário de funcionamento e atendimento da sua
-                    empresa.
-                  </CardDescription>
-                </CardHeader>
-              </Card>
-            </Link>
-
-            {/* Endereços */}
-            <Link
-              href="/admin/dashboard/company/address"
-              className="group outline-none"
-            >
-              <Card className="relative overflow-hidden h-full border border-border/50 bg-card/40 backdrop-blur-sm transition-all duration-300 hover:shadow-2xl hover:shadow-primary/5 hover:border-primary/20 hover:-translate-y-1">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <CardHeader>
-                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors duration-300">
-                    <MapPin className="w-6 h-6 text-primary" />
-                  </div>
-                  <CardTitle className="text-xl">Endereços</CardTitle>
-                  <CardDescription className="text-sm mt-2 leading-relaxed">
-                    Gerencie os endereços físicos associados à sua marca.
-                  </CardDescription>
-                </CardHeader>
-              </Card>
-            </Link>
-
-            {/* Redes Sociais */}
-            <Link
-              href="/admin/dashboard/company/social-networks"
-              className="group outline-none"
-            >
-              <Card className="relative overflow-hidden h-full border border-border/50 bg-card/40 backdrop-blur-sm transition-all duration-300 hover:shadow-2xl hover:shadow-primary/5 hover:border-primary/20 hover:-translate-y-1">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <CardHeader>
-                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors duration-300">
-                    <Share2 className="w-6 h-6 text-primary" />
-                  </div>
-                  <CardTitle className="text-xl">Redes Sociais</CardTitle>
-                  <CardDescription className="text-sm mt-2 leading-relaxed">
-                    Adicione links para suas plataformas (Instagram, Facebook,
-                    etc).
-                  </CardDescription>
-                </CardHeader>
-              </Card>
-            </Link>
-
-            {/* Tema */}
-            <Link
-              href="/admin/dashboard/company/theme"
-              className="group outline-none"
-            >
-              <Card className="relative overflow-hidden h-full border border-border/50 bg-card/40 backdrop-blur-sm transition-all duration-300 hover:shadow-2xl hover:shadow-primary/5 hover:border-primary/20 hover:-translate-y-1">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <CardHeader>
-                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors duration-300">
-                    <Palette className="w-6 h-6 text-primary" />
-                  </div>
-                  <CardTitle className="text-xl">Tema e Aparência</CardTitle>
-                  <CardDescription className="text-sm mt-2 leading-relaxed">
-                    Personalize as cores, aparência e identidade visual do
-                    portal.
-                  </CardDescription>
-                </CardHeader>
-              </Card>
-            </Link>
-
-            {/* Integrações */}
-            <Link
-              href="/admin/dashboard/company/integrations"
-              className="group outline-none"
-            >
-              <Card className="relative overflow-hidden h-full border border-border/50 bg-card/40 backdrop-blur-sm transition-all duration-300 hover:shadow-2xl hover:shadow-primary/5 hover:border-primary/20 hover:-translate-y-1">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <CardHeader>
-                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors duration-300">
-                    <Blocks className="w-6 h-6 text-primary" />
-                  </div>
-                  <CardTitle className="text-xl">Integrações</CardTitle>
-                  <CardDescription className="text-sm mt-2 leading-relaxed">
-                    Gerencie chaves de API, webhooks e serviços de terceiros.
-                  </CardDescription>
-                </CardHeader>
-              </Card>
-            </Link>
-
-            {/* Configurações */}
-            <Link
-              href="/admin/dashboard/company/settings"
-              className="group outline-none"
-            >
-              <Card className="relative overflow-hidden h-full border border-border/50 bg-card/40 backdrop-blur-sm transition-all duration-300 hover:shadow-2xl hover:shadow-primary/5 hover:border-primary/20 hover:-translate-y-1">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <CardHeader>
-                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors duration-300">
-                    <Settings className="w-6 h-6 text-primary" />
-                  </div>
-                  <CardTitle className="text-xl">
-                    Configurações Gerais
-                  </CardTitle>
-                  <CardDescription className="text-sm mt-2 leading-relaxed">
-                    Ajuste informações básicas e preferências sistêmicas.
-                  </CardDescription>
-                </CardHeader>
-              </Card>
-            </Link>
-          </div>
+    <>
+      {/* Cabeçalho do Dashboard */}
+      <div className="relative overflow-hidden border-b border-border/50 bg-background/50 backdrop-blur-xl">
+        {/* Efeito sutil de gradiente ao fundo */}
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-background to-background pointer-events-none" />
+        <div className="w-full py-6 px-4 md:px-8 relative z-10">
+          <h1 className="text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/60">
+            Minha empresa
+          </h1>
+          <p className="text-muted-foreground mt-3 max-w-2xl text-md">
+            Gerencie as informações da sua empresa.
+          </p>
         </div>
       </div>
-    </div>
+      <div className="container mx-auto py-10 px-4 md:px-8 space-y-8">
+        <div className="space-y-12">
+          <Tabs defaultValue="basic" className="w-full">
+            <ScrollableTabsWrapper>
+              <TabsList className="w-max min-w-full justify-start bg-card border border-border/50 h-auto p-2 md:py-6 gap-2 rounded-2xl flex-nowrap">
+                <TabsTrigger
+                  value="basic"
+                  className="shrink-0 cursor-pointer flex items-center gap-2 py-4 px-4 md:py-5 whitespace-nowrap rounded-xl hover:bg-muted data-active:!bg-primary data-active:!text-primary-foreground data-active:shadow-md transition-all"
+                >
+                  <Building2 className="w-4 h-4" />
+                  Informações Básicas
+                </TabsTrigger>
+                <TabsTrigger
+                  value="visual"
+                  className="shrink-0 cursor-pointer flex items-center gap-2 py-4 px-4 md:py-5 whitespace-nowrap rounded-xl hover:bg-muted data-active:!bg-primary data-active:!text-primary-foreground data-active:shadow-md transition-all"
+                >
+                  <Palette className="w-4 h-4" />
+                  Identidade Visual
+                </TabsTrigger>
+                <TabsTrigger
+                  value="hours"
+                  className="shrink-0 cursor-pointer flex items-center gap-2 py-4 px-4 md:py-5 whitespace-nowrap rounded-xl hover:bg-muted data-active:!bg-primary data-active:!text-primary-foreground data-active:shadow-md transition-all"
+                >
+                  <Clock className="w-4 h-4" />
+                  Horários
+                </TabsTrigger>
+                <TabsTrigger
+                  value="address"
+                  className="shrink-0 cursor-pointer flex items-center gap-2 py-4 px-4 md:py-5 whitespace-nowrap rounded-xl hover:bg-muted data-active:!bg-primary data-active:!text-primary-foreground data-active:shadow-md transition-all"
+                >
+                  <MapPin className="w-4 h-4" />
+                  Endereços
+                </TabsTrigger>
+                <TabsTrigger
+                  value="social"
+                  className="shrink-0 cursor-pointer flex items-center gap-2 py-4 px-4 md:py-5 whitespace-nowrap rounded-xl hover:bg-muted data-active:!bg-primary data-active:!text-primary-foreground data-active:shadow-md transition-all"
+                >
+                  <Share2 className="w-4 h-4" />
+                  Redes Sociais
+                </TabsTrigger>
+                <TabsTrigger
+                  value="theme"
+                  className="shrink-0 cursor-pointer flex items-center gap-2 py-4 px-4 md:py-5 whitespace-nowrap rounded-xl hover:bg-muted data-active:!bg-primary data-active:!text-primary-foreground data-active:shadow-md transition-all"
+                >
+                  <Monitor className="w-4 h-4" />
+                  Tema e Aparência
+                </TabsTrigger>
+                <TabsTrigger
+                  value="integrations"
+                  className="shrink-0 cursor-pointer flex items-center gap-2 py-4 px-4 md:py-5 whitespace-nowrap rounded-xl hover:bg-muted data-active:!bg-primary data-active:!text-primary-foreground data-active:shadow-md transition-all"
+                >
+                  <Blocks className="w-4 h-4" />
+                  Integrações
+                </TabsTrigger>
+                <TabsTrigger
+                  value="settings"
+                  className="shrink-0 cursor-pointer flex items-center gap-2 py-4 px-4 md:py-5 whitespace-nowrap rounded-xl hover:bg-muted data-active:!bg-primary data-active:!text-primary-foreground data-active:shadow-md transition-all"
+                >
+                  <Settings className="w-4 h-4" />
+                  Configurações Gerais
+                </TabsTrigger>
+              </TabsList>
+            </ScrollableTabsWrapper>
+
+            <TabsContent value="basic" className="space-y-6 mt-2">
+              <CompanyBasicInfoForm company={company} />
+            </TabsContent>
+
+            <TabsContent value="visual" className="space-y-6 mt-4">
+              <CompanyImagesSection company={company} />
+            </TabsContent>
+
+            <TabsContent value="hours" className="mt-4">
+              <div className="py-12 text-center border border-dashed border-border rounded-xl bg-card/50">
+                <h3 className="text-lg font-medium text-foreground">
+                  Horários de Funcionamento
+                </h3>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Configuração de horários será implementada em breve.
+                </p>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="address" className="mt-4">
+              <div className="py-12 text-center border border-dashed border-border rounded-xl bg-card/50">
+                <h3 className="text-lg font-medium text-foreground">
+                  Endereços
+                </h3>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Gerenciamento de endereços físicos será implementado em breve.
+                </p>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="social" className="mt-4">
+              <div className="py-12 text-center border border-dashed border-border rounded-xl bg-card/50">
+                <h3 className="text-lg font-medium text-foreground">
+                  Redes Sociais
+                </h3>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Links e integrações sociais serão implementados em breve.
+                </p>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="theme" className="mt-4">
+              <div className="py-12 text-center border border-dashed border-border rounded-xl bg-card/50">
+                <h3 className="text-lg font-medium text-foreground">
+                  Tema e Aparência
+                </h3>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Personalização do portal será implementada em breve.
+                </p>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="integrations" className="mt-4">
+              <div className="py-12 text-center border border-dashed border-border rounded-xl bg-card/50">
+                <h3 className="text-lg font-medium text-foreground">
+                  Integrações
+                </h3>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Gerenciamento de integrações externas será implementado em
+                  breve.
+                </p>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="settings" className="mt-4">
+              <div className="py-12 text-center border border-dashed border-border rounded-xl bg-card/50">
+                <h3 className="text-lg font-medium text-foreground">
+                  Configurações Gerais
+                </h3>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Preferências sistêmicas serão implementadas em breve.
+                </p>
+              </div>
+            </TabsContent>
+          </Tabs>
+        </div>
+      </div>
+    </>
   );
 }

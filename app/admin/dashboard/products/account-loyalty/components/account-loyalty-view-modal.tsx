@@ -59,7 +59,7 @@ export function AccountLoyaltyViewModal({
             </div>
             <div className="space-y-1">
               <h3 className="text-sm font-medium text-muted-foreground">Preço Promocional</h3>
-              <p className="text-sm text-green-600">
+              <p className="text-sm text-primary">
                 {accountLoyalty.promotionalPrice ? formatCurrency(accountLoyalty.promotionalPrice) : "-"}
               </p>
             </div>
@@ -69,7 +69,7 @@ export function AccountLoyaltyViewModal({
             </div>
             <div className="space-y-1">
               <h3 className="text-sm font-medium text-muted-foreground">Preço Promocional TC</h3>
-              <p className="text-sm text-green-600">{accountLoyalty.promotionalPriceTibiaCoins ? formatGameValue(accountLoyalty.promotionalPriceTibiaCoins) : "-"}</p>
+              <p className="text-sm text-primary">{accountLoyalty.promotionalPriceTibiaCoins ? formatGameValue(accountLoyalty.promotionalPriceTibiaCoins) : "-"}</p>
             </div>
           </div>
 

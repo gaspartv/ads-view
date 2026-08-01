@@ -103,7 +103,7 @@ export function TibiaCoinPackageCard({
         </div>
 
         <div className="mt-auto border-t border-border/50 pt-4 flex justify-end items-center">
-          <span className="text-2xl font-bold text-green-500 text-right">
+          <span className="text-2xl font-bold text-primary text-right">
             {formatCurrency(variable.price)}
             <span className="text-xs text-muted-foreground block text-right mt-0.5">
               {" "}
@@ -168,7 +168,7 @@ export function TibiaCoinPackageCard({
 
             <div className="flex flex-col items-center justify-center p-4 bg-muted/30 rounded-lg border border-border/50">
               <span className="text-sm text-muted-foreground mb-1">Valor Total</span>
-              <span className="text-3xl font-bold text-green-500">
+              <span className="text-3xl font-bold text-primary">
                 {formatCurrency(totalPrice)}
               </span>
             </div>

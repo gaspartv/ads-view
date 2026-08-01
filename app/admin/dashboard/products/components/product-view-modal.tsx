@@ -35,7 +35,7 @@ export function ProductViewModal({ isOpen, onClose, product }: ProductViewModalP
           <DialogTitle className="text-xl flex items-center gap-2">
             Detalhes do Produto
             {product.featured && (
-              <Badge variant="outline" className="bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400 border-amber-200">
+              <Badge variant="outline" className="bg-secondary text-secondary-foreground border-secondary">
                 Destaque
               </Badge>
             )}
@@ -69,7 +69,7 @@ export function ProductViewModal({ isOpen, onClose, product }: ProductViewModalP
                 </Badge>
                 <Badge variant="secondary">{product.type}</Badge>
                 {product.isFixed && (
-                  <Badge variant="outline" className="text-blue-500 border-blue-200">
+                  <Badge variant="outline" className="text-primary border-primary/30">
                     Fixo
                   </Badge>
                 )}
@@ -85,7 +85,7 @@ export function ProductViewModal({ isOpen, onClose, product }: ProductViewModalP
             {product.promotionalPrice && (
               <div className="space-y-1">
                 <span className="text-xs text-muted-foreground font-medium uppercase">Preço Promocional</span>
-                <p className="text-base font-medium text-green-600 dark:text-green-400">
+                <p className="text-base font-medium text-primary">
                   {formatCurrency(product.promotionalPrice)}
                 </p>
               </div>

@@ -17,9 +17,16 @@ export default function TibiaCoinsPage() {
   return (
     <div className="cursor-default w-full px-4 md:px-8 py-12 flex flex-col items-center min-h-[calc(100vh-200px)]">
       <nav className="w-full flex items-center justify-start space-x-1.5 text-xs text-muted-foreground mb-6">
-        <Link href="/" className="hover:text-foreground transition-colors">Início</Link>
+        <Link href="/" className="hover:text-foreground transition-colors">
+          Início
+        </Link>
         <ChevronRight className="h-4 w-4" />
-        <Link href="/products" className="hover:text-foreground transition-colors">Produtos</Link>
+        <Link
+          href="/products"
+          className="hover:text-foreground transition-colors"
+        >
+          Produtos
+        </Link>
         <ChevronRight className="h-4 w-4" />
         <span className="text-foreground font-medium">Tibia Coins</span>
       </nav>
@@ -35,7 +42,7 @@ export default function TibiaCoinsPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
         {/* BUY Card */}
-        <Card className="flex flex-col h-full hover:border-primary/50 transition-colors duration-300 shadow-sm hover:shadow-md bg-card/50 backdrop-blur-sm">
+        <Card className="relative flex flex-col h-full border-[0.5px] border-primary z-10 bg-card/80 backdrop-blur-sm transition-transform duration-300">
           <CardHeader className="text-center pb-2">
             <CardTitle className="text-3xl text-primary font-bold">
               Comprar
@@ -44,11 +51,11 @@ export default function TibiaCoinsPage() {
               Adquira de forma rápida e segura.
             </CardDescription>
           </CardHeader>
-          <CardContent className="flex-1 flex flex-col items-center justify-center pt-8 pb-8">
+          <CardContent className="flex-1 flex flex-col items-center justify-center pt-4 pb-8">
             <Link href="/products/tibia-coins/buy" className="w-full">
               <Button
                 size="lg"
-                className="cursor-pointer w-full text-lg h-16 font-semibold shadow-md hover:shadow-lg transition-all"
+                className="cursor-pointer w-full text-lg h-16 font-semibold shadow-xl transition-all"
               >
                 Quero Comprar
               </Button>
@@ -57,19 +64,19 @@ export default function TibiaCoinsPage() {
         </Card>
 
         {/* SELL Card */}
-        <Card className="flex flex-col h-full hover:border-primary/50 transition-colors duration-300 shadow-sm hover:shadow-md bg-card/50 backdrop-blur-sm">
+        <Card className="flex flex-col h-full border-border/50 transition-colors duration-300 shadow-sm hover:shadow-md bg-card/50 backdrop-blur-sm opacity-90 hover:opacity-100">
           <CardHeader className="text-center pb-2">
             <CardTitle className="text-3xl font-bold">Vender</CardTitle>
             <CardDescription className="text-sm mt-2">
               Venda com a melhor taxa e receba rapidamente.
             </CardDescription>
           </CardHeader>
-          <CardContent className="flex-1 flex flex-col items-center justify-center pt-8 pb-8">
+          <CardContent className="flex-1 flex flex-col items-center justify-center pt-4 pb-8">
             <Link href="/products/tibia-coins/sell" className="w-full">
               <Button
                 variant="outline"
                 size="lg"
-                className="cursor-pointer w-full text-lg h-16 font-semibold border-primary text-primary hover:bg-primary/10 shadow-sm hover:shadow-md transition-all"
+                className="cursor-pointer w-full text-lg h-16 font-semibold border-[0.5px] transition-all"
               >
                 Quero Vender
               </Button>

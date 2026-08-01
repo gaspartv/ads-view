@@ -1,0 +1,233 @@
+[
+  {
+    "id": "background",
+    "label": "Fundo da Página",
+    "description": "Cor de fundo geral do site",
+    "defaultLight": "oklch(0.99 0.005 150)",
+    "defaultDark": "oklch(0.12 0.02 150)"
+  },
+  {
+    "id": "foreground",
+    "label": "Texto Principal",
+    "description": "Cor dos títulos e textos corporativos",
+    "defaultLight": "oklch(0.15 0.02 150)",
+    "defaultDark": "oklch(0.98 0.01 150)"
+  },
+  {
+    "id": "card",
+    "label": "Fundo de Cards",
+    "description": "Cor dos blocos de produto e containers",
+    "defaultLight": "oklch(1 0 0)",
+    "defaultDark": "oklch(0.14 0.02 150)"
+  },
+  {
+    "id": "cardForeground",
+    "label": "Texto do Card",
+    "description": "Texto dentro de cards",
+    "defaultLight": "oklch(0.15 0.02 150)",
+    "defaultDark": "oklch(0.98 0.01 150)"
+  },
+  {
+    "id": "popover",
+    "label": "Fundo Popover",
+    "description": "Menus suspensos e tooltips",
+    "defaultLight": "oklch(1 0 0)",
+    "defaultDark": "oklch(0.14 0.02 150)"
+  },
+  {
+    "id": "popoverForeground",
+    "label": "Texto Popover",
+    "description": "Texto em menus suspensos",
+    "defaultLight": "oklch(0.15 0.02 150)",
+    "defaultDark": "oklch(0.98 0.01 150)"
+  },
+  {
+    "id": "primary",
+    "label": "Cor Primária",
+    "description": "Botões de ação principal, destaques e links",
+    "defaultLight": "oklch(0.5 0.22 150)",
+    "defaultDark": "oklch(0.65 0.22 150)"
+  },
+  {
+    "id": "primaryOutline",
+    "label": "Cor de Contorno (Outline)",
+    "description": "Cor da borda e texto de botões secundários",
+    "defaultLight": "oklch(0.5 0.22 150)",
+    "defaultDark": "oklch(0.65 0.22 150)"
+  },
+  {
+    "id": "primaryForeground",
+    "label": "Texto da Cor Primária",
+    "description": "Cor do texto nos botões primários",
+    "defaultLight": "oklch(0.98 0 0)",
+    "defaultDark": "oklch(0.15 0.02 150)"
+  },
+  {
+    "id": "secondary",
+    "label": "Cor Secundária",
+    "description": "Fundo de botões secundários",
+    "defaultLight": "oklch(0.96 0.02 150)",
+    "defaultDark": "oklch(0.2 0.03 150)"
+  },
+  {
+    "id": "secondaryForeground",
+    "label": "Texto Secundário",
+    "description": "Texto em botões secundários",
+    "defaultLight": "oklch(0.2 0.05 150)",
+    "defaultDark": "oklch(0.98 0.01 150)"
+  },
+  {
+    "id": "muted",
+    "label": "Mudo (Muted)",
+    "description": "Fundo de elementos inativos",
+    "defaultLight": "oklch(0.96 0.02 150)",
+    "defaultDark": "oklch(0.2 0.03 150)"
+  },
+  {
+    "id": "mutedForeground",
+    "label": "Texto Mudo",
+    "description": "Textos discretos e placeholders",
+    "defaultLight": "oklch(0.55 0.02 150)",
+    "defaultDark": "oklch(0.7 0.02 150)"
+  },
+  {
+    "id": "accent",
+    "label": "Destaque (Accent)",
+    "description": "Elementos e botões de destaque leve",
+    "defaultLight": "oklch(0.96 0.03 150)",
+    "defaultDark": "oklch(0.22 0.04 150)"
+  },
+  {
+    "id": "accentForeground",
+    "label": "Texto Destaque",
+    "description": "Texto sobre o fundo de destaque",
+    "defaultLight": "oklch(0.2 0.05 150)",
+    "defaultDark": "oklch(0.98 0.01 150)"
+  },
+  {
+    "id": "destructive",
+    "label": "Cor Destrutiva",
+    "description": "Botões de excluir ou erros",
+    "defaultLight": "oklch(0.6 0.2 25)",
+    "defaultDark": "oklch(0.6 0.2 25)"
+  },
+  {
+    "id": "destructiveForeground",
+    "label": "Texto Destrutivo",
+    "description": "Texto sobre botões destrutivos",
+    "defaultLight": "oklch(0.98 0 0)",
+    "defaultDark": "oklch(0.98 0 0)"
+  },
+  {
+    "id": "border",
+    "label": "Bordas",
+    "description": "Linhas divisórias e contornos de caixas",
+    "defaultLight": "oklch(0.92 0.02 150)",
+    "defaultDark": "oklch(0.2 0.03 150)"
+  },
+  {
+    "id": "input",
+    "label": "Bordas de Input",
+    "description": "Bordas de campos de texto e seleções",
+    "defaultLight": "oklch(0.92 0.02 150)",
+    "defaultDark": "oklch(0.2 0.03 150)"
+  },
+  {
+    "id": "ring",
+    "label": "Anel de Foco (Ring)",
+    "description": "Cor do contorno ao focar em um campo",
+    "defaultLight": "oklch(0.5 0.22 150)",
+    "defaultDark": "oklch(0.65 0.22 150)"
+  },
+  {
+    "id": "chart1",
+    "label": "Gráfico 1",
+    "description": "Cor 1 para gráficos e métricas",
+    "defaultLight": "oklch(0.6 0.18 155)",
+    "defaultDark": "oklch(0.65 0.22 155)"
+  },
+  {
+    "id": "chart2",
+    "label": "Gráfico 2",
+    "description": "Cor 2 para gráficos e métricas",
+    "defaultLight": "oklch(0.6 0.15 130)",
+    "defaultDark": "oklch(0.5 0.15 130)"
+  },
+  {
+    "id": "chart3",
+    "label": "Gráfico 3",
+    "description": "Cor 3 para gráficos e métricas",
+    "defaultLight": "oklch(0.5 0.12 170)",
+    "defaultDark": "oklch(0.6 0.15 170)"
+  },
+  {
+    "id": "chart4",
+    "label": "Gráfico 4",
+    "description": "Cor 4 para gráficos e métricas",
+    "defaultLight": "oklch(0.7 0.15 160)",
+    "defaultDark": "oklch(0.7 0.15 160)"
+  },
+  {
+    "id": "chart5",
+    "label": "Gráfico 5",
+    "description": "Cor 5 para gráficos e métricas",
+    "defaultLight": "oklch(0.8 0.12 150)",
+    "defaultDark": "oklch(0.8 0.12 150)"
+  },
+  {
+    "id": "sidebar",
+    "label": "Fundo da Sidebar",
+    "description": "Fundo da barra lateral do sistema",
+    "defaultLight": "oklch(0.98 0.01 150)",
+    "defaultDark": "oklch(0.14 0.02 150)"
+  },
+  {
+    "id": "sidebarForeground",
+    "label": "Texto da Sidebar",
+    "description": "Texto na barra lateral",
+    "defaultLight": "oklch(0.15 0.02 150)",
+    "defaultDark": "oklch(0.98 0.01 150)"
+  },
+  {
+    "id": "sidebarPrimary",
+    "label": "Cor Primária Sidebar",
+    "description": "Destaque principal na barra lateral",
+    "defaultLight": "oklch(0.5 0.22 150)",
+    "defaultDark": "oklch(0.65 0.22 150)"
+  },
+  {
+    "id": "sidebarPrimaryForeground",
+    "label": "Texto Primário Sidebar",
+    "description": "Texto de destaque na barra lateral",
+    "defaultLight": "oklch(0.98 0 0)",
+    "defaultDark": "oklch(0.15 0.02 150)"
+  },
+  {
+    "id": "sidebarAccent",
+    "label": "Destaque da Sidebar",
+    "description": "Item focado na barra lateral",
+    "defaultLight": "oklch(0.96 0.02 150)",
+    "defaultDark": "oklch(0.22 0.04 150)"
+  },
+  {
+    "id": "sidebarAccentForeground",
+    "label": "Texto Destaque Sidebar",
+    "description": "Texto do item focado na barra lateral",
+    "defaultLight": "oklch(0.2 0.05 150)",
+    "defaultDark": "oklch(0.98 0.01 150)"
+  },
+  {
+    "id": "sidebarBorder",
+    "label": "Borda da Sidebar",
+    "description": "Separador da barra lateral",
+    "defaultLight": "oklch(0.92 0.02 150)",
+    "defaultDark": "oklch(0.2 0.03 150)"
+  },
+  {
+    "id": "sidebarRing",
+    "label": "Foco da Sidebar",
+    "description": "Contorno ao focar na barra lateral",
+    "defaultLight": "oklch(0.5 0.22 150)",
+    "defaultDark": "oklch(0.65 0.22 150)"
+  }
+]

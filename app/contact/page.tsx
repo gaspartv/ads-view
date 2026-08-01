@@ -1,4 +1,4 @@
-import { getCompanyInfo } from "../actions/company";
+import { getCompanyInfo, getCompanyContact } from "../actions/company";
 import { ContactClient } from "./contact-client";
 
 export async function generateMetadata() {
@@ -10,6 +10,9 @@ export async function generateMetadata() {
   };
 }
 
-export default function ContactPage() {
-  return <ContactClient />;
+export default async function ContactPage() {
+  const response = await getCompanyContact();
+  const contactData = response?.success ? response.data : null;
+
+  return <ContactClient contactData={contactData} />;
 }

@@ -139,12 +139,12 @@ export function ProductCharacterCard({ character }: ProductCharacterCardProps) {
                   <span className="text-[12px] text-muted-foreground line-through leading-none">
                     {formatCurrency(character.price)}
                   </span>
-                  <span className="text-[15px] font-bold text-green-500 leading-none mt-1 truncate">
+                  <span className="text-[15px] font-bold text-primary leading-none mt-1 truncate">
                     {formatCurrency(character.promotionalPrice)}
                   </span>
                 </>
               ) : (
-                <span className="text-[15px] font-bold text-green-500 truncate">
+                <span className="text-[15px] font-bold text-primary truncate">
                   {formatCurrency(character.price)}
                 </span>
               )}

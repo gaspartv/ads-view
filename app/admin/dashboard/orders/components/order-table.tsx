@@ -81,7 +81,7 @@ export function OrderTable({ orders, pagination }: OrderTableProps) {
         return (
           <Badge
             variant="outline"
-            className="bg-blue-50 text-blue-600 border-blue-200"
+            className="bg-blue-50 text-primary border-primary/30"
           >
             Processando
           </Badge>
@@ -90,7 +90,7 @@ export function OrderTable({ orders, pagination }: OrderTableProps) {
         return (
           <Badge
             variant="outline"
-            className="bg-green-50 text-green-600 border-green-200"
+            className="bg-primary/10 text-primary border-primary/20"
           >
             Concluído
           </Badge>
@@ -99,7 +99,7 @@ export function OrderTable({ orders, pagination }: OrderTableProps) {
         return (
           <Badge
             variant="outline"
-            className="bg-red-50 text-red-600 border-red-200"
+            className="bg-red-50 text-destructive border-red-200"
           >
             Cancelado
           </Badge>
@@ -213,7 +213,7 @@ export function OrderTable({ orders, pagination }: OrderTableProps) {
                         {formatCurrency(order.totalAmount)}
                       </span>
                     ) : (
-                      <span className="font-medium text-amber-500">
+                      <span className="font-medium text-secondary-foreground">
                         {formatGameValue(order.totalTibiaCoins)} TC
                       </span>
                     )}

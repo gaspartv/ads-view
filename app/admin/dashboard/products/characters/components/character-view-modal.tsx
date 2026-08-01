@@ -22,7 +22,7 @@ export function CharacterViewModal({ isOpen, onClose, character }: CharacterView
           <DialogTitle className="text-xl flex items-center gap-2">
             Detalhes do Personagem
             {character.isFeatured && (
-              <Badge variant="outline" className="bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400 border-amber-200">
+              <Badge variant="outline" className="bg-secondary text-secondary-foreground border-secondary">
                 Destaque
               </Badge>
             )}
@@ -55,7 +55,7 @@ export function CharacterViewModal({ isOpen, onClose, character }: CharacterView
                   {character.disabledAt ? "Inativo" : "Ativo"}
                 </Badge>
                 <Badge variant="secondary">Lvl {character.level} {character.vocation} ({character.gender === 'FEMALE' ? 'F' : 'M'})</Badge>
-                <Badge variant="outline" className="border-blue-200 text-blue-600">
+                <Badge variant="outline" className="border-primary/30 text-primary">
                   {character.World?.name}
                 </Badge>
               </div>
@@ -70,7 +70,7 @@ export function CharacterViewModal({ isOpen, onClose, character }: CharacterView
             {character.promotionalPrice && (
               <div className="space-y-1">
                 <span className="text-xs text-muted-foreground font-medium uppercase">Promo BRL</span>
-                <p className="text-base font-medium text-green-600 dark:text-green-400">
+                <p className="text-base font-medium text-primary">
                   {formatCurrency(character.promotionalPrice)}
                 </p>
               </div>
@@ -82,7 +82,7 @@ export function CharacterViewModal({ isOpen, onClose, character }: CharacterView
             {character.promotionalPriceTibiaCoins && (
               <div className="space-y-1">
                 <span className="text-xs text-muted-foreground font-medium uppercase">Promo TC</span>
-                <p className="text-base font-medium text-amber-600 dark:text-amber-400">
+                <p className="text-base font-medium text-secondary-foreground">
                   {formatGameValue(character.promotionalPriceTibiaCoins)}
                 </p>
               </div>

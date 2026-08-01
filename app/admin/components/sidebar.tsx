@@ -77,7 +77,7 @@ export function Sidebar() {
       subItems: [
         {
           name: "Aparência",
-          href: "/admin/dashboard/theme",
+          href: "/admin/dashboard/company/theme",
           moduleCode: null,
         },
       ],
@@ -135,7 +135,7 @@ export function Sidebar() {
       {/* Sidebar Container */}
       <aside
         className={cn(
-          "fixed inset-y-0 left-0 z-40 lg:z-auto bg-card/95 backdrop-blur-md border-r flex flex-col transition-[transform,width,box-shadow] duration-300 ease-in-out lg:static lg:h-screen lg:shrink-0",
+          "cursor-default fixed inset-y-0 left-0 z-40 lg:z-auto bg-card/95 backdrop-blur-md border-r flex flex-col transition-[transform,width,box-shadow] duration-300 ease-in-out lg:static lg:h-screen lg:shrink-0",
           isOpen
             ? "translate-x-0 shadow-2xl pointer-events-auto"
             : "-translate-x-full lg:translate-x-0 pointer-events-none lg:pointer-events-auto",
@@ -161,7 +161,7 @@ export function Sidebar() {
           {/* Botão de Recolher/Expandir (Visível apenas em telas grandes) */}
           <button
             onClick={toggleCollapse}
-            className="absolute -right-3 top-1/2 -translate-y-1/2 bg-card border shadow-sm rounded-full p-1 hidden lg:flex items-center justify-center hover:bg-muted transition-colors z-50 text-muted-foreground hover:text-foreground"
+            className="cursor-pointer absolute -right-3 top-1/2 -translate-y-1/2 bg-card border shadow-sm rounded-full p-1 hidden lg:flex items-center justify-center hover:bg-muted transition-colors z-50 text-muted-foreground hover:text-foreground"
             aria-label={isCollapsed ? "Expandir menu" : "Recolher menu"}
           >
             {isCollapsed ? (
@@ -240,7 +240,7 @@ export function Sidebar() {
                         }));
                       }}
                       className={cn(
-                        "p-2.5 shrink-0 rounded-r-lg transition-colors flex items-center justify-center",
+                        "cursor-pointer p-2.5 shrink-0 rounded-r-lg transition-colors flex items-center justify-center",
                         isActive
                           ? "hover:bg-primary/20"
                           : "hover:bg-black/5 dark:hover:bg-white/5",

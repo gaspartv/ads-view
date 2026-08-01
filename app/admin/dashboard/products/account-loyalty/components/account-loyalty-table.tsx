@@ -308,11 +308,11 @@ export function AccountLoyaltyTable({
                   >
                     <TableCell>
                       {item.disabledAt ? (
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-destructive/10 text-destructive dark:bg-destructive/20">
                           Desabilitado
                         </span>
                       ) : (
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary dark:bg-primary/20">
                           Ativo
                         </span>
                       )}
@@ -352,7 +352,7 @@ export function AccountLoyaltyTable({
                     </TableCell>
                     <TableCell>
                       {item.promotionalPrice ? (
-                        <span className="text-green-600">
+                        <span className="text-primary">
                           {new Intl.NumberFormat("pt-BR", {
                             style: "currency",
                             currency: "BRL",
@@ -369,7 +369,7 @@ export function AccountLoyaltyTable({
                     </TableCell>
                     <TableCell>
                       {item.promotionalPriceTibiaCoins ? (
-                        <span className="text-green-600">
+                        <span className="text-primary">
                           {formatGameValue(item.promotionalPriceTibiaCoins)} TC
                         </span>
                       ) : (
@@ -378,22 +378,22 @@ export function AccountLoyaltyTable({
                     </TableCell>
                     <TableCell className="text-center">
                       {item.safeAddress ? (
-                        <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">
+                        <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-primary/10 text-primary dark:bg-primary/20">
                           Sim
                         </span>
                       ) : (
-                        <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400">
+                        <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-destructive/10 text-destructive dark:bg-destructive/20">
                           Não
                         </span>
                       )}
                     </TableCell>
                     <TableCell className="text-center">
                       {item.hasRecoveryKey ? (
-                        <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">
+                        <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-primary/10 text-primary dark:bg-primary/20">
                           Sim
                         </span>
                       ) : (
-                        <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400">
+                        <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-destructive/10 text-destructive dark:bg-destructive/20">
                           Não
                         </span>
                       )}
@@ -437,12 +437,12 @@ export function AccountLoyaltyTable({
                             >
                               {item.disabledAt ? (
                                 <>
-                                  <Power className="mr-2 h-4 w-4 text-green-500" />{" "}
+                                  <Power className="mr-2 h-4 w-4 text-primary" />{" "}
                                   Habilitar
                                 </>
                               ) : (
                                 <>
-                                  <PowerOff className="mr-2 h-4 w-4 text-orange-500" />{" "}
+                                  <PowerOff className="mr-2 h-4 w-4 text-secondary-foreground" />{" "}
                                   Desabilitar
                                 </>
                               )}

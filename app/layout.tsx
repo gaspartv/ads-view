@@ -13,6 +13,7 @@ import { CompanyUnavailable } from "@/components/company-unavailable";
 import { generateThemeCss } from "@/lib/theme";
 
 import { ThemeInjector } from "@/components/theme-injector";
+import { FaviconInjector } from "@/components/favicon-injector";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -97,6 +98,7 @@ export default async function RootLayout({
         >
           <CompanyProvider initialData={companyData}>
             <ModulesProvider initialData={modulesData}>
+              <FaviconInjector />
               <Navbar />
               <main className="flex-1 flex flex-col">{children}</main>
               <Footer />

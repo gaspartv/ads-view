@@ -30,8 +30,25 @@ const trustItems = [
 ];
 
 export default async function Home() {
+  const response = await getCompanyInfo();
+  const company = response?.success ? response.data : null;
+
   return (
     <div className="cursor-default flex flex-col min-h-screen bg-background font-sans">
+      {/* Banner da Empresa (Se existir) */}
+      {company?.banner && (
+        <div className="container mx-auto pt-4 md:pt-8">
+          <div className="w-full relative overflow-hidden rounded-2xl md:rounded-3xl shadow-lg border border-border/20">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={company.banner}
+              alt={`Banner ${company?.name || "da Empresa"}`}
+              className="w-full object-cover"
+            />
+          </div>
+        </div>
+      )}
+
       {/* Hero Banner Section */}
       <section className="relative w-full overflow-hidden bg-gradient-to-b from-primary/10 via-background to-background pt-10 pb-8 md:pt-16 md:pb-10">
         {/* Elementos decorativos */}

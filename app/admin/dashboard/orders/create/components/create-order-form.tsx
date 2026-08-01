@@ -579,7 +579,7 @@ export function CreateOrderForm() {
                           <div className="text-right shrink-0">
                             <p className="text-sm font-medium">{formatCurrency(p.price)}</p>
                             {p.promotionalPrice && (
-                              <p className="text-xs text-green-600 dark:text-green-400">
+                              <p className="text-xs text-primary">
                                 Promo: {formatCurrency(p.promotionalPrice)}
                               </p>
                             )}
@@ -601,7 +601,7 @@ export function CreateOrderForm() {
                           <div className="text-right shrink-0">
                             <p className="text-sm font-medium">{formatCurrency(p.price)}</p>
                             {p.promotionalPrice && (
-                              <p className="text-xs text-green-600 dark:text-green-400">
+                              <p className="text-xs text-primary">
                                 Promo: {formatCurrency(p.promotionalPrice)}
                               </p>
                             )}
@@ -719,7 +719,7 @@ export function CreateOrderForm() {
                         size="icon"
                         onClick={() => handleRemoveItem(index)}
                       >
-                        <Trash className="w-4 h-4 text-red-500" />
+                        <Trash className="w-4 h-4 text-destructive" />
                       </Button>
                     </div>
                   ))}

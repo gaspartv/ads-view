@@ -329,7 +329,7 @@ export function CharacterTable({
                 return (
                   <TableRow
                     key={character.id}
-                    className={`cursor-pointer transition-colors ${character.isFeatured ? "bg-amber-500/5 dark:bg-amber-500/10 shadow-[inset_4px_0_0_0_rgba(251,191,36,0.5)]" : ""}`}
+                    className={`cursor-pointer transition-colors ${character.isFeatured ? "bg-primary/5 dark:bg-primary/10 shadow-[inset_4px_0_0_0_var(--primary)]" : ""}`}
                     onClick={() => handleView(character)}
                   >
                     <TableCell onClick={(e) => e.stopPropagation()}>
@@ -359,11 +359,11 @@ export function CharacterTable({
                     </TableCell>
                     <TableCell>
                       {character.disabledAt ? (
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-destructive/10 text-destructive dark:bg-destructive/20">
                           Desabilitado
                         </span>
                       ) : (
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary dark:bg-primary/20">
                           Ativo
                         </span>
                       )}
@@ -405,7 +405,7 @@ export function CharacterTable({
                           }).format((character.price || 0) / 100)}
                         </span>
                         {character.promotionalPrice ? (
-                          <span className="text-xs text-green-600">
+                          <span className="text-xs text-primary">
                             {new Intl.NumberFormat("pt-BR", {
                               style: "currency",
                               currency: "BRL",
@@ -463,12 +463,12 @@ export function CharacterTable({
                             >
                               {character.disabledAt ? (
                                 <>
-                                  <Power className="mr-2 h-4 w-4 text-green-500" />{" "}
+                                  <Power className="mr-2 h-4 w-4 text-primary" />{" "}
                                   Habilitar
                                 </>
                               ) : (
                                 <>
-                                  <PowerOff className="mr-2 h-4 w-4 text-orange-500" />{" "}
+                                  <PowerOff className="mr-2 h-4 w-4 text-secondary-foreground" />{" "}
                                   Desabilitar
                                 </>
                               )}

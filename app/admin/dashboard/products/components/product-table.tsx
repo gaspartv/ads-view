@@ -365,7 +365,7 @@ export function ProductTable({ products, categories, pagination }: ProductTableP
                 return (
                   <TableRow 
                     key={product.id}
-                    className={`cursor-pointer transition-colors ${product.featured ? "bg-amber-500/5 dark:bg-amber-500/10 shadow-[inset_4px_0_0_0_rgba(251,191,36,0.5)]" : ""}`}
+                    className={`cursor-pointer transition-colors ${product.featured ? "bg-primary/5 dark:bg-primary/10 shadow-[inset_4px_0_0_0_var(--primary)]" : ""}`}
                     onClick={() => handleView(product)}
                   >
                   <TableCell onClick={(e) => e.stopPropagation()}>
@@ -393,11 +393,11 @@ export function ProductTable({ products, categories, pagination }: ProductTableP
                   </TableCell>
                   <TableCell>
                     {product.disabledAt ? (
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400">
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-destructive/10 text-destructive dark:bg-destructive/20">
                         Desabilitado
                       </span>
                     ) : (
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary dark:bg-primary/20">
                         Ativo
                       </span>
                     )}
@@ -406,7 +406,7 @@ export function ProductTable({ products, categories, pagination }: ProductTableP
                   <TableCell className="font-medium max-w-[200px] truncate">
                     <div className="flex flex-col gap-1">
                       <div className="flex items-center gap-1.5">
-                        {product.isFixed && <Pin className="w-3.5 h-3.5 text-blue-500 shrink-0" />}
+                        {product.isFixed && <Pin className="w-3.5 h-3.5 text-primary shrink-0" />}
                         <span className="truncate">{product.name}</span>
                         {tooltipText && (
                           <span title={tooltipText.trim()}>
@@ -426,7 +426,7 @@ export function ProductTable({ products, categories, pagination }: ProductTableP
                         }).format((product.price || 0) / 100)}
                       </span>
                       {product.promotionalPrice ? (
-                        <span className="text-xs text-green-600">
+                        <span className="text-xs text-primary">
                           {new Intl.NumberFormat("pt-BR", {
                             style: "currency",
                             currency: "BRL",
@@ -487,7 +487,7 @@ export function ProductTable({ products, categories, pagination }: ProductTableP
                                 setIsStockModalOpen(true);
                               }}
                             >
-                              <PackagePlus className="mr-2 h-4 w-4 text-amber-500" />
+                              <PackagePlus className="mr-2 h-4 w-4 text-secondary-foreground" />
                               Repor estoque
                             </DropdownMenuItem>
                           )}
@@ -503,12 +503,12 @@ export function ProductTable({ products, categories, pagination }: ProductTableP
                           >
                             {product.disabledAt ? (
                               <>
-                                <Power className="mr-2 h-4 w-4 text-green-500" />{" "}
+                                <Power className="mr-2 h-4 w-4 text-primary" />{" "}
                                 Habilitar
                               </>
                             ) : (
                               <>
-                                <PowerOff className="mr-2 h-4 w-4 text-orange-500" />{" "}
+                                <PowerOff className="mr-2 h-4 w-4 text-secondary-foreground" />{" "}
                                 Desabilitar
                               </>
                             )}

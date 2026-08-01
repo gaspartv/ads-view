@@ -52,17 +52,17 @@ function CharacterCard({ product, metadata, imageUrl, isSoldOut, formatCurrency 
         <div className="grid grid-cols-2 gap-x-3 gap-y-4 mt-auto pt-2">
           <div className="relative border border-primary/30 rounded-lg px-3 pt-3 pb-2.5 flex items-center gap-2">
             <span className="absolute -top-2 left-2.5 bg-background px-1 text-[10px] text-muted-foreground uppercase tracking-wider">Server</span>
-            <Globe2 className="w-4 h-4 text-green-500" />
+            <Globe2 className="w-4 h-4 text-primary" />
             <span className="text-sm font-medium text-foreground truncate">{server || "-"}</span>
           </div>
           <div className="relative border border-primary/30 rounded-lg px-3 pt-3 pb-2.5 flex items-center gap-2">
             <span className="absolute -top-2 left-2.5 bg-background px-1 text-[10px] text-muted-foreground uppercase tracking-wider">PvP</span>
-            <Eye className="w-4 h-4 text-green-500" />
+            <Eye className="w-4 h-4 text-primary" />
             <span className="text-sm font-medium text-foreground truncate">{pvp || "-"}</span>
           </div>
           <div className="relative border border-primary/30 rounded-lg px-3 pt-3 pb-2.5 flex items-center gap-2">
             <span className="absolute -top-2 left-2.5 bg-background px-1 text-[10px] text-muted-foreground uppercase tracking-wider">Valor R$</span>
-            <span className="text-[15px] font-semibold text-green-500 truncate">{formatCurrency(product.promotionalPrice || product.price)}</span>
+            <span className="text-[15px] font-semibold text-primary truncate">{formatCurrency(product.promotionalPrice || product.price)}</span>
           </div>
           <div className="relative border border-primary/30 rounded-lg px-3 pt-3 pb-2.5 flex items-center gap-2">
             <span className="absolute -top-2 left-2.5 bg-background px-1 text-[10px] text-muted-foreground uppercase tracking-wider">Valor TC</span>
@@ -129,7 +129,7 @@ function AccountCard({ product, metadata, imageUrl, isSoldOut, formatCurrency }:
           </div>
           <div className="relative border border-primary/30 rounded-lg px-3 pt-3 pb-2.5 flex items-center gap-2">
             <span className="absolute -top-2 left-2.5 bg-background px-1 text-[10px] text-muted-foreground uppercase tracking-wider">Valor R$</span>
-            <span className="text-[15px] font-semibold text-green-500 truncate">{formatCurrency(product.promotionalPrice || product.price)}</span>
+            <span className="text-[15px] font-semibold text-primary truncate">{formatCurrency(product.promotionalPrice || product.price)}</span>
           </div>
           <div className="relative border border-primary/30 rounded-lg px-3 pt-3 pb-2.5 flex items-center gap-2">
             <span className="absolute -top-2 left-2.5 bg-background px-1 text-[10px] text-muted-foreground uppercase tracking-wider">Valor TC</span>

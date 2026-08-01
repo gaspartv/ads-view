@@ -71,7 +71,7 @@ export function ClientTable({ accounts }: { accounts: any[] }) {
                 <TableCell>
                   <div className="flex justify-center">
                     {account.safeAddress ? (
-                      <Check className="w-5 h-5 text-green-500" />
+                      <Check className="w-5 h-5 text-primary" />
                     ) : (
                       <X className="w-5 h-5 text-red-500" />
                     )}
@@ -80,7 +80,7 @@ export function ClientTable({ accounts }: { accounts: any[] }) {
                 <TableCell>
                   <div className="flex justify-center">
                     {account.hasRecoveryKey ? (
-                      <Check className="w-5 h-5 text-green-500" />
+                      <Check className="w-5 h-5 text-primary" />
                     ) : (
                       <X className="w-5 h-5 text-red-500" />
                     )}
@@ -93,12 +93,12 @@ export function ClientTable({ accounts }: { accounts: any[] }) {
                         <span className="text-xs text-muted-foreground line-through">
                           {formatCurrency(account.price)}
                         </span>
-                        <span className="font-bold text-green-500">
+                        <span className="font-bold text-primary">
                           {formatCurrency(account.promotionalPrice)}
                         </span>
                       </>
                     ) : (
-                      <span className="font-bold text-green-500">
+                      <span className="font-bold text-primary">
                         {formatCurrency(account.price)}
                       </span>
                     )}
@@ -170,12 +170,12 @@ export function ClientTable({ accounts }: { accounts: any[] }) {
                         <span className="text-sm text-muted-foreground line-through">
                           {formatCurrency(selectedAccount.price)}
                         </span>
-                        <span className="font-bold text-xl text-green-500">
+                        <span className="font-bold text-xl text-primary">
                           {formatCurrency(selectedAccount.promotionalPrice)}
                         </span>
                       </>
                     ) : (
-                      <span className="font-bold text-xl text-green-500">
+                      <span className="font-bold text-xl text-primary">
                         {formatCurrency(selectedAccount.price)}
                       </span>
                     )}
@@ -231,8 +231,8 @@ export function ClientTable({ accounts }: { accounts: any[] }) {
                   <div className="flex items-center gap-2 mt-1">
                     {selectedAccount.safeAddress ? (
                       <>
-                        <Check className="w-5 h-5 text-green-500" />
-                        <span className="font-medium text-green-600 dark:text-green-400">
+                        <Check className="w-5 h-5 text-primary" />
+                        <span className="font-medium text-primary">
                           Sim
                         </span>
                       </>
@@ -253,8 +253,8 @@ export function ClientTable({ accounts }: { accounts: any[] }) {
                   <div className="flex items-center gap-2 mt-1">
                     {selectedAccount.hasRecoveryKey ? (
                       <>
-                        <Check className="w-5 h-5 text-green-500" />
-                        <span className="font-medium text-green-600 dark:text-green-400">
+                        <Check className="w-5 h-5 text-primary" />
+                        <span className="font-medium text-primary">
                           Sim
                         </span>
                       </>

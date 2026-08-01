@@ -26,9 +26,9 @@ export function OrderDetails({ order }: { order: any }) {
   const getStatusBadge = (s: string) => {
     switch(s) {
       case "WAITING_PAYMENT": return <Badge variant="outline" className="bg-yellow-50 text-yellow-600 border-yellow-200">Aguardando Pagamento</Badge>;
-      case "PROCESSING": return <Badge variant="outline" className="bg-blue-50 text-blue-600 border-blue-200">Processando</Badge>;
-      case "COMPLETED": return <Badge variant="outline" className="bg-green-50 text-green-600 border-green-200">Concluído</Badge>;
-      case "CANCELED": return <Badge variant="outline" className="bg-red-50 text-red-600 border-red-200">Cancelado</Badge>;
+      case "PROCESSING": return <Badge variant="outline" className="bg-blue-50 text-primary border-primary/30">Processando</Badge>;
+      case "COMPLETED": return <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20">Concluído</Badge>;
+      case "CANCELED": return <Badge variant="outline" className="bg-red-50 text-destructive border-red-200">Cancelado</Badge>;
       case "REFUNDED": return <Badge variant="outline" className="bg-gray-50 text-gray-600 border-gray-200">Reembolsado</Badge>;
       default: return <Badge variant="outline">{s}</Badge>;
     }

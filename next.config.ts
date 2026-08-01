@@ -5,6 +5,7 @@ const nextConfig: NextConfig = {
     "thygas.diegogaspar.dev.br",
     "thygascoins.com.br",
     "*.tibia-info.com",
+    "*.dev.tibia-info.com",
   ],
   experimental: {
     serverActions: {

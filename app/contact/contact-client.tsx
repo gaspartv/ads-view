@@ -30,7 +30,7 @@ function formatPhoneNumber(phone: string) {
   return phone;
 }
 
-export function ContactClient() {
+export function ContactClient({ contactData }: { contactData?: any }) {
   const { company } = useCompany();
 
   return (
@@ -53,7 +53,34 @@ export function ContactClient() {
                 Informações
               </h3>
 
-              {company?.name && (
+              {contactData?.Addresses && contactData.Addresses.length > 0 ? (
+                <div className="flex items-start gap-4">
+                  <div className="p-2.5 bg-primary/10 rounded-xl shrink-0">
+                    <MapPin className="w-5 h-5 text-primary" />
+                  </div>
+                  <div>
+                    <h4 className="font-medium text-foreground">Sede</h4>
+                    {contactData.Addresses.map((addr: any, idx: number) => {
+                      const addressParts = [
+                        addr.address,
+                        addr.number,
+                        addr.neighborhood ? `- ${addr.neighborhood}` : null,
+                        addr.city,
+                        addr.state ? `- ${addr.state}` : null,
+                      ].filter(Boolean);
+
+                      return (
+                        <p
+                          key={idx}
+                          className="text-sm text-muted-foreground mt-1 leading-relaxed"
+                        >
+                          {addressParts.join(", ")}
+                        </p>
+                      );
+                    })}
+                  </div>
+                </div>
+              ) : company?.name ? (
                 <div className="flex items-start gap-4">
                   <div className="p-2.5 bg-primary/10 rounded-xl shrink-0">
                     <MapPin className="w-5 h-5 text-primary" />
@@ -65,21 +92,9 @@ export function ContactClient() {
                     </p>
                   </div>
                 </div>
-              )}
+              ) : null}
 
-              {company?.whatsappNumber && (
-                <div className="flex items-start gap-4">
-                  <div className="p-2.5 bg-primary/10 rounded-xl shrink-0">
-                    <Phone className="w-5 h-5 text-primary" />
-                  </div>
-                  <div>
-                    <h4 className="font-medium text-foreground">WhatsApp</h4>
-                    <p className="text-sm text-muted-foreground mt-1">
-                      {formatPhoneNumber(company.whatsappNumber)}
-                    </p>
-                  </div>
-                </div>
-              )}
+
 
               <div className="flex items-start gap-4">
                 <div className="p-2.5 bg-primary/10 rounded-xl shrink-0">
@@ -89,46 +104,85 @@ export function ContactClient() {
                   <h4 className="font-medium text-foreground">
                     Horário de Atendimento
                   </h4>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    Domingo, 08:00 às 18:00
-                  </p>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    Segunda, 08:00 às 00:00
-                  </p>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    Terça, 08:00 às 00:00
-                  </p>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    Quarta, 08:00 às 00:00
-                  </p>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    Quinta, 08:00 às 00:00
-                  </p>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    Sexta, 08:00 às 18:00
-                  </p>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    Sábado, 18:00 às 00:00
-                  </p>
+                  {[
+                    { label: "Domingo", key: "Domingo" },
+                    { label: "Segunda", key: "Segunda" },
+                    { label: "Terça", key: "Terca" },
+                    { label: "Quarta", key: "Quarta" },
+                    { label: "Quinta", key: "Quinta" },
+                    { label: "Sexta", key: "Sexta" },
+                    { label: "Sábado", key: "Sabado" },
+                  ].map(({ label, key }) => (
+                    <p key={key} className="text-sm text-muted-foreground mt-1">
+                      {label}, {contactData?.businessHours?.[key] || "Fechado"}
+                    </p>
+                  ))}
                 </div>
               </div>
+
+              {contactData?.socialNetworks?.data && contactData.socialNetworks.data.length > 0 && (
+                <div className="flex items-start gap-4">
+                  <div className="p-2.5 bg-primary/10 rounded-xl shrink-0">
+                    <MessageCircle className="w-5 h-5 text-primary" />
+                  </div>
+                  <div>
+                    <h4 className="font-medium text-foreground">Redes Sociais</h4>
+                    <div className="mt-3 flex flex-col gap-3">
+                      {contactData.socialNetworks.data.map((social: any, idx: number) => {
+                        const href = social.url || social.link || "#";
+                        const finalHref = href !== "#" && !href.startsWith("http") ? `https://${href}` : href;
+
+                        return (
+                          <a
+                            key={idx}
+                            href={finalHref}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-3 text-sm text-foreground/90 hover:text-primary transition-colors"
+                          >
+                            {social.image ? (
+                              <img src={social.image} alt={social.name} className="w-6 h-6 object-contain rounded-sm" />
+                            ) : null}
+                            <span className="capitalize font-medium">{social.name}</span>
+                          </a>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
 
-            <div className="flex flex-col justify-center space-y-6 bg-muted/30 p-8 rounded-2xl border border-border/50">
-              <div className="text-center space-y-2">
-                <h3 className="text-xl font-semibold text-foreground/90">
-                  Contato Rápido
-                </h3>
-                <p className="text-sm text-muted-foreground">
-                  A maneira mais rápida de falar com nossa equipe é através do
-                  WhatsApp.
-                </p>
+            <div className="flex flex-col space-y-6 self-end h-fit w-full">
+              {(contactData?.whatsappNumber || company?.whatsappNumber) && (
+                <div className="flex items-start gap-4 p-8 rounded-2xl border border-border/50 bg-muted/30">
+                  <div className="p-2.5 bg-primary/10 rounded-xl shrink-0">
+                    <Phone className="w-5 h-5 text-primary" />
+                  </div>
+                  <div>
+                    <h4 className="font-medium text-foreground">WhatsApp</h4>
+                    <p className="text-sm text-muted-foreground mt-1">
+                      {formatPhoneNumber(contactData?.whatsappNumber || company?.whatsappNumber || "")}
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              <div className="flex flex-col justify-center space-y-6 p-8 rounded-2xl border border-border/50 bg-muted/30">
+                <div className="text-center space-y-2">
+                  <h3 className="text-xl font-semibold text-foreground/90">
+                    Contato Rápido
+                  </h3>
+                  <p className="text-sm text-muted-foreground">
+                    A maneira mais rápida de falar com nossa equipe é através do WhatsApp.
+                  </p>
+                </div>
+                <WhatsAppNegotiateButton
+                  message="Olá! Vim da página de contato e gostaria de tirar algumas dúvidas."
+                  text="Falar no WhatsApp"
+                  size="lg"
+                />
               </div>
-              <WhatsAppNegotiateButton
-                message="Olá! Vim da página de contato e gostaria de tirar algumas dúvidas."
-                text="Falar no WhatsApp"
-                size="lg"
-              />
             </div>
           </div>
         </CardContent>

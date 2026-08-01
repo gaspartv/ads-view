@@ -18,11 +18,11 @@ export default function ProductsDashboardPage() {
       <div className="relative overflow-hidden border-b border-border/50 bg-background/50 backdrop-blur-xl">
         {/* Efeito sutil de gradiente ao fundo */}
         <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-background to-background pointer-events-none" />
-        <div className="container mx-auto py-12 px-4 md:px-8 relative z-10">
+        <div className="container mx-auto py-6 px-4 md:px-8 relative z-10">
           <h1 className="text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/60">
             Produtos
           </h1>
-          <p className="text-muted-foreground mt-3 max-w-2xl text-lg">
+          <p className="text-muted-foreground mt-3 max-w-2xl text-md">
             Selecione a categoria de produto que deseja gerenciar.
           </p>
         </div>
@@ -32,7 +32,10 @@ export default function ProductsDashboardPage() {
       <div className="container mx-auto py-10 px-4 md:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Card Personagens */}
-          <Link href="/admin/dashboard/products/characters" className="group outline-none">
+          <Link
+            href="/admin/dashboard/products/characters"
+            className="group outline-none"
+          >
             <Card className="relative overflow-hidden h-full border border-border/50 bg-card/40 backdrop-blur-sm transition-all duration-300 hover:shadow-2xl hover:shadow-primary/5 hover:border-primary/20 hover:-translate-y-1">
               <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               <CardHeader className="pb-4">
@@ -51,7 +54,10 @@ export default function ProductsDashboardPage() {
           </Link>
 
           {/* Card Contas com loyalty */}
-          <Link href="/admin/dashboard/products/account-loyalty" className="group outline-none">
+          <Link
+            href="/admin/dashboard/products/account-loyalty"
+            className="group outline-none"
+          >
             <Card className="relative overflow-hidden h-full border border-border/50 bg-card/40 backdrop-blur-sm transition-all duration-300 hover:shadow-2xl hover:shadow-primary/5 hover:border-primary/20 hover:-translate-y-1">
               <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               <CardHeader className="pb-4">
@@ -63,14 +69,18 @@ export default function ProductsDashboardPage() {
                   <ArrowRight className="w-5 h-5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-primary" />
                 </CardTitle>
                 <CardDescription className="text-sm mt-2 leading-relaxed">
-                  Gerencie as contas com benefícios de loyalty e seus respectivos detalhes.
+                  Gerencie as contas com benefícios de loyalty e seus
+                  respectivos detalhes.
                 </CardDescription>
               </CardHeader>
             </Card>
           </Link>
 
           {/* Card Tibia Coins */}
-          <Link href="/admin/dashboard/products/tibia-coins" className="group outline-none">
+          <Link
+            href="/admin/dashboard/products/tibia-coins"
+            className="group outline-none"
+          >
             <Card className="relative overflow-hidden h-full border border-border/50 bg-card/40 backdrop-blur-sm transition-all duration-300 hover:shadow-2xl hover:shadow-primary/5 hover:border-primary/20 hover:-translate-y-1">
               <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               <CardHeader className="pb-4">
@@ -82,7 +92,8 @@ export default function ProductsDashboardPage() {
                   <ArrowRight className="w-5 h-5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-primary" />
                 </CardTitle>
                 <CardDescription className="text-sm mt-2 leading-relaxed">
-                  Gerencie os pacotes e preços de Tibia Coins disponíveis para os usuários.
+                  Gerencie os pacotes e preços de Tibia Coins disponíveis para
+                  os usuários.
                 </CardDescription>
               </CardHeader>
             </Card>

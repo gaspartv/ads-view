@@ -478,7 +478,7 @@ export default async function CharacterPage(props: {
                 <span className="font-medium flex items-center gap-1.5">
                   {character.transferable ? (
                     <>
-                      <CheckCircle2 className="w-3.5 h-3.5 text-green-500" />{" "}
+                      <CheckCircle2 className="w-3.5 h-3.5 text-primary" />{" "}
                       Sim
                     </>
                   ) : (

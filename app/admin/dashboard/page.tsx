@@ -24,7 +24,7 @@ export default function AdminDashboardPage() {
       <div className="relative overflow-hidden border-b border-border/50 bg-background/50 backdrop-blur-xl">
         {/* Efeito sutil de gradiente ao fundo */}
         <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-background to-background pointer-events-none" />
-        <div className="container mx-auto py-6 px-4 md:px-8 relative z-10">
+        <div className="w-full py-6 px-4 md:px-8 relative z-10">
           <h1 className="text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/60">
             Painel de Controle
           </h1>
@@ -36,7 +36,7 @@ export default function AdminDashboardPage() {
       </div>
 
       {/* Grid de Módulos */}
-      <div className="container mx-auto py-10 px-4 md:px-8">
+      <div className="w-full py-10 px-4 md:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Card de Produtos */}
           <Link href="/admin/dashboard/products" className="group outline-none">
