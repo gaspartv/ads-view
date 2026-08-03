@@ -8,9 +8,11 @@ interface ProductCharacterCardProps {
 
 export function ProductCharacterCard({ character }: ProductCharacterCardProps) {
   const imageUrl =
-    character.Images && character.Images.length > 0
-      ? character.Images[0].url
-      : null;
+    character.pictureUrl && character.pictureUrl !== "/uploads/system/no-image.jpg"
+      ? character.pictureUrl
+      : character.Images && character.Images.length > 0
+        ? character.Images[0].url
+        : null;
 
   const isSoldOut = character.disabledAt !== null;
 
