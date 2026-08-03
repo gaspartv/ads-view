@@ -83,12 +83,13 @@ export function CharacterFormModal({
     level: "",
     loyalty: "",
     magicLevel: "",
-    fistFighting: null,
-    swordFighting: null,
-    axeFighting: null,
-    clubFighting: null,
-    distanceFighting: null,
+    fistFighting: "",
+    swordFighting: "",
+    axeFighting: "",
+    clubFighting: "",
+    distanceFighting: "",
     shielding: "",
+    fishing: "",
     charmPoints: "",
     inventoryValue: "",
     charmExpansion: false,
@@ -123,12 +124,13 @@ export function CharacterFormModal({
           level: character.level?.toString() || "",
           loyalty: character.loyalty?.toString() || "",
           magicLevel: character.magicLevel?.toString() || "",
-          fistFighting: character.fistFighting?.toString() || null,
-          swordFighting: character.swordFighting?.toString() || null,
-          axeFighting: character.axeFighting?.toString() || null,
-          clubFighting: character.clubFighting?.toString() || null,
-          distanceFighting: character.distanceFighting?.toString() || null,
+          fistFighting: character.fistFighting?.toString() || "",
+          swordFighting: character.swordFighting?.toString() || "",
+          axeFighting: character.axeFighting?.toString() || "",
+          clubFighting: character.clubFighting?.toString() || "",
+          distanceFighting: character.distanceFighting?.toString() || "",
           shielding: character.shielding?.toString() || "",
+          fishing: character.fishing?.toString() || "",
           charmPoints: character.charmPoints?.toString() || "",
           inventoryValue: character.inventoryValue?.toString() || "",
           charmExpansion: character.charmExpansion || false,
@@ -161,12 +163,13 @@ export function CharacterFormModal({
           level: "",
           loyalty: "",
           magicLevel: "",
-          fistFighting: null,
-          swordFighting: null,
-          axeFighting: null,
-          clubFighting: null,
-          distanceFighting: null,
+          fistFighting: "",
+          swordFighting: "",
+          axeFighting: "",
+          clubFighting: "",
+          distanceFighting: "",
           shielding: "",
+          fishing: "",
           charmPoints: "",
           inventoryValue: "",
           charmExpansion: false,
@@ -391,7 +394,7 @@ export function CharacterFormModal({
                 <Input
                   id="magicLevel"
                   name="magicLevel"
-                  type="number"
+                  type="text"
                   value={formData.magicLevel}
                   onChange={handleChange}
                 />
@@ -401,7 +404,7 @@ export function CharacterFormModal({
                 <Input
                   id="fistFighting"
                   name="fistFighting"
-                  type="number"
+                  type="text"
                   value={formData.fistFighting}
                   onChange={handleChange}
                 />
@@ -411,7 +414,7 @@ export function CharacterFormModal({
                 <Input
                   id="swordFighting"
                   name="swordFighting"
-                  type="number"
+                  type="text"
                   value={formData.swordFighting}
                   onChange={handleChange}
                 />
@@ -421,7 +424,7 @@ export function CharacterFormModal({
                 <Input
                   id="axeFighting"
                   name="axeFighting"
-                  type="number"
+                  type="text"
                   value={formData.axeFighting}
                   onChange={handleChange}
                 />
@@ -431,7 +434,7 @@ export function CharacterFormModal({
                 <Input
                   id="clubFighting"
                   name="clubFighting"
-                  type="number"
+                  type="text"
                   value={formData.clubFighting}
                   onChange={handleChange}
                 />
@@ -441,7 +444,7 @@ export function CharacterFormModal({
                 <Input
                   id="distanceFighting"
                   name="distanceFighting"
-                  type="number"
+                  type="text"
                   value={formData.distanceFighting}
                   onChange={handleChange}
                 />
@@ -451,8 +454,18 @@ export function CharacterFormModal({
                 <Input
                   id="shielding"
                   name="shielding"
-                  type="number"
+                  type="text"
                   value={formData.shielding}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="fishing">Fishing</Label>
+                <Input
+                  id="fishing"
+                  name="fishing"
+                  type="text"
+                  value={formData.fishing}
                   onChange={handleChange}
                 />
               </div>

@@ -118,6 +118,10 @@ export function CharacterViewModal({ isOpen, onClose, character }: CharacterView
               <span className="text-xs text-muted-foreground font-medium uppercase">Shielding</span>
               <p className="text-sm">{character.shielding || "-"}</p>
             </div>
+            <div className="space-y-1">
+              <span className="text-xs text-muted-foreground font-medium uppercase">Fishing</span>
+              <p className="text-sm">{character.fishing || "-"}</p>
+            </div>
           </div>
 
           <div className="grid grid-cols-2 gap-4 border-t pt-4">

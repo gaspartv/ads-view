@@ -59,13 +59,14 @@ export async function createCharacter(formData: FormData) {
         : undefined,
       level: Number(payload.level),
       loyalty: Number(payload.loyalty),
-      magicLevel: Number(payload.magicLevel),
-      fistFighting: Number(payload.fistFighting),
-      swordFighting: Number(payload.swordFighting),
-      axeFighting: Number(payload.axeFighting),
-      clubFighting: Number(payload.clubFighting),
-      distanceFighting: Number(payload.distanceFighting),
-      shielding: Number(payload.shielding),
+      magicLevel: payload.magicLevel,
+      fistFighting: payload.fistFighting,
+      swordFighting: payload.swordFighting,
+      axeFighting: payload.axeFighting,
+      clubFighting: payload.clubFighting,
+      distanceFighting: payload.distanceFighting,
+      shielding: payload.shielding,
+      fishing: payload.fishing,
       charmPoints: Number(payload.charmPoints),
       inventoryValue: payload.inventoryValue
         ? Number(payload.inventoryValue)
@@ -118,23 +119,14 @@ export async function editCharacter(id: string, formData: FormData) {
         : undefined,
       level: payload.level ? Number(payload.level) : undefined,
       loyalty: payload.loyalty ? Number(payload.loyalty) : undefined,
-      magicLevel: payload.magicLevel ? Number(payload.magicLevel) : undefined,
-      fistFighting: payload.fistFighting
-        ? Number(payload.fistFighting)
-        : undefined,
-      swordFighting: payload.swordFighting
-        ? Number(payload.swordFighting)
-        : undefined,
-      axeFighting: payload.axeFighting
-        ? Number(payload.axeFighting)
-        : undefined,
-      clubFighting: payload.clubFighting
-        ? Number(payload.clubFighting)
-        : undefined,
-      distanceFighting: payload.distanceFighting
-        ? Number(payload.distanceFighting)
-        : undefined,
-      shielding: payload.shielding ? Number(payload.shielding) : undefined,
+      magicLevel: payload.magicLevel ? payload.magicLevel : undefined,
+      fistFighting: payload.fistFighting ? payload.fistFighting : undefined,
+      swordFighting: payload.swordFighting ? payload.swordFighting : undefined,
+      axeFighting: payload.axeFighting ? payload.axeFighting : undefined,
+      clubFighting: payload.clubFighting ? payload.clubFighting : undefined,
+      distanceFighting: payload.distanceFighting ? payload.distanceFighting : undefined,
+      shielding: payload.shielding ? payload.shielding : undefined,
+      fishing: payload.fishing ? payload.fishing : undefined,
       charmPoints: payload.charmPoints
         ? Number(payload.charmPoints)
         : undefined,
