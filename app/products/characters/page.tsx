@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { getAuthHeaders } from "@/lib/auth";
 import { getCompanyInfo } from "@/app/actions/company";
+import { CharacterFilters } from "@/components/character-filters";
 
 const API_URL = process.env.API_URL;
 
@@ -16,10 +17,10 @@ export async function generateMetadata() {
   };
 }
 
-async function getCharacters() {
+async function getCharacters(queryString: string) {
   try {
     const res = await fetch(
-      `${API_URL}/product-character/list/public?status=ativo`,
+      `${API_URL}/product-character/list/public?status=ativo&${queryString}`,
       {
         method: "GET",
         headers: await getAuthHeaders(),
@@ -39,8 +40,38 @@ async function getCharacters() {
   }
 }
 
-export default async function CharactersPage() {
-  const response = await getCharacters();
+async function getWorlds() {
+  try {
+    const res = await fetch(`${API_URL}/info/list/worlds`, {
+      method: "GET",
+      next: { revalidate: 3600 },
+    });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching worlds:", error);
+    return [];
+  }
+}
+
+export default async function CharactersPage({
+  searchParams,
+}: {
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  const resolvedParams = searchParams ? await searchParams : {};
+  const query = new URLSearchParams();
+  Object.entries(resolvedParams).forEach(([key, value]) => {
+    if (typeof value === "string") {
+      query.set(key, value);
+    } else if (Array.isArray(value)) {
+      query.set(key, value[0]);
+    }
+  });
+
+  const response = await getCharacters(query.toString());
+  const worlds = await getWorlds();
 
   if (!response) {
     return (
@@ -60,37 +91,43 @@ export default async function CharactersPage() {
   return (
     <div className="cursor-default flex flex-col min-h-screen bg-background font-sans pt-12 pb-24">
       <div className="w-full px-4 md:px-8">
-        <nav className="flex items-center space-x-1.5 text-xs text-muted-foreground mb-6">
-          <Link href="/" className="hover:text-foreground transition-colors">
-            Início
-          </Link>
-          <ChevronRight className="h-4 w-4" />
-          <Link
-            href="/products"
-            className="hover:text-foreground transition-colors"
-          >
-            Produtos
-          </Link>
-          <ChevronRight className="h-4 w-4" />
-          <span className="text-foreground font-medium">Personagens</span>
-        </nav>
-
-        {characters.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
-            {characters.map((character: any) => (
-              <ProductCharacterCard key={character.id} character={character} />
-            ))}
-          </div>
-        ) : (
-          <div className="py-24 text-center border rounded-2xl bg-zinc-50 dark:bg-zinc-900/50">
-            <h3 className="text-xl font-semibold text-muted-foreground mb-4">
-              Nenhum personagem encontrado.
-            </h3>
-            <Link href="/">
-              <Button variant="default">Voltar para o início</Button>
+        <div className="flex justify-between items-center mb-6">
+          <nav className="flex items-center space-x-1.5 text-xs text-muted-foreground">
+            <Link href="/" className="hover:text-foreground transition-colors">
+              Início
             </Link>
-          </div>
-        )}
+            <ChevronRight className="h-4 w-4" />
+            <Link
+              href="/products"
+              className="hover:text-foreground transition-colors"
+            >
+              Produtos
+            </Link>
+            <ChevronRight className="h-4 w-4" />
+            <span className="text-foreground font-medium">Personagens</span>
+          </nav>
+          
+          <CharacterFilters worlds={worlds} />
+        </div>
+
+        <div className="flex-1">
+          {characters.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
+              {characters.map((character: any) => (
+                <ProductCharacterCard key={character.id} character={character} />
+              ))}
+            </div>
+          ) : (
+            <div className="py-24 text-center border rounded-2xl bg-zinc-50 dark:bg-zinc-900/50">
+              <h3 className="text-xl font-semibold text-muted-foreground mb-4">
+                Nenhum personagem encontrado com estes filtros.
+              </h3>
+              <Link href="/products/characters">
+                <Button variant="default">Limpar Filtros</Button>
+              </Link>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

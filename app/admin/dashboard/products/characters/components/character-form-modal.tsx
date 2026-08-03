@@ -30,6 +30,12 @@ interface CharacterFormModalProps {
   mounts: any[];
 }
 
+function formatSkill(base?: number | null, extra?: number | null): string {
+  if (base == null) return "";
+  if (extra && extra > 0) return `${base}+${extra}`;
+  return base.toString();
+}
+
 export function CharacterFormModal({
   isOpen,
   onClose,
@@ -125,14 +131,14 @@ export function CharacterFormModal({
           vocation: character.vocation || "KNIGHT",
           level: character.level?.toString() || "",
           loyalty: character.loyalty?.toString() || "",
-          magicLevel: character.magicLevel?.toString() || "",
-          fistFighting: character.fistFighting?.toString() || "",
-          swordFighting: character.swordFighting?.toString() || "",
-          axeFighting: character.axeFighting?.toString() || "",
-          clubFighting: character.clubFighting?.toString() || "",
-          distanceFighting: character.distanceFighting?.toString() || "",
-          shielding: character.shielding?.toString() || "",
-          fishing: character.fishing?.toString() || "",
+          magicLevel: formatSkill(character.magicLevel, character.magicLevelExtra),
+          fistFighting: formatSkill(character.fistFighting, character.fistFightingExtra),
+          swordFighting: formatSkill(character.swordFighting, character.swordFightingExtra),
+          axeFighting: formatSkill(character.axeFighting, character.axeFightingExtra),
+          clubFighting: formatSkill(character.clubFighting, character.clubFightingExtra),
+          distanceFighting: formatSkill(character.distanceFighting, character.distanceFightingExtra),
+          shielding: formatSkill(character.shielding, character.shieldingExtra),
+          fishing: formatSkill(character.fishing, character.fishingExtra),
           charmPoints: character.charmPoints?.toString() || "",
           inventoryValue: character.inventoryValue?.toString() || "",
           charmExpansion: character.charmExpansion || false,
@@ -265,11 +271,30 @@ export function CharacterFormModal({
     e.preventDefault();
     const data = new FormData();
 
+    const skillFields = [
+      "magicLevel",
+      "fistFighting",
+      "swordFighting",
+      "axeFighting",
+      "clubFighting",
+      "distanceFighting",
+      "shielding",
+      "fishing",
+    ];
+
     Object.entries(formData).forEach(([key, value]) => {
       if (key === "price" || key === "promotionalPrice") {
         if (value) {
           const numericValue = String(value).replace(/\D/g, "");
           data.append(key, numericValue);
+        }
+      } else if (skillFields.includes(key) && value) {
+        const parts = String(value).split("+");
+        const base = parts[0].trim();
+        data.append(key, base);
+        if (parts.length > 1) {
+          const extra = parts[1].trim();
+          data.append(`${key}Extra`, extra);
         }
       } else {
         data.append(key, String(value));

@@ -8,7 +8,8 @@ interface ProductCharacterCardProps {
 
 export function ProductCharacterCard({ character }: ProductCharacterCardProps) {
   const imageUrl =
-    character.pictureUrl && character.pictureUrl !== "/uploads/system/no-image.jpg"
+    character.pictureUrl &&
+    character.pictureUrl !== "/uploads/system/no-image.jpg"
       ? character.pictureUrl
       : character.Images && character.Images.length > 0
         ? character.Images[0].url
@@ -69,7 +70,7 @@ export function ProductCharacterCard({ character }: ProductCharacterCardProps) {
                 <img
                   src={imageUrl}
                   alt={character.title}
-                  className="w-full h-full object-contain"
+                  className="w-full h-full object-contain origin-bottom-right scale-[1.25] transition-transform duration-500"
                 />
               ) : (
                 <div className="text-[10px] text-muted-foreground text-center">
