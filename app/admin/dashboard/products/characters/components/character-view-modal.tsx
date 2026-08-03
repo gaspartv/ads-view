@@ -38,6 +38,13 @@ export function CharacterViewModal({ isOpen, onClose, character }: CharacterView
                 alt={character.title}
                 className="w-24 h-24 sm:w-32 sm:h-32 rounded-lg object-cover border bg-muted shrink-0"
               />
+            ) : character.pictureUrl && character.pictureUrl !== "/uploads/system/no-image.jpg" ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={character.pictureUrl}
+                alt={character.title}
+                className="w-24 h-24 sm:w-32 sm:h-32 rounded-lg object-cover border bg-muted shrink-0"
+              />
             ) : (
               <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-lg border bg-muted flex items-center justify-center shrink-0">
                 <span className="text-muted-foreground text-xs">Sem Imagem</span>

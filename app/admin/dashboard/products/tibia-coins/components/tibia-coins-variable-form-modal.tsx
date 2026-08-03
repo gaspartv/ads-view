@@ -40,7 +40,6 @@ export function TibiaCoinsVariableFormModal({
     max: "",
     price: "",
     promotionalPrice: "",
-    url: "",
   });
 
   useEffect(() => {
@@ -53,7 +52,6 @@ export function TibiaCoinsVariableFormModal({
         promotionalPrice: variable.promotionalPrice
           ? formatCurrency(variable.promotionalPrice)
           : "",
-        url: variable.url || "",
       });
     } else if (isOpen) {
       setFormData({
@@ -62,7 +60,6 @@ export function TibiaCoinsVariableFormModal({
         max: "",
         price: "",
         promotionalPrice: "",
-        url: "",
       });
     }
   }, [variable, isOpen]);
@@ -97,7 +94,6 @@ export function TibiaCoinsVariableFormModal({
           max: formData.max ? Number(formData.max) : undefined,
           price: rawPrice,
           promotionalPrice: rawPromotional,
-          url: formData.url || undefined,
           productTibiaCoinsId,
         };
 
@@ -178,16 +174,6 @@ export function TibiaCoinsVariableFormModal({
                 placeholder="R$ 0,00"
               />
             </div>
-          </div>
-          <div className="space-y-2">
-            <Label>URL (Checkout / etc)</Label>
-            <Input
-              type="url"
-              name="url"
-              value={formData.url}
-              onChange={handleChange}
-              placeholder="https://..."
-            />
           </div>
           <DialogFooter>
             <Button

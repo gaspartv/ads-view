@@ -16,7 +16,7 @@ import {
   editCharacter,
 } from "@/app/actions/product-character";
 import { toast } from "sonner";
-import { ChevronDown, ChevronUp, X, Plus } from "lucide-react";
+import { ChevronDown, ChevronUp, X, Plus, Image as ImageIcon } from "lucide-react";
 
 import { formatCurrency } from "@/lib/formatters";
 
@@ -102,6 +102,7 @@ export function CharacterFormModal({
   const [mountsId, setMountsId] = useState<string[]>([]);
   const [outfits, setOutfits] = useState<{ id: string; level: string }[]>([]);
   const [metadataEntries, setMetadataEntries] = useState<{key: string, value: string}[]>([]);
+  const [selectedCoverIndex, setSelectedCoverIndex] = useState<number | null>(null);
 
   useEffect(() => {
     if (isOpen) {
@@ -141,12 +142,24 @@ export function CharacterFormModal({
         });
         setCharmsId(character.Charms?.map((c: any) => c.id) || []);
         setMountsId(character.Mounts?.map((m: any) => m.id) || []);
-        setOutfits(
-          character.Outfits?.map((o: any) => ({
-            id: o.outfitId,
-            level: o.nivel,
-          })) || [],
-        );
+        const mappedOutfits = character.Outfits?.map((o: any) => ({
+          id: o.outfitId,
+          level: o.nivel,
+        })) || [];
+        setOutfits(mappedOutfits);
+
+        // Pré-selecionar o outfit marcado como capa (pictureUrl != default)
+        if (character.pictureUrl && character.pictureUrl !== "/uploads/system/no-image.jpg" && character.Outfits?.length) {
+          // Encontrar pelo pictureOutfitId salvo ou pelo primeiro outfit como fallback
+          const coverIdx = mappedOutfits.findIndex((o: any) => {
+            // Tenta encontrar pelo match — se o backend guardou, tenta usar a mesma combinação
+            return character._pictureOutfitId === o.id;
+          });
+          setSelectedCoverIndex(coverIdx >= 0 ? coverIdx : 0);
+        } else {
+          setSelectedCoverIndex(null);
+        }
+
         if (character.metadata && typeof character.metadata === 'object') {
           setMetadataEntries(Object.entries(character.metadata).map(([k, v]) => ({ key: k, value: String(v) })));
         } else {
@@ -187,6 +200,7 @@ export function CharacterFormModal({
         setMountsId([]);
         setOutfits([]);
         setMetadataEntries([]);
+        setSelectedCoverIndex(null);
       }
     }
   }, [isOpen, character]);
@@ -223,6 +237,12 @@ export function CharacterFormModal({
     const newOutfits = [...outfits];
     newOutfits.splice(index, 1);
     setOutfits(newOutfits);
+    // Ajustar selectedCoverIndex ao remover outfit
+    if (selectedCoverIndex === index) {
+      setSelectedCoverIndex(null);
+    } else if (selectedCoverIndex !== null && selectedCoverIndex > index) {
+      setSelectedCoverIndex(selectedCoverIndex - 1);
+    }
   };
 
   const addMetadataEntry = () => {
@@ -259,6 +279,12 @@ export function CharacterFormModal({
     data.append("charmsId", JSON.stringify(charmsId));
     data.append("mountsId", JSON.stringify(mountsId));
     data.append("outfits", JSON.stringify(outfits.filter((o) => o.id))); // apenas válidos
+
+    // Enviar outfit selecionado como capa
+    if (selectedCoverIndex !== null && outfits[selectedCoverIndex]?.id) {
+      data.append("pictureOutfitId", outfits[selectedCoverIndex].id);
+      data.append("pictureOutfitLevel", outfits[selectedCoverIndex].level);
+    }
 
     const metadataObj = metadataEntries.reduce((acc, curr) => {
       if (curr.key.trim()) acc[curr.key.trim()] = curr.value;
@@ -793,8 +819,32 @@ export function CharacterFormModal({
                   {outfits.map((outfit, index) => (
                     <div
                       key={index}
-                      className="flex gap-2 items-center p-2 border rounded-md"
+                      className={`flex gap-2 items-center p-2 border rounded-md transition-colors ${
+                        selectedCoverIndex === index
+                          ? "border-primary bg-primary/5"
+                          : ""
+                      }`}
                     >
+                      <button
+                        type="button"
+                        title={
+                          selectedCoverIndex === index
+                            ? "Foto de capa selecionada"
+                            : "Usar como foto de capa"
+                        }
+                        className={`shrink-0 flex items-center justify-center w-9 h-9 rounded-md border transition-colors cursor-pointer ${
+                          selectedCoverIndex === index
+                            ? "bg-primary text-primary-foreground border-primary"
+                            : "bg-background text-muted-foreground border-input hover:border-primary hover:text-primary"
+                        }`}
+                        onClick={() =>
+                          setSelectedCoverIndex(
+                            selectedCoverIndex === index ? null : index,
+                          )
+                        }
+                      >
+                        <ImageIcon className="w-4 h-4" />
+                      </button>
                       <div className="flex-1">
                         <select
                           value={outfit.id}
@@ -837,6 +887,11 @@ export function CharacterFormModal({
                       </Button>
                     </div>
                   ))}
+                  {selectedCoverIndex !== null && outfits[selectedCoverIndex]?.id && (
+                    <p className="text-xs text-primary font-medium">
+                      📷 Outfit selecionado como foto de capa: {availableOutfits.find((o) => o.id === outfits[selectedCoverIndex]?.id)?.name || ""}
+                    </p>
+                  )}
                   {outfits.length === 0 && (
                     <p className="text-xs text-muted-foreground">
                       Nenhum outfit adicionado.

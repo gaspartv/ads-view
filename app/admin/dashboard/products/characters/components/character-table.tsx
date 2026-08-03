@@ -347,6 +347,13 @@ export function CharacterTable({
                             alt={character.title}
                             className="w-10 h-10 rounded-md object-cover border bg-muted group-hover/img:opacity-80 transition-opacity"
                           />
+                        ) : character.pictureUrl && character.pictureUrl !== "/uploads/system/no-image.jpg" ? (
+                          /* eslint-disable-next-line @next/next/no-img-element */
+                          <img
+                            src={character.pictureUrl}
+                            alt={character.title}
+                            className="w-10 h-10 rounded-md object-cover border bg-muted group-hover/img:opacity-80 transition-opacity"
+                          />
                         ) : (
                           <div className="w-10 h-10 rounded-md border bg-muted flex items-center justify-center group-hover/img:opacity-80 transition-opacity">
                             <ImageIcon className="w-4 h-4 text-muted-foreground" />

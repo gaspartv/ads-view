@@ -79,6 +79,8 @@ export async function createCharacter(formData: FormData) {
       mountsId: payload.mountsId ? JSON.parse(payload.mountsId as string) : [],
       outfits: payload.outfits ? JSON.parse(payload.outfits as string) : [],
       metadata: payload.metadata ? JSON.parse(payload.metadata as string) : undefined,
+      pictureOutfitId: payload.pictureOutfitId || undefined,
+      pictureOutfitLevel: payload.pictureOutfitLevel || undefined,
     };
 
     const res = await fetch(`${API_URL}/product-character/create`, {
@@ -150,6 +152,8 @@ export async function editCharacter(id: string, formData: FormData) {
       metadata: payload.metadata
         ? JSON.parse(payload.metadata as string)
         : undefined,
+      pictureOutfitId: payload.pictureOutfitId || undefined,
+      pictureOutfitLevel: payload.pictureOutfitLevel || undefined,
     };
 
     // Remove empty fields
