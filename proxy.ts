@@ -7,8 +7,6 @@ const publicGlobalRoutes = [
   "/contact",
   "/products",
   "/products/tibia-coins",
-  "/products/tibia-coins/sell",
-  "/products/tibia-coins/buy",
   "/products/characters",
   "/products/characters/*",
   "/products/account-loyalty",

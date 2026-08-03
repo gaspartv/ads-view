@@ -35,17 +35,23 @@ export function TibiaCoinsCard({ product, isSelected, onClick, onEdit }: TibiaCo
   };
 
   const isActive = !product.disabledAt;
+  const isCompra = product.type !== "BUY";
 
   return (
     <Card 
       className={cn(
-        "cursor-pointer transition-all hover:border-primary/50",
-        isSelected ? "border-primary shadow-sm" : "border-border"
+        "cursor-pointer transition-all hover:border-primary/50 relative overflow-hidden",
+        isSelected ? "border-primary shadow-md ring-1 ring-primary" : "border-border",
+        isCompra && !isSelected ? "bg-gradient-to-br from-primary/10 via-background to-background border-primary/40 shadow-sm" : "",
+        isCompra && isSelected ? "bg-primary/10" : ""
       )}
       onClick={onClick}
     >
+      {isCompra && (
+        <div className="absolute top-0 right-0 w-2 h-full bg-primary/80" />
+      )}
       <CardHeader className="flex flex-row items-center justify-between pb-2">
-        <CardTitle className="text-xl font-bold">
+        <CardTitle className={cn("text-xl font-bold", isCompra && "text-primary")}>
           {product.type === "BUY" ? "Venda de Tibia Coins" : "Compra de Tibia Coins"}
         </CardTitle>
         <Badge variant={isActive ? "default" : "destructive"}>

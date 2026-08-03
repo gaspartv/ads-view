@@ -74,13 +74,6 @@ export function Sidebar() {
       name: "Empresa",
       href: "/admin/dashboard/company",
       icon: Palette,
-      subItems: [
-        {
-          name: "Aparência",
-          href: "/admin/dashboard/company/theme",
-          moduleCode: null,
-        },
-      ],
     },
   ];
 

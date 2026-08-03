@@ -74,11 +74,6 @@ export default async function AccountLoyaltyPage() {
           <ChevronRight className="h-4 w-4" />
           <span className="text-foreground font-medium">Contas Loyalty</span>
         </nav>
-        <div className="relative flex items-center justify-center mb-8">
-          <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground text-center">
-            Contas Loyalty
-          </h1>
-        </div>
 
         {accounts.length > 0 ? (
           <ClientTable accounts={accounts} />

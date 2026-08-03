@@ -101,6 +101,7 @@ export function CharacterFormModal({
   const [charmsId, setCharmsId] = useState<string[]>([]);
   const [mountsId, setMountsId] = useState<string[]>([]);
   const [outfits, setOutfits] = useState<{ id: string; level: string }[]>([]);
+  const [metadataEntries, setMetadataEntries] = useState<{key: string, value: string}[]>([]);
 
   useEffect(() => {
     if (isOpen) {
@@ -146,6 +147,11 @@ export function CharacterFormModal({
             level: o.nivel,
           })) || [],
         );
+        if (character.metadata && typeof character.metadata === 'object') {
+          setMetadataEntries(Object.entries(character.metadata).map(([k, v]) => ({ key: k, value: String(v) })));
+        } else {
+          setMetadataEntries([]);
+        }
       } else {
         setFormData({
           title: "",
@@ -180,6 +186,7 @@ export function CharacterFormModal({
         setCharmsId([]);
         setMountsId([]);
         setOutfits([]);
+        setMetadataEntries([]);
       }
     }
   }, [isOpen, character]);
@@ -218,6 +225,22 @@ export function CharacterFormModal({
     setOutfits(newOutfits);
   };
 
+  const addMetadataEntry = () => {
+    setMetadataEntries([...metadataEntries, { key: "", value: "" }]);
+  };
+
+  const updateMetadataEntry = (index: number, field: "key" | "value", val: string) => {
+    const newEntries = [...metadataEntries];
+    newEntries[index][field] = val;
+    setMetadataEntries(newEntries);
+  };
+
+  const removeMetadataEntry = (index: number) => {
+    const newEntries = [...metadataEntries];
+    newEntries.splice(index, 1);
+    setMetadataEntries(newEntries);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const data = new FormData();
@@ -236,6 +259,15 @@ export function CharacterFormModal({
     data.append("charmsId", JSON.stringify(charmsId));
     data.append("mountsId", JSON.stringify(mountsId));
     data.append("outfits", JSON.stringify(outfits.filter((o) => o.id))); // apenas válidos
+
+    const metadataObj = metadataEntries.reduce((acc, curr) => {
+      if (curr.key.trim()) acc[curr.key.trim()] = curr.value;
+      return acc;
+    }, {} as Record<string, string>);
+    
+    if (Object.keys(metadataObj).length > 0) {
+      data.append("metadata", JSON.stringify(metadataObj));
+    }
 
     startTransition(async () => {
       let result;
@@ -811,6 +843,55 @@ export function CharacterFormModal({
                     </p>
                   )}
                 </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            <h3 className="text-lg font-medium border-b pb-2">Extra</h3>
+            <div className="space-y-4">
+              <div className="flex justify-between items-center">
+                <p className="text-sm text-muted-foreground">Adicione informações extras de chave e valor.</p>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={addMetadataEntry}
+                >
+                  <Plus className="w-3 h-3 mr-1" /> Nova Chave
+                </Button>
+              </div>
+              <div className="space-y-3">
+                {metadataEntries.map((entry, index) => (
+                  <div key={index} className="flex gap-2 items-center p-2 border rounded-md">
+                    <Input
+                      placeholder="Chave (ex: info_secreta)"
+                      value={entry.key}
+                      onChange={(e) => updateMetadataEntry(index, "key", e.target.value)}
+                      className="flex-1 h-9"
+                    />
+                    <Input
+                      placeholder="Valor"
+                      value={entry.value}
+                      onChange={(e) => updateMetadataEntry(index, "value", e.target.value)}
+                      className="flex-1 h-9"
+                    />
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="text-destructive h-9 px-2"
+                      onClick={() => removeMetadataEntry(index)}
+                    >
+                      <X className="w-4 h-4" />
+                    </Button>
+                  </div>
+                ))}
+                {metadataEntries.length === 0 && (
+                  <p className="text-xs text-muted-foreground">
+                    Nenhum campo extra adicionado.
+                  </p>
+                )}
               </div>
             </div>
           </div>

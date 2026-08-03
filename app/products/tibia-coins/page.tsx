@@ -1,88 +1,102 @@
-import Link from "next/link";
+import { TibiaCoinDynamicCard } from "@/components/tibia-coin-dynamic-card";
+import { TibiaCoinsTabs } from "@/components/tibia-coins-tabs";
 import { ChevronRight } from "lucide-react";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { getAuthHeaders } from "@/lib/auth";
+import { getCompanyInfo } from "@/app/actions/company";
 
-export const metadata = {
-  title: "Tibia Coins - Thygas Coins",
-};
+const API_URL = process.env.API_URL;
 
-export default function TibiaCoinsPage() {
+export async function generateMetadata() {
+  const response = await getCompanyInfo();
+  const company = response?.success ? response.data : null;
+
+  return {
+    title: "Tibia Coins - " + (company?.name || "Lojas"),
+  };
+}
+
+async function getTibiaCoinsProducts(type: string) {
+  try {
+    const res = await fetch(
+      `${API_URL}/product-tibia-coins/list/public?type=${type}`,
+      {
+        method: "GET",
+        headers: await getAuthHeaders(),
+        next: { revalidate: 60 },
+      },
+    );
+
+    if (!res.ok) {
+      return null;
+    }
+
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.error(`Error fetching tibia coins products (${type}):`, error);
+    return null;
+  }
+}
+
+export default async function TibiaCoinsV2Page() {
+  // Buscar BUY e SELL concorrentemente
+  const [buyResponse, sellResponse] = await Promise.all([
+    getTibiaCoinsProducts("BUY"),
+    getTibiaCoinsProducts("SELL"),
+  ]);
+
+  const buyProduct =
+    Array.isArray(buyResponse) && buyResponse.length > 0
+      ? buyResponse[0]
+      : null;
+  const sellProduct =
+    Array.isArray(sellResponse) && sellResponse.length > 0
+      ? sellResponse[0]
+      : null;
+
+  const hasBuy = buyProduct?.Variables?.length > 0;
+  const hasSell = sellProduct?.Variables?.length > 0;
+  const bothHaveContent = hasBuy && hasSell;
+
+  const buyCard = (
+    <div className="flex flex-col items-center w-full">
+      <TibiaCoinDynamicCard product={buyProduct} type="BUY" />
+    </div>
+  );
+
+  const sellCard = (
+    <div className="flex flex-col items-center w-full">
+      <TibiaCoinDynamicCard product={sellProduct} type="SELL" />
+    </div>
+  );
+
   return (
-    <div className="cursor-default w-full px-4 md:px-8 py-12 flex flex-col items-center min-h-[calc(100vh-200px)]">
-      <nav className="w-full flex items-center justify-start space-x-1.5 text-xs text-muted-foreground mb-6">
-        <Link href="/" className="hover:text-foreground transition-colors">
-          Início
-        </Link>
-        <ChevronRight className="h-4 w-4" />
-        <Link
-          href="/products"
-          className="hover:text-foreground transition-colors"
-        >
-          Produtos
-        </Link>
-        <ChevronRight className="h-4 w-4" />
-        <span className="text-foreground font-medium">Tibia Coins</span>
-      </nav>
-      <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-foreground mb-4 text-center">
-        Tibia Coins
-      </h1>
-      <p className="text-lg text-muted-foreground mb-2 text-center max-w-2xl">
-        Escolha a operação que deseja realizar.
-      </p>
-      <p className="text-sm text-muted-foreground mb-24 text-center max-w-2xl">
-        Compramos e vendemos Tibia Coins com a melhor cotação do mercado.
-      </p>
+    <div className="cursor-default flex flex-col min-h-screen bg-background font-sans pt-12 pb-24">
+      <div className="w-full px-4 md:px-8">
+        <nav className="flex items-center space-x-1.5 text-xs text-muted-foreground mb-6">
+          <Link href="/" className="hover:text-foreground transition-colors">
+            Início
+          </Link>
+          <ChevronRight className="h-4 w-4" />
+          <Link
+            href="/products"
+            className="hover:text-foreground transition-colors"
+          >
+            Produtos
+          </Link>
+          <ChevronRight className="h-4 w-4" />
+          <span className="text-foreground font-medium">Tibia Coins</span>
+        </nav>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
-        {/* BUY Card */}
-        <Card className="relative flex flex-col h-full border-[0.5px] border-primary z-10 bg-card/80 backdrop-blur-sm transition-transform duration-300">
-          <CardHeader className="text-center pb-2">
-            <CardTitle className="text-3xl text-primary font-bold">
-              Comprar
-            </CardTitle>
-            <CardDescription className="text-sm mt-2">
-              Adquira de forma rápida e segura.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="flex-1 flex flex-col items-center justify-center pt-4 pb-8">
-            <Link href="/products/tibia-coins/buy" className="w-full">
-              <Button
-                size="lg"
-                className="cursor-pointer w-full text-lg h-16 font-semibold shadow-xl transition-all"
-              >
-                Quero Comprar
-              </Button>
-            </Link>
-          </CardContent>
-        </Card>
-
-        {/* SELL Card */}
-        <Card className="flex flex-col h-full border-border/50 transition-colors duration-300 shadow-sm hover:shadow-md bg-card/50 backdrop-blur-sm opacity-90 hover:opacity-100">
-          <CardHeader className="text-center pb-2">
-            <CardTitle className="text-3xl font-bold">Vender</CardTitle>
-            <CardDescription className="text-sm mt-2">
-              Venda com a melhor taxa e receba rapidamente.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="flex-1 flex flex-col items-center justify-center pt-4 pb-8">
-            <Link href="/products/tibia-coins/sell" className="w-full">
-              <Button
-                variant="outline"
-                size="lg"
-                className="cursor-pointer w-full text-lg h-16 font-semibold border-[0.5px] transition-all"
-              >
-                Quero Vender
-              </Button>
-            </Link>
-          </CardContent>
-        </Card>
+        <div className="w-full">
+          <TibiaCoinsTabs
+            buyCard={buyCard}
+            sellCard={sellCard}
+            hasBuy={hasBuy}
+            hasSell={hasSell}
+          />
+        </div>
       </div>
     </div>
   );

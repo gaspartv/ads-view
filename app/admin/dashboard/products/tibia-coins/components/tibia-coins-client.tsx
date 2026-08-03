@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { TibiaCoinsCard } from "./tibia-coins-card";
@@ -14,9 +15,28 @@ interface TibiaCoinsClientProps {
 }
 
 export function TibiaCoinsClient({ tibiaCoins, variables }: TibiaCoinsClientProps) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
   const [selectedProduct, setSelectedProduct] = useState<any | null>(null);
   const [isStockModalOpen, setIsStockModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<any | null>(null);
+
+  useEffect(() => {
+    const id = searchParams.get("ptcid");
+    if (id) {
+      const product = tibiaCoins.find((p) => p.id === id);
+      if (product) setSelectedProduct(product);
+    }
+  }, [searchParams, tibiaCoins]);
+
+  const handleSelectProduct = (product: any) => {
+    setSelectedProduct(product);
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("ptcid", product.id);
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+  };
 
   return (
     <div className="space-y-6">
@@ -34,12 +54,16 @@ export function TibiaCoinsClient({ tibiaCoins, variables }: TibiaCoinsClientProp
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {tibiaCoins.map((product) => (
+        {[...tibiaCoins].sort((a, b) => {
+          if (a.type === "SELL" && b.type === "BUY") return -1;
+          if (a.type === "BUY" && b.type === "SELL") return 1;
+          return 0;
+        }).map((product) => (
           <TibiaCoinsCard
             key={product.id}
             product={product}
             isSelected={selectedProduct?.id === product.id}
-            onClick={() => setSelectedProduct(product)}
+            onClick={() => handleSelectProduct(product)}
             onEdit={() => setEditingProduct(product)}
           />
         ))}

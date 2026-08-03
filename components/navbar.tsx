@@ -25,11 +25,8 @@ const navItems: NavItem[] = [
   { name: "Início", href: "/" },
   {
     name: "Tibia Coins",
+    href: "/products/tibia-coins",
     moduleCode: "MD-001",
-    children: [
-      { name: "Comprar Tibia Coins", href: "/products/tibia-coins/buy" },
-      { name: "Vender Tibia Coins", href: "/products/tibia-coins/sell" },
-    ],
   },
   { name: "Personagens", href: "/products/characters", moduleCode: "MD-003" },
   {
@@ -186,10 +183,10 @@ export function Navbar() {
             {company?.logo ? (
               <div className="h-9 w-9 relative flex items-center justify-center overflow-hidden rounded-xl">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img 
-                  src={company.logo} 
-                  alt={`Logo ${company?.name || 'da Empresa'}`} 
-                  className="max-h-full max-w-full object-contain" 
+                <img
+                  src={company.logo}
+                  alt={`Logo ${company?.name || "da Empresa"}`}
+                  className="max-h-full max-w-full object-contain"
                 />
               </div>
             ) : (

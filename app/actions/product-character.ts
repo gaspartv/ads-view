@@ -78,6 +78,7 @@ export async function createCharacter(formData: FormData) {
       charmsId: payload.charmsId ? JSON.parse(payload.charmsId as string) : [],
       mountsId: payload.mountsId ? JSON.parse(payload.mountsId as string) : [],
       outfits: payload.outfits ? JSON.parse(payload.outfits as string) : [],
+      metadata: payload.metadata ? JSON.parse(payload.metadata as string) : undefined,
     };
 
     const res = await fetch(`${API_URL}/product-character/create`, {
@@ -145,6 +146,9 @@ export async function editCharacter(id: string, formData: FormData) {
         : undefined,
       outfits: payload.outfits
         ? JSON.parse(payload.outfits as string)
+        : undefined,
+      metadata: payload.metadata
+        ? JSON.parse(payload.metadata as string)
         : undefined,
     };
 

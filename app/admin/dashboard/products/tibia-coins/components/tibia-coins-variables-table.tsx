@@ -158,6 +158,7 @@ export function TibiaCoinsVariablesTable({ product, variables }: TibiaCoinsVaria
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         variable={editingVariable}
+        productTibiaCoinsId={product.id}
       />
 
       <TibiaCoinsVariableImageModal

@@ -74,11 +74,6 @@ export default async function CharactersPage() {
           <ChevronRight className="h-4 w-4" />
           <span className="text-foreground font-medium">Personagens</span>
         </nav>
-        <div className="relative flex items-center justify-center mb-8">
-          <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground text-center">
-            Personagens
-          </h1>
-        </div>
 
         {characters.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
