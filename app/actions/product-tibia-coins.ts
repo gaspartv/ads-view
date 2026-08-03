@@ -36,14 +36,14 @@ export async function editProductTibiaCoins(id: string, data: any) {
 
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
-      throw new Error(err.message || `Failed to edit product: ${res.status}`);
+      return { success: false, message: err.message || `Failed to edit product: ${res.status}` };
     }
 
     revalidatePath("/admin/dashboard/products/tibia-coins");
     return { success: true };
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error in editProductTibiaCoins:", error);
-    throw error;
+    return { success: false, message: error.message || "Erro de conexão" };
   }
 }
 
@@ -118,14 +118,14 @@ export async function createProductTibiaCoinsVariable(data: any) {
 
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
-      throw new Error(err.message || `Failed to create variable: ${res.status}`);
+      return { success: false, message: err.message || `Failed to create variable: ${res.status}` };
     }
 
     revalidatePath("/admin/dashboard/products/tibia-coins");
     return { success: true };
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error in createProductTibiaCoinsVariable:", error);
-    throw error;
+    return { success: false, message: error.message || "Erro de conexão" };
   }
 }
 
@@ -139,14 +139,14 @@ export async function updateProductTibiaCoinsVariable(id: string, data: any) {
 
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
-      throw new Error(err.message || `Failed to update variable: ${res.status}`);
+      return { success: false, message: err.message || `Failed to update variable: ${res.status}` };
     }
 
     revalidatePath("/admin/dashboard/products/tibia-coins");
     return { success: true };
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error in updateProductTibiaCoinsVariable:", error);
-    throw error;
+    return { success: false, message: error.message || "Erro de conexão" };
   }
 }
 
@@ -160,14 +160,14 @@ export async function toggleProductTibiaCoinsVariableStatus(id: string, isActive
 
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
-      throw new Error(err.message || `Failed to change variable status: ${res.status}`);
+      return { success: false, message: err.message || `Failed to change variable status: ${res.status}` };
     }
 
     revalidatePath("/admin/dashboard/products/tibia-coins");
     return { success: true };
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error in toggleProductTibiaCoinsVariableStatus:", error);
-    throw error;
+    return { success: false, message: error.message || "Erro de conexão" };
   }
 }
 

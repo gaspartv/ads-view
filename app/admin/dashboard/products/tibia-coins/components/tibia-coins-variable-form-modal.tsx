@@ -109,6 +109,8 @@ export function TibiaCoinsVariableFormModal({
             `Variável ${variable ? "atualizada" : "criada"} com sucesso!`,
           );
           onClose();
+        } else {
+          toast.error(res?.message || "Erro ao salvar variável.");
         }
       } catch (error: any) {
         toast.error(error.message || "Erro ao salvar variável.");
