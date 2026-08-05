@@ -47,6 +47,7 @@ import {
   toggleCharacterStatus,
 } from "@/app/actions/product-character";
 import { toast } from "sonner";
+import { formatCurrency, formatGameValue } from "@/lib/formatters";
 
 interface CharacterTableProps {
   characters: any[];
@@ -308,7 +309,8 @@ export function CharacterTable({
                 Vocaçao/Level
               </TableHead>
               <TableHead className="w-auto text-center">Mundo</TableHead>
-              <TableHead className="w-auto">Preço</TableHead>
+              <TableHead className="w-auto">Preço BRL</TableHead>
+              <TableHead className="w-auto">Preço TC</TableHead>
               <TableHead className="w-[80px] text-right">Ações</TableHead>
             </TableRow>
           </TableHeader>
@@ -347,7 +349,9 @@ export function CharacterTable({
                             alt={character.title}
                             className="w-10 h-10 rounded-md object-cover border bg-muted group-hover/img:opacity-80 transition-opacity"
                           />
-                        ) : character.pictureUrl && character.pictureUrl !== "/uploads/system/no-image.jpg" ? (
+                        ) : character.pictureUrl &&
+                          character.pictureUrl !==
+                            "/uploads/system/no-image.jpg" ? (
                           /* eslint-disable-next-line @next/next/no-img-element */
                           <img
                             src={character.pictureUrl}
@@ -417,6 +421,20 @@ export function CharacterTable({
                               style: "currency",
                               currency: "BRL",
                             }).format(character.promotionalPrice / 100)}
+                          </span>
+                        ) : null}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex flex-col">
+                        <span>
+                          {formatGameValue(character.priceTibiaCoins)}
+                        </span>
+                        {character.promotionalPrice ? (
+                          <span className="text-xs text-primary">
+                            {formatGameValue(
+                              character.promotionalPriceTibiaCoins,
+                            )}
                           </span>
                         ) : null}
                       </div>

@@ -118,8 +118,6 @@ export function ContactClient({ contactData }: { contactData?: any }) {
                         ? `${dayData.open} às ${dayData.close}`
                         : "Fechado";
 
-                    console.log(contactData);
-
                     return (
                       <p
                         key={key}

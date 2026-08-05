@@ -4,9 +4,47 @@ import { Share2, Video, Globe2, Eye, CircleDollarSign } from "lucide-react";
 
 interface ProductCharacterCardProps {
   character: any;
+  cardContent?: string[];
 }
 
-export function ProductCharacterCard({ character }: ProductCharacterCardProps) {
+const FIELD_LABELS: Record<string, string> = {
+  gender: "Gênero",
+  magicLevel: "Magic Level",
+  fistFighting: "Fist Fighting",
+  swordFighting: "Sword Fighting",
+  axeFighting: "Axe Fighting",
+  clubFighting: "Club Fighting",
+  distanceFighting: "Distance Fighting",
+  shielding: "Shielding",
+  fishing: "Fishing",
+  charmPoints: "Charm Points",
+  charmExpansion: "Charm Expansion",
+  inventoryValue: "Valor do Inventário",
+  transferable: "Transferível",
+  transferAvailableAt: "Liberação de Transferência",
+  premiumEndsAt: "Fim da Premium",
+  hasRecoveryKey: "Recovery Key",
+  safeAddress: "Endereço Seguro",
+  Charms: "Charms",
+  Outfits: "Outfits",
+  Mounts: "Montarias",
+};
+
+const FIXED_FIELDS = [
+  "level",
+  "vocation",
+  "loyalty",
+  "worldId",
+  "price",
+  "promotionalPrice",
+  "priceTibiaCoins",
+  "promotionalPriceTibiaCoins",
+];
+
+export function ProductCharacterCard({
+  character,
+  cardContent = [],
+}: ProductCharacterCardProps) {
   const imageUrl =
     character.pictureUrl &&
     character.pictureUrl !== "/uploads/system/no-image.jpg"
@@ -42,6 +80,63 @@ export function ProductCharacterCard({ character }: ProductCharacterCardProps) {
     return value.toString();
   };
 
+  const getFieldValue = (id: string) => {
+    switch (id) {
+      case "gender":
+        return character.gender === 1
+          ? "Masculino"
+          : character.gender === 0
+            ? "Feminino"
+            : character.gender || "-";
+      case "magicLevel":
+        return character.magicLevel || 0;
+      case "fistFighting":
+        return character.fistFighting || 0;
+      case "swordFighting":
+        return character.swordFighting || 0;
+      case "axeFighting":
+        return character.axeFighting || 0;
+      case "clubFighting":
+        return character.clubFighting || 0;
+      case "distanceFighting":
+        return character.distanceFighting || 0;
+      case "shielding":
+        return character.shielding || 0;
+      case "fishing":
+        return character.fishing || 0;
+      case "charmPoints":
+        return character.charmPoints || 0;
+      case "charmExpansion":
+        return character.charmExpansion ? "Sim" : "Não";
+      case "inventoryValue":
+        return character.inventoryValue
+          ? formatGameValue(character.inventoryValue)
+          : "0";
+      case "transferable":
+        return character.transferable ? "Sim" : "Não";
+      case "transferAvailableAt":
+        return character.transferAvailableAt
+          ? new Date(character.transferAvailableAt).toLocaleDateString("pt-BR")
+          : "-";
+      case "premiumEndsAt":
+        return character.premiumEndsAt
+          ? new Date(character.premiumEndsAt).toLocaleDateString("pt-BR")
+          : "-";
+      case "hasRecoveryKey":
+        return character.hasRecoveryKey ? "Sim" : "Não";
+      case "safeAddress":
+        return character.safeAddress ? "Sim" : "Não";
+      case "Charms":
+        return character.Charms?.length || character.charmsId?.length || 0;
+      case "Outfits":
+        return character.Outfits?.length || character.outfits?.length || 0;
+      case "Mounts":
+        return character.Mounts?.length || character.mountsId?.length || 0;
+      default:
+        return undefined;
+    }
+  };
+
   const level = character.level;
   const loyalty = character.loyalty;
   const server = character.World?.name;
@@ -51,6 +146,11 @@ export function ProductCharacterCard({ character }: ProductCharacterCardProps) {
         .replace(/\b\w/g, (l: string) => l.toUpperCase())
     : null;
   const priceTC = character.priceTibiaCoins;
+  const description = character.description;
+
+  const dynamicFieldsToRender = cardContent.filter(
+    (id) => !FIXED_FIELDS.includes(id) && FIELD_LABELS[id],
+  );
 
   return (
     <Card
@@ -60,7 +160,7 @@ export function ProductCharacterCard({ character }: ProductCharacterCardProps) {
     >
       <Link
         href={`/products/characters/${character.slug}`}
-        className="flex-1 flex flex-col gap-5"
+        className="flex-1 flex flex-col gap-4"
       >
         <div className="flex justify-between items-start">
           <div className="flex gap-4">
@@ -90,15 +190,14 @@ export function ProductCharacterCard({ character }: ProductCharacterCardProps) {
               <h3 className="text-[15px] font-medium text-primary leading-tight line-clamp-1 mb-1">
                 {character.title}
               </h3>
-              {level && (
-                <span className="text-[13px] text-muted-foreground">
-                  Lvl {level}{" "}
-                  {character.vocation ? `• ${character.vocation}` : ""}
-                </span>
-              )}
               {loyalty && (
                 <span className="text-[13px] text-muted-foreground mt-0.5">
                   Loyalty - {loyalty}%
+                </span>
+              )}
+              {description && (
+                <span className="text-[13px] text-muted-foreground mt-0.5">
+                  {description}
                 </span>
               )}
             </div>
@@ -132,6 +231,29 @@ export function ProductCharacterCard({ character }: ProductCharacterCardProps) {
               {pvp || "-"}
             </span>
           </div>
+        </div>
+
+        {dynamicFieldsToRender.length > 0 && (
+          <div className="flex flex-col gap-1.5 mt-1 border border-border/40 rounded-lg p-2.5 bg-zinc-50/50 dark:bg-zinc-900/20">
+            {dynamicFieldsToRender.map((id) => {
+              const val = getFieldValue(id);
+              if (val === undefined) return null;
+              return (
+                <div
+                  key={id}
+                  className="flex justify-between items-center text-[13px] border-b border-border/30 last:border-0 pb-1.5 last:pb-0"
+                >
+                  <span className="text-muted-foreground">
+                    {FIELD_LABELS[id]}
+                  </span>
+                  <span className="font-medium text-foreground">{val}</span>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        <div className="grid grid-cols-2 gap-x-3 gap-y-4 mt-auto pt-2">
           <div className="relative border border-primary/30 rounded-lg px-3 pt-3 pb-2.5 flex items-center gap-2">
             <span className="absolute -top-2 left-2.5 bg-background px-1 text-[10px] text-muted-foreground uppercase tracking-wider">
               Valor R$

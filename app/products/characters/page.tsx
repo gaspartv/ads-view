@@ -40,21 +40,6 @@ async function getCharacters(queryString: string) {
   }
 }
 
-async function getWorlds() {
-  try {
-    const res = await fetch(`${API_URL}/info/list/worlds`, {
-      method: "GET",
-      next: { revalidate: 3600 },
-    });
-    if (!res.ok) return [];
-    const data = await res.json();
-    return data;
-  } catch (error) {
-    console.error("Error fetching worlds:", error);
-    return [];
-  }
-}
-
 export default async function CharactersPage({
   searchParams,
 }: {
@@ -71,7 +56,6 @@ export default async function CharactersPage({
   });
 
   const response = await getCharacters(query.toString());
-  const worlds = await getWorlds();
 
   if (!response) {
     return (
@@ -87,6 +71,10 @@ export default async function CharactersPage({
   }
 
   const characters = response.data || [];
+
+  const companyResponse = await getCompanyInfo();
+  const company = companyResponse?.success ? companyResponse.data : null;
+  const cardContent = company?.cardContent || [];
 
   return (
     <div className="cursor-default flex flex-col min-h-screen bg-background font-sans pt-12 pb-24">
@@ -106,15 +94,19 @@ export default async function CharactersPage({
             <ChevronRight className="h-4 w-4" />
             <span className="text-foreground font-medium">Personagens</span>
           </nav>
-          
-          <CharacterFilters worlds={worlds} />
         </div>
 
-        <div className="flex-1">
+        <CharacterFilters />
+
+        <div className="flex-1 mt-4">
           {characters.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
               {characters.map((character: any) => (
-                <ProductCharacterCard key={character.id} character={character} />
+                <ProductCharacterCard
+                  key={character.id}
+                  character={character}
+                  cardContent={cardContent}
+                />
               ))}
             </div>
           ) : (

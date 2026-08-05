@@ -74,6 +74,13 @@ export function Sidebar() {
       name: "Empresa",
       href: "/admin/dashboard/company",
       icon: Palette,
+      subItems: [
+        {
+          name: "Configuração dos cards",
+          href: "/admin/dashboard/company/card-content",
+          moduleCode: "",
+        },
+      ],
     },
   ];
 

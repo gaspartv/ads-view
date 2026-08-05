@@ -14,7 +14,5 @@ export default async function ContactPage() {
   const response = await getCompanyContact();
   const contactData = response?.success ? response.data : null;
 
-  console.log({ contactData });
-
   return <ContactClient contactData={contactData} />;
 }
