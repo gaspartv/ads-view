@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Share2, Video, Globe2, Eye, CircleDollarSign, Medal, MapPin, KeyRound, Star } from "lucide-react";
+import { ShareCardModal } from "./share-card-modal";
 
 interface ProductCardProps {
   product: any;
@@ -43,10 +44,7 @@ function CharacterCard({ product, metadata, imageUrl, isSoldOut, formatCurrency 
               {loyalty && <span className="text-[13px] text-muted-foreground mt-0.5">Loyalty - {loyalty}%</span>}
             </div>
           </div>
-          <div className="flex gap-2.5 text-muted-foreground pt-1">
-            <Video className="w-5 h-5 hover:text-foreground transition-colors cursor-pointer" />
-            <Share2 className="w-5 h-5 hover:text-foreground transition-colors cursor-pointer" />
-          </div>
+          <div className="w-12 h-5 shrink-0" />
         </div>
 
         <div className="grid grid-cols-2 gap-x-3 gap-y-4 mt-auto pt-2">
@@ -71,6 +69,24 @@ function CharacterCard({ product, metadata, imageUrl, isSoldOut, formatCurrency 
           </div>
         </div>
       </Link>
+
+      <div className="absolute top-5 right-4 z-20 flex gap-2.5 text-muted-foreground">
+        <Video className="w-5 h-5 hover:text-foreground transition-colors cursor-pointer" />
+        <ShareCardModal 
+          title={product.name}
+          imageUrl={imageUrl}
+          price={product.price}
+          promotionalPrice={product.promotionalPrice}
+          priceTC={priceTC}
+          urlPath={`/product/${product.slug}`}
+          attributes={[
+            { label: "Level", value: level || "-" },
+            { label: "Server", value: server || "-" },
+            { label: "PvP", value: pvp || "-" },
+            { label: "Loyalty", value: loyalty ? `${loyalty}%` : "-" }
+          ].filter(a => a.value !== "-")}
+        />
+      </div>
     </Card>
   );
 }
@@ -111,9 +127,7 @@ function AccountCard({ product, metadata, imageUrl, isSoldOut, formatCurrency }:
               {pontos && <span className="text-[13px] text-muted-foreground mt-0.5">{pontos} Pontos</span>}
             </div>
           </div>
-          <div className="flex gap-2.5 text-muted-foreground pt-1">
-            <Share2 className="w-5 h-5 hover:text-foreground transition-colors cursor-pointer" />
-          </div>
+          <div className="w-5 h-5 shrink-0" />
         </div>
 
         <div className="grid grid-cols-2 gap-x-3 gap-y-4 mt-auto pt-2">
@@ -138,6 +152,23 @@ function AccountCard({ product, metadata, imageUrl, isSoldOut, formatCurrency }:
           </div>
         </div>
       </Link>
+
+      <div className="absolute top-5 right-4 z-20 flex gap-2.5 text-muted-foreground">
+        <ShareCardModal 
+          title={product.name}
+          imageUrl={imageUrl}
+          price={product.price}
+          promotionalPrice={product.promotionalPrice}
+          priceTC={priceTC}
+          urlPath={`/product/${product.slug}`}
+          attributes={[
+            { label: "Pontos", value: pontos || "-" },
+            { label: "Endereço", value: endereco || "-" },
+            { label: "Carta RK", value: cartaRk || "-" },
+            { label: "Loyalty", value: loyalty ? `Nível ${loyalty}` : "-" }
+          ].filter(a => a.value !== "-")}
+        />
+      </div>
     </Card>
   );
 }

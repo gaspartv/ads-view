@@ -1,4 +1,5 @@
 import { getCharacterPublic } from "@/app/actions/product-character";
+import { getCompanyInfo } from "@/app/actions/company";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
@@ -19,20 +20,53 @@ import {
 import { WhatsAppNegotiateButton } from "@/components/whatsapp-negotiate-button";
 import { formatCurrency, formatGameValue } from "@/lib/formatters";
 
+import { headers } from "next/headers";
+import { Metadata } from "next";
+
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ slug: string }>;
-}) {
+}): Promise<Metadata> {
   const resolvedParams = await params;
   const response = await getCharacterPublic(resolvedParams.slug);
   const character = response?.success ? response.data : null;
 
   if (!character) return { title: "Personagem não encontrado" };
 
+  const headersList = await headers();
+  const host = headersList.get("x-forwarded-host") || headersList.get("host") || "localhost:3000";
+  const protocol = host.includes("localhost") ? "http" : "https";
+  const baseUrl = `${protocol}://${host}`;
+  
+  const title = character.seoTitle || `${character.title} - ThygasCoins`;
+  const description = character.seoDescription || character.description;
+
+  const companyRes = await getCompanyInfo();
+  const companyData = companyRes?.success ? companyRes.data : null;
+  const logoUrl = companyData?.logo || `${baseUrl}/favicon.ico`;
+
   return {
-    title: character.seoTitle || `${character.title} - ThygasCoins`,
-    description: character.seoDescription || character.description,
+    metadataBase: new URL(baseUrl),
+    title,
+    description,
+    openGraph: {
+      type: "website",
+      url: `${baseUrl}/products/characters/${resolvedParams.slug}`,
+      title,
+      description,
+      images: [
+        {
+          url: `${baseUrl}/products/characters/${resolvedParams.slug}/og`,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+    },
+    other: {
+      "og:logo": logoUrl,
+    },
   };
 }
 

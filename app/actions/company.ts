@@ -12,7 +12,6 @@ export async function getCompanyInfo() {
     const headersList = await headers();
     const host =
       headersList.get("x-forwarded-host") || headersList.get("host") || "";
-    // Remove porta se existir (ex: "localhost:3000" -> "localhost")
 
     let code = "";
     let urlString = host;

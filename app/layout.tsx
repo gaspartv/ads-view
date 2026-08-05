@@ -88,6 +88,9 @@ export default async function RootLayout({
       suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
+      <head>
+        {companyData?.logo && <meta property="og:logo" content={companyData.logo} />}
+      </head>
       <body className="min-h-full flex flex-col">
         <ThemeInjector themeCss={themeCss} />
         <ThemeProvider

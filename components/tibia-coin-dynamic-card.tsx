@@ -38,6 +38,17 @@ export function TibiaCoinDynamicCard({
 
   const isSell = type === "SELL";
 
+  const sortedVariables = [...variables].sort(
+    (a: any, b: any) => (a.min || 0) - (b.min || 0),
+  );
+
+  const formatTC = (amount: number) => {
+    if (amount >= 1000) {
+      return `${amount / 1000}k`;
+    }
+    return amount.toString();
+  };
+
   // Encontrar a variável correta baseada na quantidade escolhida
   useEffect(() => {
     if (!variables.length) return;
@@ -143,7 +154,7 @@ export function TibiaCoinDynamicCard({
       {!isSell && (
         <div className="absolute top-0 left-0 w-full h-1.5 bg-primary" />
       )}
-      <div className="flex gap-4 items-center mb-6 z-10 relative">
+      <div className="flex gap-4 items-center z-10 relative">
         <div className="w-16 h-16 rounded-full bg-amber-500/10 flex items-center justify-center flex-shrink-0 border border-amber-500/20">
           {activeVariable?.url ? (
             // eslint-disable-next-line @next/next/no-img-element
@@ -161,13 +172,29 @@ export function TibiaCoinDynamicCard({
           <h4 className={cn("text-2xl font-bold leading-tight")}>
             {isSell ? "Vender" : "Comprar"} Tibia Coins
           </h4>
-          <span className="text-sm">
-            Entre {absoluteMin} e {absoluteMax} TC
-          </span>
+          <div className="flex flex-col mt-1 text-sm text-muted-foreground font-medium w-full">
+            {sortedVariables.map((v: any, index: number) => (
+              <div
+                className="border rounded-md p-1 mt-1 w-full flex justify-between"
+                key={v.id || index}
+              >
+                <span>
+                  {index === 0
+                    ? `${formatTC(v.min || 0)}tc`
+                    : `acima de ${formatTC(v.min || 0)} tc`}
+                </span>
+                <span>
+                  {index === 0
+                    ? `${formatCurrency(v.price || 0)}`
+                    : `${formatCurrency(v.price || 0)}`}
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
-      <div className="flex flex-col gap-6 py-2">
+      <div className="flex flex-col gap-6 pt-4 border-t border-border/50">
         <div className="flex flex-col gap-2">
           <label htmlFor="coins-input" className="text-sm font-medium">
             Quantidade (Múltiplos de 25)
@@ -185,7 +212,7 @@ export function TibiaCoinDynamicCard({
           />
         </div>
 
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-2">
           <div className="flex justify-between text-xs text-muted-foreground font-medium">
             <span>{absoluteMin} TC</span>
             <span>{absoluteMax} TC</span>
@@ -201,20 +228,11 @@ export function TibiaCoinDynamicCard({
           />
         </div>
 
-        <div className="flex justify-between items-center bg-muted/30 p-4 rounded-lg border border-border/50">
-          <div className="flex flex-col">
-            <span className="text-sm text-muted-foreground mb-1">
-              Cotação Atual
-            </span>
-            <span className="text-sm font-medium text-primary">
-              {formatCurrency(activeVariable?.price || 0)} / 250 TC
-            </span>
-          </div>
+        <div className="flex justify-between items-center bg-muted/30 p-2 rounded-lg border border-border/50">
+          <div className="flex flex-col"></div>
           <div className="flex flex-col items-end">
-            <span className="text-sm text-muted-foreground mb-1">
-              Valor Total
-            </span>
-            <span className="text-2xl font-bold text-primary">
+            <span className="text-sm text-muted-foreground">Valor Total</span>
+            <span className="text-xl font-bold text-primary">
               {formatCurrency(totalPrice)}
             </span>
           </div>

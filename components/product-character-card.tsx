@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
 import { Share2, Video, Globe2, Eye, CircleDollarSign } from "lucide-react";
+import { ShareCardModal } from "./share-card-modal";
 
 interface ProductCharacterCardProps {
   character: any;
@@ -202,6 +203,7 @@ export function ProductCharacterCard({
               )}
             </div>
           </div>
+          <div className="w-6 h-6 shrink-0" />
         </div>
 
         <div className="grid grid-cols-2 gap-x-3 gap-y-4 mt-auto pt-2">
@@ -299,6 +301,23 @@ export function ProductCharacterCard({
           </div>
         </div>
       </Link>
+      
+      <div className="absolute top-5 right-4 z-20 flex gap-2.5 text-muted-foreground">
+        <ShareCardModal 
+          title={character.title}
+          imageUrl={imageUrl}
+          price={character.price}
+          promotionalPrice={character.promotionalPrice}
+          priceTC={priceTC}
+          urlPath={`/products/characters/${character.slug}`}
+          attributes={[
+            { label: "Level", value: level || "-" },
+            { label: "Server", value: server || "-" },
+            { label: "PvP", value: pvp || "-" },
+            ...dynamicFieldsToRender.map(id => ({ label: FIELD_LABELS[id], value: getFieldValue(id) }))
+          ].filter(a => a.value !== "-" && a.value !== undefined)}
+        />
+      </div>
     </Card>
   );
 }
