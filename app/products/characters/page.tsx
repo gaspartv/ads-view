@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { getAuthHeaders } from "@/lib/auth";
 import { getCompanyInfo } from "@/app/actions/company";
 import { CharacterFilters } from "@/components/character-filters";
+import { PaginationControls } from "@/components/ui/pagination-controls";
 
 const API_URL = process.env.API_URL;
 
@@ -71,6 +72,7 @@ export default async function CharactersPage({
   }
 
   const characters = response.data || [];
+  const pagination = response.pagination || { page: 1, totalPages: 1 };
 
   const companyResponse = await getCompanyInfo();
   const company = companyResponse?.success ? companyResponse.data : null;
@@ -100,15 +102,21 @@ export default async function CharactersPage({
 
         <div className="flex-1 mt-4">
           {characters.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
-              {characters.map((character: any) => (
-                <ProductCharacterCard
-                  key={character.id}
-                  character={character}
-                  cardContent={cardContent}
-                />
-              ))}
-            </div>
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
+                {characters.map((character: any) => (
+                  <ProductCharacterCard
+                    key={character.id}
+                    character={character}
+                    cardContent={cardContent}
+                  />
+                ))}
+              </div>
+              <PaginationControls
+                currentPage={pagination.page}
+                totalPages={pagination.totalPages}
+              />
+            </>
           ) : (
             <div className="py-24 text-center border rounded-2xl bg-zinc-50 dark:bg-zinc-900/50">
               <h3 className="text-xl font-semibold text-muted-foreground mb-4">

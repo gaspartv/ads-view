@@ -239,7 +239,16 @@ export function ProductCharacterCard({
           <div className="flex flex-col gap-1.5 mt-1 border border-border/40 rounded-lg p-2.5 bg-zinc-50/50 dark:bg-zinc-900/20">
             {dynamicFieldsToRender.map((id) => {
               const val = getFieldValue(id);
-              if (val === undefined) return null;
+              if (
+                val === undefined ||
+                val === null ||
+                val === 0 ||
+                val === "0" ||
+                val === "-" ||
+                (Array.isArray(val) && val.length === 0)
+              ) {
+                return null;
+              }
               return (
                 <div
                   key={id}
